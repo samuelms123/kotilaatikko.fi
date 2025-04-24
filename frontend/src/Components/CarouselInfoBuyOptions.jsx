@@ -26,22 +26,22 @@ const CarouselInfoBuyOptions = ({ items }) => {
             className="min-w-full h-full transition-transform duration-500 ease-in-out"
             style={{ transform: `translateX(${-100 * currentIndex}%)` }}
           >
-            <div className="flex flex-col h-full justify-center items-center p-5">
+            <div className="flex flex-auto h-full justify-evenly items-center p-5">
+              {/* More flexible content rendering */}
+              {item.content && (
+                <div className="text-left mt-5">{item.content}</div>
+              )}
+              {!item.content && (item.title || item.description) && (
+                <div className="text-left mt-5">
+                  {item.title && <h3 className="text-xl font-bold">{item.title}</h3>}
+                  {item.description && <p className="mt-2">{item.description}</p>}
+                </div>
+              )}
               <img
                 src={item.image}
                 alt={item.alt || `Slide ${index + 1}`}
                 className="max-w-full max-h-[70%] object-contain"
               />
-              {/* More flexible content rendering */}
-              {item.content && (
-                <div className="text-center mt-5">{item.content}</div>
-              )}
-              {!item.content && (item.title || item.description) && (
-                <div className="text-center mt-5">
-                  {item.title && <h3 className="text-xl font-bold">{item.title}</h3>}
-                  {item.description && <p className="mt-2">{item.description}</p>}
-                </div>
-              )}
             </div>
           </div>
         ))}
@@ -50,16 +50,21 @@ const CarouselInfoBuyOptions = ({ items }) => {
       {/* Navigation arrows */}
       <button
         onClick={goToPrevious}
-        className="absolute top-1/2 left-5 transform -translate-y-1/2 bg-black bg-opacity-50 text-white text-2xl p-2 rounded-full hover:bg-opacity-80 z-10"
+        className="absolute top-1/2 left-5 transform -translate-y-1/2 bg-black text-white text-2xl p-4 rounded-full hover:bg-gray-950 z-10"
       >
         &larr;
       </button>
       <button
         onClick={goToNext}
-        className="absolute top-1/2 right-5 transform -translate-y-1/2 bg-black bg-opacity-50 text-white text-2xl p-2 rounded-full hover:bg-opacity-80 z-10"
+        className="absolute top-1/2 right-5 transform -translate-y-1/2 bg-black text-white text-2xl p-4 rounded-full hover:bg-gray-950 z-10"
       >
         &rarr;
       </button>
+
+      <div className="flex justify-end">
+        <button className="rounded-2xl bg-gray-800 py-4 px-6 ml-1 mr-1 hover:bg-gray-900" onClick={() => {console.log("info pressed")}}>Laatikko information</button>
+        <button className="rounded-2xl bg-gray-800 py-4 px-6 ml-1 mr-1 hover:bg-gray-900" onClick={() => {console.log("buy pressed")}}>Buy this Kotilaatikko</button>
+      </div>
 
       {/* Dots indicator */}
       <div className="flex justify-center mt-4">
@@ -70,10 +75,6 @@ const CarouselInfoBuyOptions = ({ items }) => {
             className={`w-3 h-3 mx-1 rounded-full ${index === currentIndex ? 'bg-gray-800' : 'bg-gray-300'}`}
           />
         ))}
-      </div>
-
-      <div>
-        <button>Beebee</button>
       </div>
 
     </div>
