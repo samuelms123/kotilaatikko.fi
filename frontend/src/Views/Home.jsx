@@ -36,7 +36,7 @@ const Home = () => {
       <h1 className="font-bold text-8xl m-auto text-center">HERKULLISTA MAKAROONILAATIKKOA</h1>
 
       <div className="p-8">
-      <h1 className="text-3xl font-bold text-center mb-8">Featured Cats</h1>
+      <h1 className="text-3xl font-bold text-center">Featured Cats</h1>
       <CarouselInfoBuyOptions items={carouselItems} />
       </div>
 
