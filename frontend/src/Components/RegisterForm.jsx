@@ -69,124 +69,128 @@ const RegisterForm = () => {
 
   return (
     <>
-      <h1>Register</h1>
       {errors.apiError && <div className="error">{errors.apiError}</div>}
-      <form onSubmit={handleSubmit}>
-        {/* First Name */}
-        <div>
-          <label htmlFor="first_name">Etunimi*</label>
-          <input
-            onChange={handleInputChange}
-            type="text"
-            id="first_name"
-            name="first_name"
-            value={inputs.first_name}
-            required
-          />
-          {errors.first_name && <span className="error">{errors.first_name}</span>}
-        </div>
+      <div className="justify-center flex flex-col items-center bg-red-500 p-5 rounded-lg shadow-md">
+        <h1 className="m-2">Rekisteröidy</h1>
+        <p className="m-2">Täytä alla olevat tiedot rekisteröityäksesi.</p>
+        <p className="m-2">Kaikki kentät ovat pakollisia.</p>
+        <form onSubmit={handleSubmit} className="p-2 *:p-2">
+          {/* First Name */}
+          <div>
+            <label htmlFor="first_name">Etunimi*</label>
+            <input
+              onChange={handleInputChange}
+              type="text"
+              id="first_name"
+              name="first_name"
+              value={inputs.first_name}
+              required
+            />
+            {errors.first_name && <span className="error">{errors.first_name}</span>}
+          </div>
 
-        {/* Last Name */}
-        <div>
-          <label htmlFor="last_name">Sukunimi*</label>
-          <input
-            onChange={handleInputChange}
-            type="text"
-            id="last_name"
-            name="last_name"
-            value={inputs.last_name}
-            required
-          />
-          {errors.last_name && <span className="error">{errors.last_name}</span>}
-        </div>
+          {/* Last Name */}
+          <div>
+            <label htmlFor="last_name">Sukunimi*</label>
+            <input
+              onChange={handleInputChange}
+              type="text"
+              id="last_name"
+              name="last_name"
+              value={inputs.last_name}
+              required
+            />
+            {errors.last_name && <span className="error">{errors.last_name}</span>}
+          </div>
 
-        {/* Email */}
-        <div>
-          <label htmlFor="email">Email*</label>
-          <input
-            onChange={handleInputChange}
-            type="email"
-            id="email"
-            name="email"
-            value={inputs.email}
-            required
-          />
-          {errors.email && <span className="error">{errors.email}</span>}
-        </div>
+          {/* Email */}
+          <div>
+            <label htmlFor="email">Email*</label>
+            <input
+              onChange={handleInputChange}
+              type="email"
+              id="email"
+              name="email"
+              value={inputs.email}
+              required
+            />
+            {errors.email && <span className="error">{errors.email}</span>}
+          </div>
 
-        {/* Password */}
-        <div>
-          <label htmlFor="password">Salasana* (min 6 characters)</label>
-          <input
-            name="password"
-            type="password"
-            id="password"
-            onChange={handleInputChange}
-            value={inputs.password}
-            required
-            minLength="6"
-          />
-          {errors.password && <span className="error">{errors.password}</span>}
-        </div>
+          {/* Password */}
+          <div>
+            <label htmlFor="password">Salasana* (min 6 characters)</label>
+            <input
+              name="password"
+              type="password"
+              id="password"
+              onChange={handleInputChange}
+              value={inputs.password}
+              required
+              minLength="6"
+            />
+            {errors.password && <span className="error">{errors.password}</span>}
+          </div>
 
-        {/* Phone */}
-        <div>
-          <label htmlFor="phone">Puhelin*</label>
-          <input
-            onChange={handleInputChange}
-            type="tel"
-            id="phone"
-            name="phone"
-            value={inputs.phone}
-            required
-          />
-          {errors.phone && <span className="error">{errors.phone}</span>}
-        </div>
+          {/* Phone */}
+          <div>
+            <label htmlFor="phone">Puhelin*</label>
+            <input
+              onChange={handleInputChange}
+              type="tel"
+              id="phone"
+              name="phone"
+              value={inputs.phone}
+              required
+            />
+            {errors.phone && <span className="error">{errors.phone}</span>}
+          </div>
 
-        {/* Address */}
-        <div>
-          <label htmlFor="address">Osoite*</label>
-          <input
-            onChange={handleInputChange}
-            type="text"
-            id="address"
-            name="address"
-            value={inputs.address}
-            required
-          />
-          {errors.address && <span className="error">{errors.address}</span>}
-        </div>
+          {/* Address */}
+          <div>
+            <label htmlFor="address">Osoite*</label>
+            <input
+              onChange={handleInputChange}
+              type="text"
+              id="address"
+              name="address"
+              value={inputs.address}
+              required
+            />
+            {errors.address && <span className="error">{errors.address}</span>}
+          </div>
 
-        {/* City */}
-        <div>
-          <label htmlFor="city">Kaupunki*</label>
-          <input
-            onChange={handleInputChange}
-            type="text"
-            id="city"
-            name="city"
-            value={inputs.city}
-            required
-          />
-          {errors.city && <span className="error">{errors.city}</span>}
-        </div>
+          {/* City */}
+          <div>
+            <label htmlFor="city">Kaupunki*</label>
+            <input
+              onChange={handleInputChange}
+              type="text"
+              id="city"
+              name="city"
+              value={inputs.city}
+              required
+            />
+            {errors.city && <span className="error">{errors.city}</span>}
+          </div>
 
-        {/* Postal Code */}
-        <div>
-          <label htmlFor="postal_code">Postinumero*</label>
-          <input
-            onChange={handleInputChange}
-            type="text"
-            id="postal_code"
-            name="postal_code"
-            value={inputs.postal_code}
-            required
-          />
-          {errors.postal_code && <span className="error">{errors.postal_code}</span>}
-        </div>
+          {/* Postal Code */}
+          <div>
+            <label htmlFor="postal_code">Postinumero*</label>
+            <input
+              onChange={handleInputChange}
+              type="text"
+              id="postal_code"
+              name="postal_code"
+              value={inputs.postal_code}
+              required
+            />
+            {errors.postal_code && <span className="error">{errors.postal_code}</span>}
+          </div>
 
-        <button type="submit">Rekisteröidy</button>
-      </form>
+          <button type="submit">Rekisteröidy</button>
+        </form>
+      </div>
     </>
   );
 };
