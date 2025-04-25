@@ -1,11 +1,21 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "header";
+  src: url(./assets/header.ttf);
+}
+
 @layer base{
 :root {
   font-family: var(--font-sans);
 
-  color-scheme: light dark;
-  color: var(--color-stone-50);
-  background-color: var(--color-stone-900);
+  --primary-color: #e7852c;
+  --secondary-color: #555;
+  --white-color: rgb(255, 255, 255);
+  --grey-color: #282828;
+  --black-color: #000000;
+
+  color: var(--black-color);
+  background-color: var(--white-color);
 }
 }
