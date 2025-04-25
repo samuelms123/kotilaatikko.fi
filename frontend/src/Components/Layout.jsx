@@ -1,8 +1,8 @@
-import React from 'react'
 import { Outlet } from 'react-router'
 import NavigationBarDesktop from './NavigationBarDesktop'
 
 const Layout = () => {
+
   return (
     <>
     <div className='max-w-screen mx-auto'>
