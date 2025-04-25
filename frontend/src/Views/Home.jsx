@@ -1,6 +1,8 @@
 import React from 'react'
 import {CarouselInfoBuyOptions} from '../Components/CarouselInfoBuyOptions.jsx'
 import Hero from '../Components/Hero.jsx';
+import NewsLetter from '../Components/NewsLetter.jsx';
+
 
 const Home = () => {
   // Carousel mock items with images, titles, and descriptions
@@ -46,6 +48,7 @@ const Home = () => {
       <CarouselInfoBuyOptions items={carouselItems} />
       </div>
 
+      <NewsLetter />
     </>
 
 
