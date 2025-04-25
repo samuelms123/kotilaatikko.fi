@@ -61,13 +61,22 @@ function useUser() {
       },
       body: JSON.stringify(inputs),
     };
-    const postResults = await fetchData(
-      import.meta.env.VITE_AUTH_API,
-      fetchOptions,
-    );
-    console.log('post result: ', postResults);
 
-    return postResults;
+    try {
+      const response = await fetch(import.meta.env.VITE_AUTH_API, fetchOptions);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.message || `Server error: ${response.status}`,
+        );
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Registration error:', error);
+      throw error;
+    }
   }
   return {getUserByToken, postUser};
 }
