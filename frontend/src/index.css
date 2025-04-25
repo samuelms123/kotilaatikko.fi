@@ -23,7 +23,7 @@
 .moving-text-wrapper {
   display: flex;
   width: max-content; /* Automatically adjust the width to fit the content */
-  animation: scroll-horizontal 300s linear infinite; /* Smooth scrolling animation */
+  animation: scroll-horizontal 260s linear infinite; /* Smooth scrolling animation */
 }
 
 .moving-text {
