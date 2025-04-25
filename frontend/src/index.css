@@ -19,3 +19,25 @@
   background-color: var(--white-color);
 }
 }
+
+.moving-text-wrapper {
+  display: flex;
+  width: max-content; /* Automatically adjust the width to fit the content */
+  animation: scroll-horizontal 15s linear infinite; /* Smooth scrolling animation */
+}
+
+.moving-text {
+  white-space: nowrap; /* Prevent text wrapping */
+  flex-shrink: 0; /* Prevent the text from shrinking */
+  margin-right: 2rem; /* Add spacing between repeated text blocks */
+  font-size: clamp(1rem, 2vw, 2.5rem); /* Responsive font size */
+}
+
+@keyframes scroll-horizontal {
+  0% {
+    transform: translateX(0); /* Start at the initial position */
+  }
+  100% {
+    transform: translateX(-50%); /* Move left by the full width of the container */
+  }
+}
