@@ -49,8 +49,7 @@ const RegisterForm = () => {
 
     try {
       const userData = {
-        ...inputs,
-        type: 'user'
+        ...inputs
       };
       const userResult = await postUser(userData);
       console.log('Registration successful:', userResult);
@@ -197,7 +196,7 @@ const RegisterForm = () => {
             {errors.postal_code && <span className="error">{errors.postal_code}</span>}
           </div>
 
-          <button className="sm:col-span-1 col-span-1 bg-[var(--primary-color)] text-[var(--white-color)] rounded-4xl hover:bg-[var(--grey-color)] transition duration-300 !py-6 w-full" type="submit">Rekisteröidy</button>
+          <button className="bg-[var(--primary-color)] text-[var(--white-color)] rounded-4xl hover:bg-[var(--grey-color)] transition duration-300 w-full py-4 mt-6 font-medium" type="submit">Rekisteröidy</button>
         </form>
       </div>
     </>
