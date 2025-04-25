@@ -3,9 +3,9 @@ POST http://localhost:3000/api/v1/users
 Content-Type: application/json
 
 {
-  "first_name": "encryptTest",
+  "first_name": "sms",
   "last_name": "Pertti",
-  "email": "testi@testi.ee",
+  "email": "test@test.fi",
   "password": "1234",
   "phone": "0405222123",
   "address": "siippakuja",
