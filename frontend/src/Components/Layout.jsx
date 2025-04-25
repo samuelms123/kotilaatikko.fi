@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router'
 import NavigationBarDesktop from './NavigationBarDesktop'
+import NavigationBarMobile from './NavigationBarMobile'
 
 const Layout = () => {
 
@@ -10,7 +11,12 @@ const Layout = () => {
         <div className='flex justify-between items-center p-4 max-w-[1600px] mx-auto'>
           <h1 className='text-[3vh] font-[header]'>kotilaatikko.fi</h1>
           <nav>
+          <div className="hidden md:block">
             <NavigationBarDesktop/>
+          </div>
+          <div className="block md:hidden">
+            <NavigationBarMobile/>
+          </div>
           </nav>
         </div>
       </header>
