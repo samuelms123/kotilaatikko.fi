@@ -9,19 +9,19 @@ const LoginForm = () => {
   const [errors, setErrors] = useState({});
 
   const initValues = {
-    username: '',
+    email: '',
     password: '',
   };
 
   const validateForm = () => {
     const newErrors = {};
 
-    if (!inputs.username.trim()) newErrors.username = 'Email is required';
+    if (!inputs.email.trim()) newErrors.email = 'Email is required';
     if (!inputs.password) newErrors.password = 'Password is required';
 
     // Email format validation if needed
-    if (inputs.username && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inputs.username)) {
-      newErrors.username = 'Invalid email format';
+    if (inputs.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inputs.email)) {
+      newErrors.email = 'Invalid email format';
     }
 
     setErrors(newErrors);
@@ -53,7 +53,7 @@ const LoginForm = () => {
         <p className="m-1">Syötä sähköposti ja salasana kirjautuaksesi</p>
 
         <form onSubmit={handleSubmit} className="*:mt-6 p-2 w-full">
-          {/* Email/Username */}
+          {/* Email*/}
           <div>
             <label htmlFor="loginuser">Sähköposti*</label>
             <input
@@ -61,11 +61,11 @@ const LoginForm = () => {
               onChange={handleInputChange}
               type="email"
               id="loginuser"
-              name="username"
-              value={inputs.username}
+              name="email"
+              value={inputs.email}
               required
             />
-            {errors.username && <span className="text-red-500 text-sm">{errors.username}</span>}
+            {errors.email && <span className="text-red-500 text-sm">{errors.email}</span>}
           </div>
 
           {/* Password */}

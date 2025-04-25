@@ -25,7 +25,9 @@ const useAuthentication = () => {
       import.meta.env.VITE_AUTH_API + '/auth/login',
       fetchOptions,
     );
-    //console.log('loginResult', loginResult);
+    console.log('loginResult', loginResult);
+
+    window.localStorage.setItem('token', loginResult.token);
 
     setIsLoggedIn(tokenInLocalStorage());
 
@@ -63,7 +65,10 @@ function useUser() {
     };
 
     try {
-      const response = await fetch(import.meta.env.VITE_AUTH_API, fetchOptions);
+      const response = await fetch(
+        import.meta.env.VITE_AUTH_API + '/users',
+        fetchOptions,
+      );
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));

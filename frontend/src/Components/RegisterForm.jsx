@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router';
 import {useUser} from '../Hooks/apiHooks';
 import useForm from '../Hooks/formHooks';
 import {useState} from 'react';
@@ -5,6 +6,8 @@ import {useState} from 'react';
 const RegisterForm = () => {
   const {postUser} = useUser();
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
 
   const initValues = {
     first_name: '',
@@ -53,6 +56,9 @@ const RegisterForm = () => {
       };
       const userResult = await postUser(userData);
       console.log('Registration successful:', userResult);
+      window.alert('Rekisteröinti onnistui!');
+      navigate('/');
+
       // Redirect or show success message
     } catch (error) {
       console.error('Registration failed:', error);
