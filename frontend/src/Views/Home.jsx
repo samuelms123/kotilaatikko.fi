@@ -1,5 +1,8 @@
 import React from 'react'
 import {CarouselInfoBuyOptions} from '../Components/CarouselInfoBuyOptions.jsx'
+import Hero from '../Components/Hero.jsx';
+import NewsLetter from '../Components/NewsLetter.jsx';
+
 
 const Home = () => {
   // Carousel mock items with images, titles, and descriptions
@@ -33,16 +36,19 @@ const Home = () => {
   return (
 
     <>
+      <Hero />
+
       <h1 className="font-bold text-[3.5vh] m-auto text-center">HERKULLISTA MAKAROONILAATIKKOA</h1>
 
       <div className="p-8">
-    
+
       <h1 className="text-[3vh] font-bold text-center mb-8">Featured Cats</h1>
 
 
       <CarouselInfoBuyOptions items={carouselItems} />
       </div>
 
+      <NewsLetter />
     </>
 
 
