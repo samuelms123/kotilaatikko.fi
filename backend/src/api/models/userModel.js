@@ -1,5 +1,16 @@
 import promisePool from '../../utils/database.js';
 
+const getEmail = async (email) => {
+  const sql = `SELECT email FROM users WHERE email = ?`;
+  const [rows] = await promisePool.execute(sql, [email]);
+
+  if (rows.length === 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 const addUser = async (user) => {
   const {
     first_name,
@@ -40,4 +51,4 @@ const addUser = async (user) => {
   }
 };
 
-export {addUser};
+export {addUser, getEmail};
