@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router';
 import {useUser} from '../Hooks/apiHooks';
 import useForm from '../Hooks/formHooks';
 import {useState} from 'react';
@@ -5,6 +6,8 @@ import {useState} from 'react';
 const RegisterForm = () => {
   const {postUser} = useUser();
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
 
   const initValues = {
     first_name: '',
@@ -49,11 +52,13 @@ const RegisterForm = () => {
 
     try {
       const userData = {
-        ...inputs,
-        type: 'user'
+        ...inputs
       };
       const userResult = await postUser(userData);
       console.log('Registration successful:', userResult);
+      window.alert('Rekisteröinti onnistui!');
+      navigate('/');
+
       // Redirect or show success message
     } catch (error) {
       console.error('Registration failed:', error);
@@ -197,7 +202,7 @@ const RegisterForm = () => {
             {errors.postal_code && <span className="error">{errors.postal_code}</span>}
           </div>
 
-          <button className="sm:col-span-1 col-span-1 bg-[var(--primary-color)] text-[var(--white-color)] rounded-4xl hover:bg-[var(--grey-color)] transition duration-300 !py-6 w-full" type="submit">Rekisteröidy</button>
+          <button className="bg-[var(--primary-color)] text-[var(--white-color)] rounded-4xl hover:bg-[var(--grey-color)] transition duration-300 w-full py-4 mt-6 font-medium" type="submit">Rekisteröidy</button>
         </form>
       </div>
     </>
