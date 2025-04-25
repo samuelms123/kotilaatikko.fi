@@ -27,7 +27,7 @@ const Hero = () => {
       <>
         {array.map((text, index) => (
           <span key={index}>
-            &nbsp; • &nbsp; {text}
+            &nbsp; &#10007; &nbsp; {text}
           </span>
         ))}
       </>
