@@ -70,15 +70,16 @@ const RegisterForm = () => {
   return (
     <>
       {errors.apiError && <div className="error">{errors.apiError}</div>}
-      <div className="justify-center flex flex-col items-center bg-red-500 p-5 rounded-lg shadow-md">
-        <h1 className="m-2">Rekisteröidy</h1>
-        <p className="m-2">Täytä alla olevat tiedot rekisteröityäksesi.</p>
-        <p className="m-2">Kaikki kentät ovat pakollisia.</p>
-        <form onSubmit={handleSubmit} className="p-2 *:p-2">
+      <div className="flex flex-col items-center justify-center bg-gray-100 p-4 w-[100%] m-8 rounded-lg shadow-md max-w-4xl mx-auto">
+        <h1 className="font-bold font-stretch-50%">Rekisteröidy</h1>
+        <p className="m-1">Täytä alla olevat tiedot rekisteröityäksesi.</p>
+        <p className="m-1">Kaikki kentät ovat pakollisia.</p>
+        <form onSubmit={handleSubmit} className="*:mt-6 p-2 grid sm:grid-cols-3 grid-cols-1 gap-4">
           {/* First Name */}
           <div>
             <label htmlFor="first_name">Etunimi*</label>
             <input
+              className="sm:col-span-3 col-span-1 p-3 border border-gray-500 rounded-lg mt-2 py-2 w-full"
               onChange={handleInputChange}
               type="text"
               id="first_name"
@@ -93,6 +94,7 @@ const RegisterForm = () => {
           <div>
             <label htmlFor="last_name">Sukunimi*</label>
             <input
+              className="sm:col-span-3 col-span-1 p-3 border border-gray-500 rounded-lg mt-2 py-2 w-full"
               onChange={handleInputChange}
               type="text"
               id="last_name"
@@ -107,20 +109,23 @@ const RegisterForm = () => {
           <div>
             <label htmlFor="email">Email*</label>
             <input
+              className="sm:col-span-3 col-span-1 p-3 border border-gray-500 rounded-lg mt-2 py-2 w-full"
               onChange={handleInputChange}
               type="email"
               id="email"
               name="email"
               value={inputs.email}
               required
+
             />
             {errors.email && <span className="error">{errors.email}</span>}
           </div>
 
           {/* Password */}
           <div>
-            <label htmlFor="password">Salasana* (min 6 characters)</label>
+            <label htmlFor="password">Salasana* (min. 6 merkkiä)</label>
             <input
+              className="sm:col-span-3 col-span-1 p-3 border border-gray-500 rounded-lg mt-2 py-2 w-full"
               name="password"
               type="password"
               id="password"
@@ -136,6 +141,7 @@ const RegisterForm = () => {
           <div>
             <label htmlFor="phone">Puhelin*</label>
             <input
+              className="sm:col-span-3 col-span-1 p-3 border border-gray-500 rounded-lg mt-2 py-2 w-full"
               onChange={handleInputChange}
               type="tel"
               id="phone"
@@ -150,6 +156,7 @@ const RegisterForm = () => {
           <div>
             <label htmlFor="address">Osoite*</label>
             <input
+              className="sm:col-span-3 col-span-1 p-3 border border-gray-500 rounded-lg mt-2 py-2 w-full"
               onChange={handleInputChange}
               type="text"
               id="address"
@@ -164,6 +171,7 @@ const RegisterForm = () => {
           <div>
             <label htmlFor="city">Kaupunki*</label>
             <input
+              className="sm:col-span-3 col-span-1 p-3 border border-gray-500 rounded-lg mt-2 py-2 w-full"
               onChange={handleInputChange}
               type="text"
               id="city"
@@ -178,6 +186,7 @@ const RegisterForm = () => {
           <div>
             <label htmlFor="postal_code">Postinumero*</label>
             <input
+              className="sm:col-span-3 col-span-1 p-3 border border-gray-500 rounded-lg mt-2 py-2 w-full"
               onChange={handleInputChange}
               type="text"
               id="postal_code"
@@ -188,7 +197,7 @@ const RegisterForm = () => {
             {errors.postal_code && <span className="error">{errors.postal_code}</span>}
           </div>
 
-          <button type="submit">Rekisteröidy</button>
+          <button className="sm:col-span-1 col-span-1 bg-[var(--primary-color)] text-[var(--white-color)] rounded-4xl hover:bg-[var(--grey-color)] transition duration-300 !py-6 w-full" type="submit">Rekisteröidy</button>
         </form>
       </div>
     </>
