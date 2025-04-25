@@ -5,13 +5,12 @@ Content-Type: application/json
 {
   "first_name": "sms",
   "last_name": "Pertti",
-  "email": "test@test.fi",
+  "email": "test@testIÄ.fi",
   "password": "1234",
   "phone": "0405222123",
   "address": "siippakuja",
   "city": "Helsinki",
-  "postal_code": "12345",
-  "type": "user"
+  "postal_code": "12345"
 }
 
 ### Create a new user with switched address
@@ -26,7 +25,6 @@ Content-Type: application/json
   "password": "1234",
   "phone": "0405222123",
   "city": "Helsinki",
-  "postal_code": "12345",
-  "type": "user"
+  "postal_code": "12345"
 }
 
