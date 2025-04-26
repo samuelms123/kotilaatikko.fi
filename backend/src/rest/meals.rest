@@ -1,0 +1,27 @@
+POST http://localhost:3000/api/v1/meals
+Content-Type: application/json
+
+{
+  "mealName": "Lihalaatikko",
+  "mealPrice": 24.99,
+  "mealDescription": "Herkullinen lihalaatikko tuoreilla vihanniksilla",
+  "categoryName": "Sekasyöjä",
+  "categoryDescription": "Herkullisia sekasettejä",
+  "ingredients": [
+    {
+      "name": "Naudan jauheliha",
+      "price": 5,
+      "description": "onko tää tarpeellinen"
+    },
+    {
+      "name": "Porkkana",
+      "price": 1,
+      "description": "Unohtu laittaa"
+    },
+    {
+      "name": "Peruna",
+      "price": 2,
+      "description": "yksikkö tänne"
+    }
+  ]
+}
