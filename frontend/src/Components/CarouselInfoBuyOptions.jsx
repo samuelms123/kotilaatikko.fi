@@ -62,8 +62,8 @@ const CarouselInfoBuyOptions = ({ items }) => {
       </button>
 
       <div className="flex justify-end">
-        <button className="rounded-2xl bg-gray-800 py-4 px-6 ml-1 mr-1 hover:bg-gray-900" onClick={() => {console.log("info pressed")}}>Laatikko information</button>
-        <button className="rounded-2xl bg-gray-800 py-4 px-6 ml-1 mr-1 hover:bg-gray-900" onClick={() => {console.log("buy pressed")}}>Buy this Kotilaatikko</button>
+        <button className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] hover:bg-[var(--grey-color)] py-4 px-6 ml-1 mr-1 " onClick={() => {console.log("info pressed")}}>Laatikko information</button>
+        <button className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] hover:bg-[var(--grey-color)] py-4 px-6 ml-1 mr-1 " onClick={() => {console.log("buy pressed")}}>Buy this Kotilaatikko</button>
       </div>
 
       {/* Dots indicator */}
@@ -72,7 +72,7 @@ const CarouselInfoBuyOptions = ({ items }) => {
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-3 h-3 mx-1 rounded-full ${index === currentIndex ? 'bg-gray-800' : 'bg-gray-300'}`}
+            className={`w-3 h-3 mx-1 rounded-full ${index === currentIndex ? 'bg-[var(--grey-color)]' : 'bg-gray-300'}`}
           />
         ))}
       </div>
