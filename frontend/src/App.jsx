@@ -9,6 +9,7 @@ import Profile from './Views/Profile'
 import { UserProvider } from './Contexts/UserContext';
 import LoginForm from './Components/LoginForm';
 import RegisterForm from './Components/RegisterForm';
+import Logout from './Views/Logout';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             } />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
+            <Route path="/logout" element={<Logout />} />
           </Route>
         </Routes>
       </UserProvider>
