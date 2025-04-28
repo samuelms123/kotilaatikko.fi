@@ -1,11 +1,12 @@
-import { useNavigate } from 'react-router';
+import {useNavigate} from 'react-router';
 import {useUser} from '../Hooks/apiHooks';
 import useForm from '../Hooks/formHooks';
-import {useState} from 'react';
+import {use, useState} from 'react';
 
 const RegisterForm = () => {
-  const {postUser} = useUser();
+  const {postUser, checkEmailAvailability} = useUser();
   const [errors, setErrors] = useState({});
+  const [emailAvailabilityError, setEmailAvailabilityError] = useState('');
 
   const navigate = useNavigate();
 
@@ -24,14 +25,16 @@ const RegisterForm = () => {
     const newErrors = {};
 
     // Check each required field
-    if (!inputs.first_name.trim()) newErrors.first_name = 'First name is required';
+    if (!inputs.first_name.trim())
+      newErrors.first_name = 'First name is required';
     if (!inputs.last_name.trim()) newErrors.last_name = 'Last name is required';
     if (!inputs.email.trim()) newErrors.email = 'Email is required';
     if (!inputs.password) newErrors.password = 'Password is required';
     if (!inputs.phone.trim()) newErrors.phone = 'Phone is required';
     if (!inputs.address.trim()) newErrors.address = 'Address is required';
     if (!inputs.city.trim()) newErrors.city = 'City is required';
-    if (!inputs.postal_code.trim()) newErrors.postal_code = 'Postal code is required';
+    if (!inputs.postal_code.trim())
+      newErrors.postal_code = 'Postal code is required';
 
     // Email format validation
     if (inputs.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inputs.email)) {
@@ -49,10 +52,17 @@ const RegisterForm = () => {
 
   const doRegister = async () => {
     if (!validateForm()) return;
-
+    const isAvailable = await checkEmailAvailability(inputs.email);
+    console.log(isAvailable);
+    if (!isAvailable) {
+      setEmailAvailabilityError('Sähköposti varattu!');
+      console.log('email not available!');
+      return;
+    }
+    setEmailAvailabilityError('');
     try {
       const userData = {
-        ...inputs
+        ...inputs,
       };
       const userResult = await postUser(userData);
       console.log('Registration successful:', userResult);
@@ -63,7 +73,7 @@ const RegisterForm = () => {
     } catch (error) {
       console.error('Registration failed:', error);
       // Handle API errors (like duplicate email)
-      setErrors(prev => ({...prev, apiError: error.message}));
+      setErrors((prev) => ({...prev, apiError: error.message}));
     }
   };
 
@@ -75,11 +85,19 @@ const RegisterForm = () => {
   return (
     <>
       {errors.apiError && <div className="error">{errors.apiError}</div>}
-      <div className="flex flex-col items-center justify-center bg-gray-100 p-4 w-[100%] m-8 rounded-lg shadow-md max-w-4xl mx-auto">
+      <div className="flex flex-col items-center justify-center bg-gray-100 p-4 w-[100%] m-8 rounded-lg shadow-md max-w-4xl mx-auto relative">
         <h1 className="font-bold font-stretch-50%">Rekisteröidy</h1>
         <p className="m-1">Täytä alla olevat tiedot rekisteröityäksesi.</p>
         <p className="m-1">Kaikki kentät ovat pakollisia.</p>
-        <form onSubmit={handleSubmit} className="*:mt-6 p-2 grid sm:grid-cols-3 grid-cols-1 gap-4">
+        {emailAvailabilityError && (
+          <h4 className="absolute top-22 text-red-500 font-medium text-lg mt-4">
+            {emailAvailabilityError}
+          </h4>
+        )}
+        <form
+          onSubmit={handleSubmit}
+          className="*:mt-6 p-2 grid sm:grid-cols-3 grid-cols-1 gap-4"
+        >
           {/* First Name */}
           <div>
             <label htmlFor="first_name">Etunimi*</label>
@@ -92,7 +110,9 @@ const RegisterForm = () => {
               value={inputs.first_name}
               required
             />
-            {errors.first_name && <span className="error">{errors.first_name}</span>}
+            {errors.first_name && (
+              <span className="error">{errors.first_name}</span>
+            )}
           </div>
 
           {/* Last Name */}
@@ -107,7 +127,9 @@ const RegisterForm = () => {
               value={inputs.last_name}
               required
             />
-            {errors.last_name && <span className="error">{errors.last_name}</span>}
+            {errors.last_name && (
+              <span className="error">{errors.last_name}</span>
+            )}
           </div>
 
           {/* Email */}
@@ -121,7 +143,6 @@ const RegisterForm = () => {
               name="email"
               value={inputs.email}
               required
-
             />
             {errors.email && <span className="error">{errors.email}</span>}
           </div>
@@ -139,7 +160,9 @@ const RegisterForm = () => {
               required
               minLength="6"
             />
-            {errors.password && <span className="error">{errors.password}</span>}
+            {errors.password && (
+              <span className="error">{errors.password}</span>
+            )}
           </div>
 
           {/* Phone */}
@@ -199,10 +222,17 @@ const RegisterForm = () => {
               value={inputs.postal_code}
               required
             />
-            {errors.postal_code && <span className="error">{errors.postal_code}</span>}
+            {errors.postal_code && (
+              <span className="error">{errors.postal_code}</span>
+            )}
           </div>
 
-          <button className="bg-[var(--primary-color)] text-[var(--white-color)] rounded-4xl hover:bg-[var(--grey-color)] transition duration-300 w-full py-4 mt-6 font-medium" type="submit">Rekisteröidy</button>
+          <button
+            className="bg-[var(--primary-color)] text-[var(--white-color)] rounded-4xl hover:bg-[var(--grey-color)] transition duration-300 w-full py-4 mt-6 font-medium"
+            type="submit"
+          >
+            Rekisteröidy
+          </button>
         </form>
       </div>
     </>
