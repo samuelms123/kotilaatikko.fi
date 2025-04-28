@@ -1,9 +1,7 @@
 // UserContext.jsx
-import {createContext, useState} from 'react';
+import {useState} from 'react';
 import {useAuthentication, useUser} from '../Hooks/apiHooks';
 import {useNavigate, useLocation} from 'react-router';
-
-export const UserContext = createContext(null);
 
 export const UserProvider = ({children}) => {
   const [user, setUser] = useState(null);
@@ -16,6 +14,7 @@ export const UserProvider = ({children}) => {
   const handleLogin = async (credentials) => {
     const loginResult = await postLogin(credentials);
     localStorage.setItem('token', loginResult.token);
+    console.log('LOGIN RESULT:', loginResult.user); // Debugging line
     setUser(loginResult.user);
     navigate('/');
   };
