@@ -36,35 +36,35 @@ const UserProfile = () => {
 
 
   return (
-    <div className="user-profile">
-      <h2>User Profile</h2>
-      <div className="profile-details">
+    <div className="flex-col flex items-center justify-center mt-6">
+      <h1>User Profile</h1>
+      <div className="profile-details flex flex-col items-center bg-gray-100 p-4 w-[100%] m-8 rounded-lg shadow-md max-w-2xl mx-auto">
         <div className="detail-row">
-          <span className="detail-label">Etunimi: </span>
+          <span className="detail-label font-bold">Etunimi: </span>
           <span className="detail-value">{user.firstName}</span>
         </div>
         <div className="detail-row">
-          <span className="detail-label">Sukunimi: </span>
+          <span className="detail-label font-bold">Sukunimi: </span>
           <span className="detail-value">{user.lastName}</span>
         </div>
         <div className="detail-row">
-          <span className="detail-label">Email: </span>
+          <span className="detail-label font-bold">Email: </span>
           <span className="detail-value">{user.email}</span>
         </div>
         <div className="detail-row">
-          <span className="detail-label">Puhelinnumero: </span>
+          <span className="detail-label font-bold">Puhelinnumero: </span>
           <span className="detail-value">{user.phone}</span>
         </div>
         <div className="detail-row">
-          <span className="detail-label">Osoite: </span>
+          <span className="detail-label font-bold">Osoite: </span>
           <span className="detail-value">{user.address}</span>
         </div>
         <div className="detail-row">
-          <span className="detail-label">Kaupunki: </span>
+          <span className="detail-label font-bold">Kaupunki: </span>
           <span className="detail-value">{user.city}</span>
         </div>
         <div className="detail-row">
-          <span className="detail-label">Postinumero: </span>
+          <span className="detail-label font-bold">Postinumero: </span>
           <span className="detail-value">{user.postalCode}</span>
         </div>
       </div>

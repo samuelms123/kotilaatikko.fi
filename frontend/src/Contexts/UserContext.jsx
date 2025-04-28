@@ -1,5 +1,5 @@
 // UserContext.jsx
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useAuthentication, useUser} from '../Hooks/apiHooks';
 import {useNavigate, useLocation} from 'react-router';
 import {createContext} from 'react';
@@ -42,6 +42,11 @@ const UserProvider = ({children}) => {
       console.log(e.message);
     }
   };
+
+  // useEffect to check if there is a token in local storage and if it is valid
+  useEffect(() => {
+    handleAutoLogin();
+  }, []);
 
   return (
     <UserContext.Provider
