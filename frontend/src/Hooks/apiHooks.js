@@ -53,6 +53,31 @@ function useUser() {
     }
   }
 
+  async function checkEmailAvailability(email) {
+    const fetchOptions = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_AUTH_API + `/users/available/${email}`,
+        fetchOptions,
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error', errorData);
+      }
+      const data = await response.json();
+      return data.available;
+    } catch (error) {
+      return {message: 'Something went wrong in checkEmailAvailability', error};
+    }
+  }
+
   async function postUser(inputs) {
     const fetchOptions = {
       method: 'POST',
@@ -81,7 +106,7 @@ function useUser() {
       throw error;
     }
   }
-  return {getUserByToken, postUser};
+  return {getUserByToken, postUser, checkEmailAvailability};
 }
 
 export {useAuthentication, useUser};
