@@ -23,7 +23,7 @@ const UserProfile = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading user profile...</div>;
+    return <div className="font-bold text-2xl flex flex-col items-center justify-center mt-6">Haetaan käyttäjätietoja...</div>;
   }
 
   if (error) {
@@ -37,7 +37,7 @@ const UserProfile = () => {
 
   return (
     <div className="flex-col flex items-center justify-center mt-6">
-      <h1>User Profile</h1>
+      <h1 className="font-extrabold text-2xl">Käyttäjätiedot</h1>
       <div className="profile-details flex flex-col items-center bg-gray-100 p-4 w-[100%] m-8 rounded-lg shadow-md max-w-2xl mx-auto">
         <div className="detail-row">
           <span className="detail-label font-bold">Etunimi: </span>
