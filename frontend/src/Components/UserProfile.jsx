@@ -40,14 +40,33 @@ const UserProfile = () => {
       <h2>User Profile</h2>
       <div className="profile-details">
         <div className="detail-row">
-          <span className="detail-label">Username:</span>
-          <span className="detail-value">{user.username}</span>
+          <span className="detail-label">Etunimi: </span>
+          <span className="detail-value">{user.firstName}</span>
         </div>
         <div className="detail-row">
-          <span className="detail-label">Email:</span>
+          <span className="detail-label">Sukunimi: </span>
+          <span className="detail-value">{user.lastName}</span>
+        </div>
+        <div className="detail-row">
+          <span className="detail-label">Email: </span>
           <span className="detail-value">{user.email}</span>
         </div>
-
+        <div className="detail-row">
+          <span className="detail-label">Puhelinnumero: </span>
+          <span className="detail-value">{user.phone}</span>
+        </div>
+        <div className="detail-row">
+          <span className="detail-label">Osoite: </span>
+          <span className="detail-value">{user.address}</span>
+        </div>
+        <div className="detail-row">
+          <span className="detail-label">Kaupunki: </span>
+          <span className="detail-value">{user.city}</span>
+        </div>
+        <div className="detail-row">
+          <span className="detail-label">Postinumero: </span>
+          <span className="detail-value">{user.postalCode}</span>
+        </div>
       </div>
     </div>
   );
