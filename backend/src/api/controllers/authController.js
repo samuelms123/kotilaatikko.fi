@@ -32,4 +32,30 @@ const handleLogin = async (req, res) => {
   res.json({user: userWithNoPassword, token});
 };
 
-export {handleLogin};
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    console.log('Authentication successful');
+    console.log('Authenticated user:', req.user);
+    console.log('User: ', user);
+    next();
+  });
+};
+
+// Get authenticated user's data
+const getMe = async (req, res) => {
+  console.log('getMe: ' + res.locals.user);
+  if (res.locals.user) {
+    res.json({message: 'token ok', user: res.locals.user});
+  } else {
+    res.status(401).json({message: 'Unauthorized'});
+  }
+};
+
+export {handleLogin, authenticateToken, getMe};

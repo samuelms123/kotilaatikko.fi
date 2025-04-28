@@ -45,7 +45,7 @@ function useUser() {
         },
       };
       return await fetchData(
-        import.meta.env.VITE_AUTH_API + '/users/token',
+        import.meta.env.VITE_AUTH_API + '/auth/me',
         fetchOptions,
       );
     } catch (error) {

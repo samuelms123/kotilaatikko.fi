@@ -2,8 +2,11 @@
 import {useState} from 'react';
 import {useAuthentication, useUser} from '../Hooks/apiHooks';
 import {useNavigate, useLocation} from 'react-router';
+import {createContext} from 'react';
 
-export const UserProvider = ({children}) => {
+const UserContext = createContext(null);
+
+const UserProvider = ({children}) => {
   const [user, setUser] = useState(null);
   const {postLogin} = useAuthentication();
   const {getUserByToken} = useUser(); // token validation
@@ -48,3 +51,5 @@ export const UserProvider = ({children}) => {
     </UserContext.Provider>
   );
 };
+
+export {UserContext, UserProvider}
