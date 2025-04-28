@@ -40,7 +40,7 @@ const authenticateToken = (req, res, next) => {
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
-    req.user = user;
+    res.locals.user = user;
     console.log('Authentication successful');
     console.log('Authenticated user:', req.user);
     console.log('User: ', user);
