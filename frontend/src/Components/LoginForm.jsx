@@ -1,10 +1,18 @@
-import {useAuthentication} from '../Hooks/apiHooks';
 import useForm from '../hooks/formHooks';
 import {useNavigate} from 'react-router';
 import {useState} from 'react';
+import {useUserContext} from '../Hooks/contextHooks';
 
 const LoginForm = () => {
-  const {postLogin} = useAuthentication();
+  // handle login function is imported from UserContext, goes to apiHooks to useAuthentication
+  // and then to the backend to post the login data
+  // and get the token and user data
+  // the token is saved to local storage
+  // and the user data is saved to the context
+  // the user data is used to check if the user is logged in or not
+  // the token is used to check if the user is logged in or not
+  const {handleLogin} = useUserContext();
+
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
@@ -28,11 +36,12 @@ const LoginForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  // Function to handle login
   const doLogin = async () => {
     if (!validateForm()) return;
 
     try {
-      await postLogin(inputs);
+      await handleLogin(inputs);
       navigate('/');
     } catch (error) {
       console.error('Login failed:', error);

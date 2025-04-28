@@ -1,8 +1,6 @@
 import {useState} from 'react';
 import {fetchData} from '../Utils/fetchData';
 
-const userApiUrl = import.meta.env.VITE_AUTH_API;
-
 // token check from local storage, returns boolean
 const tokenInLocalStorage = () => {
   Boolean(localStorage.getItem('token'));
@@ -47,7 +45,7 @@ function useUser() {
         },
       };
       return await fetchData(
-        import.meta.env.VITE_AUTH_API + '/users/token',
+        import.meta.env.VITE_AUTH_API + '/auth/me',
         fetchOptions,
       );
     } catch (error) {

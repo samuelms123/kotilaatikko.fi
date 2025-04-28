@@ -1,11 +1,12 @@
 // UserContext.jsx
-import {createContext, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useAuthentication, useUser} from '../Hooks/apiHooks';
 import {useNavigate, useLocation} from 'react-router';
+import {createContext} from 'react';
 
-export const UserContext = createContext(null);
+const UserContext = createContext(null);
 
-export const UserProvider = ({children}) => {
+const UserProvider = ({children}) => {
   const [user, setUser] = useState(null);
   const {postLogin} = useAuthentication();
   const {getUserByToken} = useUser(); // token validation
@@ -16,6 +17,7 @@ export const UserProvider = ({children}) => {
   const handleLogin = async (credentials) => {
     const loginResult = await postLogin(credentials);
     localStorage.setItem('token', loginResult.token);
+    console.log('LOGIN RESULT:', loginResult.user); // Debugging line
     setUser(loginResult.user);
     navigate('/');
   };
@@ -41,6 +43,11 @@ export const UserProvider = ({children}) => {
     }
   };
 
+  // useEffect to check if there is a token in local storage and if it is valid
+  useEffect(() => {
+    handleAutoLogin();
+  }, []);
+
   return (
     <UserContext.Provider
       value={{user, handleLogin, handleLogout, handleAutoLogin}}
@@ -49,3 +56,5 @@ export const UserProvider = ({children}) => {
     </UserContext.Provider>
   );
 };
+
+export {UserContext, UserProvider}
