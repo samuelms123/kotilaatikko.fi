@@ -31,3 +31,19 @@ Content-Type: application/json
 ### Check email
 GET http://localhost:3000/api/v1/users/available/hehe@gmail.com
 
+### Create an admin user
+POST http://localhost:3000/api/v1/users
+Content-Type: application/json
+
+{
+  "address": "adminin katu",
+  "first_name": "adminin nimi",
+  "last_name": "adminin sukunimi",
+  "email": "admin@admin.com",
+  "password": "adminn",
+  "phone": "0405222123",
+  "city": "Helsinki",
+  "postal_code": "12345",
+  "type": "admin"
+}
+

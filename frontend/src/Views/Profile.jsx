@@ -1,10 +1,21 @@
-import React from 'react'
+import React from 'react';
 import UserProfile from '../Components/UserProfile';
+import AdminProfile from '../Components/AdminProfile';
+import { useUserContext } from '../Hooks/contextHooks';
 
 const Profile = () => {
-  return (
-    <UserProfile />
-  )
-}
+  const { user } = useUserContext();
 
-export default Profile
+  // Render different profile components based on user type
+  return (
+    <>
+      {user?.type === 'admin' ? (
+        <AdminProfile />
+      ) : (
+        <UserProfile />
+      )}
+    </>
+  );
+};
+
+export default Profile;
