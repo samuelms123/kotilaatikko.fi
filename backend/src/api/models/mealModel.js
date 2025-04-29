@@ -10,6 +10,46 @@ const getAllMeals = async () => {
   }
 };
 
+const getMealDetails = async (id) => {
+  try {
+    // Get meal by id
+    const [mealRows] = await promisePool.execute(
+      'SELECT * FROM meals WHERE id = ?',
+      [id],
+    );
+    const meal = mealRows[0];
+
+    if (!meal) {
+      throw new Error('Meal not found');
+    }
+
+    // Get category
+    const [categoryRows] = await promisePool.execute(
+      `SELECT c.* FROM categories c
+       JOIN meals_categories mc ON c.id = mc.category_id
+       WHERE mc.meal_id = ?`,
+      [id],
+    );
+
+    // Get ingredients
+    const [ingredients] = await promisePool.execute(
+      `SELECT i.* FROM ingredients i
+       JOIN meals_ingredients mi ON i.id = mi.ingredient_id
+       WHERE mi.meal_id = ?`,
+      [id],
+    );
+
+    return {
+      ...meal,
+      category: categoryRows[0] || null,
+      ingredients: ingredients || [],
+    };
+  } catch (error) {
+    console.error('Error fetching meal details:', error.message);
+    throw new Error(`Database error: ${error.message}`);
+  }
+};
+
 const addMeal = async (meal) => {
   const {name, price, description} = meal;
 
@@ -176,4 +216,5 @@ export {
   unlinkMealCategories,
   unlinkMealIngredients,
   deleteMeal,
+  getMealDetails,
 };

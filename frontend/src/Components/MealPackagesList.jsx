@@ -20,6 +20,16 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
     }
   };
 
+  const handleGetMealDetails = async (id) => {
+    try {
+      const mealDetails = await fetchData(`${import.meta.env.VITE_AUTH_API}/meals/${id}`);
+      console.log('Meal Details:', mealDetails);
+      return mealDetails;
+     } catch (err) {
+      console.error('Error fetching meal details:', err);
+    }
+  }
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -62,7 +72,9 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
               <p className="text-gray-600 mb-4">{meal.description}</p>
 
               <div className="flex justify-between items-center">
-                <button className="text-blue-600 hover:text-blue-800 font-medium">
+                <button
+                  onClick={() => handleGetMealDetails(meal.id)}
+                  className="text-blue-600 hover:text-blue-800 font-medium">
                   View Details
                 </button>
                 <button
