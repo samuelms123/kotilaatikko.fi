@@ -10,6 +10,7 @@ import { UserProvider } from './Contexts/UserContext';
 import LoginForm from './Components/LoginForm';
 import RegisterForm from './Components/RegisterForm';
 import Logout from './Views/Logout';
+import Shop from './Views/Shop';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
+            <Route path="/shop" element={<Shop />} />
             <Route path="/profile" element={
               <ProtectedRoute>
                 <Profile />
