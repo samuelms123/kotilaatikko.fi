@@ -1,41 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ItemRow from '../Components/ItemRow'
+import { fetchData } from '../Utils/fetchData'
 
 const Shop = () => {
-  const allItems = [
-    {
-      id: 3,
-      name: 'Lihalaatikko',
-      image: '/hero.jpg',
-      price: '29.99',
-      description: `Lihalaatikko on lihaa arvostavan valinta: se sisältää tarkoin valikoituja, tuoreita suomalaisia lihatuotteita, kuten naudan, porsaan ja kanan parhaita paloja luotettavilta kotimaisilta tuottajilta. Laatikko tekee arjesta helpompaa ja ruokailusta laadukkaampaa – ilman turhia lisäaineita, suoraan kotiovelle toimitettuna, valmiina kokattavaksi tai pakastettavaksi.`,
-      orders: 50,
-    },
-    {
-      id: 4,
-      name: 'Sekalaatikko',
-      image: '/hero.jpg',
-      price: '24.99',
-      description: 'Sekasyöjälaatikko tarjoaa laajan valikoiman tuoreita ja puhtaita raaka-aineita, jotka yhdistävät niin kotimaisia liha- kuin kasvisvaihtoehtoja. Laatikoista löydät nautittavaa niin lihansyöjille kuin kasviksia ja proteiinia arvostaville, aina vastuullisesti tuotettuna ja ilman turhia lisäaineita. Suoraan kotiovelle toimitettuna, tämä laatikko tuo arkeesi maukasta ja ravitsevaa ruokaa, joka sopii monenlaisiin makuihin ja ruokailutottumuksiin.',
-      orders: 75,
-    },
-    {
-      id: 5,
-      name: 'Kasvislaatikko',
-      image: '/hero.jpg',
-      price: '19.99',
-      description: 'Kasvissyöjälaatikko tarjoaa herkullisen valikoiman tuoreita ja puhtaita kasvisraaka-aineita, kuten vihanneksia, juureksia, viljoja ja proteiinirikkaita kasvipohjaisia tuotteita, jotka tulevat luotettavilta kotimaisilta tuottajilta. Laatikko tuo arkeesi maukkaita ja monipuolisia kasvisruokia ilman lisäaineita, suoraan kotiovelle toimitettuna. Täydellinen valinta, jos arvostat kasvisruokaa, joka on täynnä makua ja ravinteita.',
-      orders: 30,
-    },
-    {
-      id: 2,
-      name: 'Vegaanilaatikko',
-      image: '/hero.jpg',
-      price: '21.99',
-      description: 'Vegaanilaatikko tarjoaa monipuolisen valikoiman tuoreita ja puhtaita vegaanisia raaka-aineita, kuten proteiinirikkaita palkokasveja, vihanneksia ja kasvipohjaisia vaihtoehtoja, jotka tulevat luotettavilta kotimaisilta tuottajilta. Laatikko tuo arkeen herkullista ja ravitsevaa kasvisruokaa, ilman lisäaineita, suoraan kotiovelle toimitettuna. Täydellinen valinta, jos arvostat vastuullisia ja vegaanisia vaihtoehtoja ruokapöydässäsi.',
-      orders: 123,
+  const [allItems, setAllItems] = useState([]) // State to store items
+  const [loading, setLoading] = useState(true) // State to handle loading
+  const [error, setError] = useState(null) // State to handle errors
+
+  useEffect(() => {
+    // Fetch data from the backend
+    const fetchItems = async () => {
+      try {
+        const data = await fetchData('http://localhost:3000/api/v1/meals');
+        setAllItems(data) // Set the fetched data to state
+      } catch (err) {
+        setError(err.message) // Handle errors
+      } finally {
+        setLoading(false) // Stop loading
+      }
     }
-  ]
+
+    fetchItems()
+  }, [])
+
+  if (loading) {
+    return <div className="text-center mt-8">Tuote sivu latautuu...</div>
+  }
+
+  if (error) {
+    return <div className="text-center mt-8 text-red-500">Virhe: {error}</div>
+  }
+
+  if (allItems.length === 0) {
+    return <div className="text-center mt-8">Sivustolla ei ole yhtään ruokaboksia?!</div>
+  }
 
   return (
     <div className="shop-page">
@@ -43,12 +41,12 @@ const Shop = () => {
           <img
             src="/hero-blur.jpg"
             alt="Shop Hero"
-            className="w-full h-[400px] object-cover"
+            className="w-full h-[200px] object-cover rounded-b-lg"
           />
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-opacity-50 text-center px-4">
-            <h1 className="text-white text-4xl font-[header] mb-4 ">Tee arjestasi helppoa &#8212; Tilaa tänään!</h1>
+            <h1 className="text-white text-4xl font-[header] mb-4">Tee arjestasi helppoa &#8212; Tilaa tänään!</h1>
             <p className="text-white text-lg">
-            Kotilaatikon tilaaminen tekee arjesta helpompaa. Et tarvitse enää huolehtia ruokalistan suunnittelusta tai kaupasta raahaamisesta – saat kaiken valmiiksi toimitettuna. Näin voit nauttia maukkaasta ruoasta ilman turhaa vaivannäköä!
+              Kotilaatikon tilaaminen tekee arjesta helpompaa. Et tarvitse enää huolehtia ruokalistan suunnittelusta tai kaupasta raahaamisesta – saat kaiken valmiiksi toimitettuna. Näin voit nauttia maukkaasta ruoasta ilman turhaa vaivannäköä!
             </p>
           </div>
         </div>
@@ -61,16 +59,16 @@ const Shop = () => {
                 TILATUIN !
               </div>
               <img
-                src={allItems[3].image}
-                alt={allItems[3].name}
+                src={allItems[0].image}
+                alt={allItems[0].name}
                 className="w-full sm:w-1/3 h-[300px] object-cover"
               />
               <div className="p-6 flex flex-col justify-between flex-grow relative">
                 <div>
-                  <h3 className="text-2xl font-[header] mb-2">{allItems[3].name}</h3>
-                  <p className="text-gray-600 mb-4">{allItems[3].description}</p>
+                  <h3 className="text-2xl font-[header] mb-2">{allItems[0].name}</h3>
+                  <p className="text-gray-600 mb-4">{allItems[0].description}</p>
                   <p className="text-[var(--primary-color)] font-bold text-2xl">
-                    {allItems[3].price} &#8364;
+                    {allItems[0].price} &#8364;
                   </p>
                 </div>
                 <div className="absolute bottom-4 right-4 flex gap-4">

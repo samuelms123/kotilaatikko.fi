@@ -25,3 +25,7 @@ Content-Type: application/json
     }
   ]
 }
+
+### GET all meals
+GET http://localhost:3000/api/v1/meals
+Content-Type: application/json
