@@ -1,0 +1,32 @@
+import express from 'express';
+import {adminCheck, authenticateToken} from '../../middlewares.js';
+import {
+  handleAddGuestSubscription,
+  handleAddNewsletter,
+  handleDeleteNewsletter,
+  handleGetNewsletters,
+  handleGetSubscribers,
+  handleUserSubscription,
+} from '../controllers/newsletterController.js';
+
+const newsletterRouter = express.Router();
+
+newsletterRouter
+  .route('/')
+  .put(authenticateToken, handleUserSubscription) // Logged in user sub/unsub
+  .post(handleAddGuestSubscription) // Guest sub
+  .get(authenticateToken, adminCheck, handleGetNewsletters); // Get newsletters
+
+newsletterRouter
+  .route('/modify')
+  .post(authenticateToken, adminCheck, handleAddNewsletter); // Add newsletter
+
+newsletterRouter
+  .route('/modify/:id')
+  .delete(authenticateToken, adminCheck, handleDeleteNewsletter); // Delete newsletter
+
+newsletterRouter
+  .route('/subscribers')
+  .get(authenticateToken, adminCheck, handleGetSubscribers); // Get all subscribers (users and guests)
+
+export default newsletterRouter;

@@ -4,8 +4,8 @@ POST http://localhost:3000/api/v1/auth/login
 Content-Type: application/json
 
 {
-    "email":"test@test.fi",
-    "password":"1234"
+    "email":"admin@admin.com",
+    "password":"adminn"
 }
 
 ### wrong credential login

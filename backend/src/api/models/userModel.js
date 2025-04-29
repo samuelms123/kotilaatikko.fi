@@ -51,4 +51,20 @@ const addUser = async (user) => {
   }
 };
 
-export {addUser, getEmail};
+const updateUserSubscription = async (id) => {
+  const sql = `
+    UPDATE users
+    SET is_subscribed = NOT is_subscribed
+    WHERE id = ?
+  `;
+  const [result] = await promisePool.execute(sql, [id]);
+  return result;
+};
+
+const getUserById = async (id) => {
+  const sql = `SELECT * FROM users WHERE id = ?`;
+  const [result] = await promisePool.execute(sql, [id]);
+  return result;
+};
+
+export {addUser, getEmail, updateUserSubscription, getUserById};
