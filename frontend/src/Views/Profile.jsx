@@ -1,6 +1,6 @@
 import React from 'react';
 import UserProfile from '../Components/UserProfile';
-import AdminProfile from '../Components/AdminProfile';
+import AdminAddMealPanel from '../Components/AdminAddMealPanel';
 import { useUserContext } from '../Hooks/contextHooks';
 
 const Profile = () => {
@@ -10,7 +10,7 @@ const Profile = () => {
   return (
     <>
       {user?.type === 'admin' ? (
-        <AdminProfile />
+        <AdminAddMealPanel />
       ) : (
         <UserProfile />
       )}
