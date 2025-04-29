@@ -1,25 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { fetchData } from '../Utils/fetchData';
+import { fetchData } from "../Utils/fetchData";
 
-const MealPackagesList = () => {
-  const [meals, setMeals] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
+  const handleDeleteMeal = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this meal package?')) {
+      return;
+    }
 
-  useEffect(() => {
-    const fetchMeals = async () => {
-      try {
-        const data = await fetchData(import.meta.env.VITE_AUTH_API + '/meals');
-        setMeals(data);
-        setIsLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setIsLoading(false);
+    try {
+      await fetchData(`${import.meta.env.VITE_AUTH_API}/meals/${id}`, {
+        method: 'DELETE'
+      });
+
+      // Notify parent about the deletion
+      if (onMealDeleted) {
+        onMealDeleted(id);
       }
-    };
-
-    fetchMeals();
-  }, []);
+    } catch (err) {
+      console.error('Delete error:', err);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -66,7 +65,10 @@ const MealPackagesList = () => {
                 <button className="text-blue-600 hover:text-blue-800 font-medium">
                   View Details
                 </button>
-                <button className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
+                <button
+                  onClick={() => handleDeleteMeal(meal.id)}
+                  className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                >
                   Poista ruokapaketti
                 </button>
               </div>

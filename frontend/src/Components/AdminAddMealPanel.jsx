@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { fetchData } from '../Utils/fetchData';
 
-const AdminAddMealPanel = () => {
+const AdminAddMealPanel = ({ onMealAdded }) => {
+
+  // State to manage form data
   const [formData, setFormData] = useState({
     mealName: '',
     mealPrice: '',
@@ -85,6 +87,12 @@ const AdminAddMealPanel = () => {
         categoryDescription: '',
         ingredients: [{ name: '', price: '', description: '' }]
       });
+
+      // Call the callback to notify parent
+      if (onMealAdded) {
+        onMealAdded();
+      }
+
     } catch (error) {
       console.error('Error adding meal:', error);
       setIsError(true);

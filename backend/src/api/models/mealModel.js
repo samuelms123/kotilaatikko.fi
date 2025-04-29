@@ -131,6 +131,39 @@ const linkMealIngredients = async (mealId, ingredientIds) => {
   }
 };
 
+const unlinkMealCategories = async (mealId) => {
+  const sql = `DELETE FROM meals_categories WHERE meal_id = ?`;
+  try {
+    const [rows] = await promisePool.execute(sql, [mealId]);
+    return rows;
+  } catch (error) {
+    console.error('Error unlinking categories:', error.message);
+    throw new Error(`Database error: ${error.message}`);
+  }
+};
+
+const unlinkMealIngredients = async (mealId) => {
+  const sql = `DELETE FROM meals_ingredients WHERE meal_id = ?`;
+  try {
+    const [rows] = await promisePool.execute(sql, [mealId]);
+    return rows;
+  } catch (error) {
+    console.error('Error unlinking ingredients:', error.message);
+    throw new Error(`Database error: ${error.message}`);
+  }
+};
+
+const deleteMeal = async (id) => {
+  const sql = `DELETE FROM meals WHERE id = ?`;
+  try {
+    const [rows] = await promisePool.execute(sql, [id]);
+    return rows;
+  } catch (error) {
+    console.error('Error deleting meal:', error.message);
+    throw new Error(`Database error: ${error.message}`);
+  }
+};
+
 export {
   addMeal,
   findCategoryByName,
@@ -140,4 +173,7 @@ export {
   addIngredient,
   linkMealIngredients,
   getAllMeals,
+  unlinkMealCategories,
+  unlinkMealIngredients,
+  deleteMeal,
 };

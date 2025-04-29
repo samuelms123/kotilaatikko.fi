@@ -7,6 +7,9 @@ import {
   getAllMeals,
   linkMealCategory,
   linkMealIngredients,
+  deleteMeal,
+  unlinkMealCategories,
+  unlinkMealIngredients,
 } from '../models/mealModel.js';
 
 const handleAddMeal = async (req, res) => {
@@ -77,4 +80,26 @@ const handleGetAllMeals = async (req, res) => {
   }
 };
 
-export {handleAddMeal, handleGetAllMeals};
+const handleDeleteMeal = async (req, res) => {
+  const {id} = req.params;
+
+  try {
+    // First unlink all relationships
+    await unlinkMealCategories(id);
+    await unlinkMealIngredients(id);
+
+    // Then delete the meal
+    const result = await deleteMeal(id);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({message: 'Meal not found'});
+    }
+
+    res.status(200).json({message: 'Meal deleted successfully'});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({message: 'Failed to delete meal'});
+  }
+};
+
+export {handleAddMeal, handleGetAllMeals, handleDeleteMeal};
