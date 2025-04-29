@@ -77,7 +77,7 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
               <div className="flex justify-between items-start mb-4">
                 <h2 className="text-xl font-semibold text-gray-800">{meal.name}</h2>
                 <span className="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded">
-                  ${Number(meal.price).toFixed(2)}
+                  {Number(meal.price).toFixed(2)} €
                 </span>
               </div>
 
