@@ -83,7 +83,7 @@ const handleGetAllMeals = async (req, res) => {
 
 const handleGetMealDetails = async (req, res) => {
   try {
-    const mealDetails = await getMealDetails();
+    const mealDetails = await getMealDetails(req.params.id);
     res.status(200).json(mealDetails);
   } catch (error) {
     console.error(error);
