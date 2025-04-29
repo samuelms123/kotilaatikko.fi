@@ -1,5 +1,15 @@
 import promisePool from '../../utils/database.js';
 
+const getAllMeals = async () => {
+  try {
+    const [rows] = await promisePool.execute('SELECT * FROM meals');
+    return rows;
+  } catch (error) {
+    console.error('Error fetching meals:', error.message);
+    throw new Error(`Database error: ${error.message}`);
+  }
+};
+
 const addMeal = async (meal) => {
   const {name, price, description} = meal;
 
@@ -129,4 +139,5 @@ export {
   findIngredientByName,
   addIngredient,
   linkMealIngredients,
+  getAllMeals,
 };

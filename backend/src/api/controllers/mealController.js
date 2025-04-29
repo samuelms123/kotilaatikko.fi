@@ -4,6 +4,7 @@ import {
   addMeal,
   findCategoryByName,
   findIngredientByName,
+  getAllMeals,
   linkMealCategory,
   linkMealIngredients,
 } from '../models/mealModel.js';
@@ -66,4 +67,14 @@ const handleAddMeal = async (req, res) => {
   }
 };
 
-export {handleAddMeal};
+const handleGetAllMeals = async (req, res) => {
+  try {
+    const meals = await getAllMeals();
+    res.status(200).json(meals);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({message: 'Failed to fetch meals'});
+  }
+};
+
+export {handleAddMeal, handleGetAllMeals};
