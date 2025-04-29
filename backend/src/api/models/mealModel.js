@@ -1,5 +1,15 @@
 import promisePool from '../../utils/database.js';
 
+const getAllMeals = async () => {
+  try {
+    const [rows] = await promisePool.execute('SELECT * FROM meals');
+    return rows;
+  } catch (error) {
+    console.error('Error fetching meals:', error.message);
+    throw new Error(`Database error: ${error.message}`);
+  }
+};
+
 const addMeal = async (meal) => {
   const {name, price, description} = meal;
 
@@ -121,6 +131,39 @@ const linkMealIngredients = async (mealId, ingredientIds) => {
   }
 };
 
+const unlinkMealCategories = async (mealId) => {
+  const sql = `DELETE FROM meals_categories WHERE meal_id = ?`;
+  try {
+    const [rows] = await promisePool.execute(sql, [mealId]);
+    return rows;
+  } catch (error) {
+    console.error('Error unlinking categories:', error.message);
+    throw new Error(`Database error: ${error.message}`);
+  }
+};
+
+const unlinkMealIngredients = async (mealId) => {
+  const sql = `DELETE FROM meals_ingredients WHERE meal_id = ?`;
+  try {
+    const [rows] = await promisePool.execute(sql, [mealId]);
+    return rows;
+  } catch (error) {
+    console.error('Error unlinking ingredients:', error.message);
+    throw new Error(`Database error: ${error.message}`);
+  }
+};
+
+const deleteMeal = async (id) => {
+  const sql = `DELETE FROM meals WHERE id = ?`;
+  try {
+    const [rows] = await promisePool.execute(sql, [id]);
+    return rows;
+  } catch (error) {
+    console.error('Error deleting meal:', error.message);
+    throw new Error(`Database error: ${error.message}`);
+  }
+};
+
 export {
   addMeal,
   findCategoryByName,
@@ -129,4 +172,8 @@ export {
   findIngredientByName,
   addIngredient,
   linkMealIngredients,
+  getAllMeals,
+  unlinkMealCategories,
+  unlinkMealIngredients,
+  deleteMeal,
 };

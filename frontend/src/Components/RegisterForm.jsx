@@ -1,7 +1,7 @@
 import {useNavigate} from 'react-router';
 import {useUser} from '../Hooks/apiHooks';
-import useForm from '../Hooks/formHooks';
-import {use, useState} from 'react';
+import {useState} from 'react';
+import useForm from '../hooks/formHooks';
 
 const RegisterForm = () => {
   const {postUser, checkEmailAvailability} = useUser();
