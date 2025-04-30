@@ -11,6 +11,7 @@ import {
   unlinkMealCategories,
   unlinkMealIngredients,
   getMealDetails,
+  getMealsByCategoryId,
 } from '../models/mealModel.js';
 
 const handleAddMeal = async (req, res) => {
@@ -90,6 +91,16 @@ const handleGetAllMeals = async (req, res) => {
   }
 };
 
+const handleGetMealsByCategoryId = async (req, res) => {
+  try {
+    const meals = await getMealsByCategoryId(req.params.id);
+    res.status(200).json(meals);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({message: 'Failed to fetch meals'});
+  }
+};
+
 const handleGetMealDetails = async (req, res) => {
   try {
     const mealDetails = await getMealDetails(req.params.id);
@@ -127,4 +138,5 @@ export {
   handleGetAllMeals,
   handleDeleteMeal,
   handleGetMealDetails,
+  handleGetMealsByCategoryId,
 };
