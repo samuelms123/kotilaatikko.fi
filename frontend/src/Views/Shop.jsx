@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ItemRow from '../Components/ItemRow'
 import { fetchData } from '../Utils/fetchData'
 
+
 const Shop = () => {
   const [allItems, setAllItems] = useState([]) // State to store items
   const [loading, setLoading] = useState(true) // State to handle loading
