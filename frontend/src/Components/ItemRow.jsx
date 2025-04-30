@@ -3,10 +3,7 @@ import React from 'react'
 const ItemRow = ({allItems}) => {
   return (
     <>
-      {/* All Items Section */}
-      <div className="all-items-section my-8">
-        <h2 className="text-2xl font-[header] mb-4">Kaikki kotilaatikot</h2>
-        <div className="flex flex-col gap-4">
+
           {allItems.map((item) => (
             <div
               key={item.id}
@@ -27,7 +24,7 @@ const ItemRow = ({allItems}) => {
                 </div>
                 <div className="absolute bottom-4 right-4 flex gap-4">
                   <button className="bg-[var(--primary-color)] text-white px-4 py-2 rounded hover:bg-opacity-90 hover:scale-105 transition-transform duration-200 font-bold">
-                    Tilaa
+                  Lisää ostoskoriin
                   </button>
                   <button className="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 hover:scale-105 transition-transform duration-200 font-bold">
                     Lue lisää...
@@ -36,8 +33,7 @@ const ItemRow = ({allItems}) => {
               </div>
             </div>
           ))}
-        </div>
-      </div>
+
     </>
   )
 }
