@@ -203,6 +203,30 @@ const deleteMeal = async (id) => {
   }
 };
 
+const getMealsByCategoryId = async (categoryId) => {
+  try {
+    // Get meal by id
+    const [mealRows] = await promisePool.execute(
+      `
+        SELECT m.id, m.name, m.price, m.description
+        FROM meals AS m
+        JOIN meals_categories AS mc ON m.id = mc.meal_id
+        WHERE mc.category_id = ?;
+      `,
+      [categoryId],
+    );
+
+    if (!mealRows || mealRows.length === 0) {
+      throw new Error('Meals not found');
+    }
+
+    return mealRows
+  } catch (error) {
+    console.error('Error unlinking categories:', error.message);
+    throw new Error(`Database error: ${error.message}`);
+  }
+};
+
 export {
   addMeal,
   findCategoryByName,
@@ -216,4 +240,5 @@ export {
   unlinkMealIngredients,
   deleteMeal,
   getMealDetails,
+  getMealsByCategoryId,
 };
