@@ -29,6 +29,7 @@ const handleLogin = async (req, res) => {
     city: result.city,
     postalCode: result.postal_code,
     type: result.type,
+    subscribed: result.is_subscribed,
   };
 
   const token = jwt.sign(userWithNoPassword, process.env.JWT_SECRET, {

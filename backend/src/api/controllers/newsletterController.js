@@ -11,7 +11,19 @@ const handleUserSubscription = async (req, res) => {
   const user = res.locals.user;
   try {
     const result = await updateUserSubscription(user.id);
-    res.json({message: 'update ok', result});
+    const updatedUser = {
+      id: result.user.id,
+      firstName: result.user.first_name,
+      lastName: result.user.last_name,
+      email: result.user.email,
+      phone: result.user.phone,
+      address: result.user.address,
+      city: result.user.city,
+      postalCode: result.user.postal_code,
+      type: result.user.type,
+      subscribed: result.user.is_subscribed,
+    };
+    res.json({message: 'update ok', updatedUser});
   } catch (error) {
     console.error('Subscription update failed:', error);
     res.status(500).json({error: 'Failed to update subscription'});

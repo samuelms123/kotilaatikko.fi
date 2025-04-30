@@ -58,7 +58,10 @@ const updateUserSubscription = async (id) => {
     WHERE id = ?
   `;
   const [result] = await promisePool.execute(sql, [id]);
-  return result;
+  const updatedUser = await getUserById(id);
+  return {
+    user: updatedUser[0],
+  };
 };
 
 const getUserById = async (id) => {

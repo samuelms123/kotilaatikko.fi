@@ -8,6 +8,28 @@ const tokenInLocalStorage = () => {
 
 // make a table with the mediaArray
 
+const useNewsletter = () => {
+  const subscribeAsGuest = async (email) => {
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_AUTH_API + '/newsletter',
+        {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({email}),
+        },
+      );
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error('Subscription failed:', error);
+      throw error;
+    }
+  };
+
+  return {subscribeAsGuest};
+};
+
 const useAuthentication = () => {
   let [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -35,6 +57,24 @@ const useAuthentication = () => {
 };
 
 function useUser() {
+  async function toggleSubscription() {
+    try {
+      const fetchOptions = {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      };
+      return await fetchData(
+        import.meta.env.VITE_AUTH_API + '/newsletter',
+        fetchOptions,
+      );
+    } catch (error) {
+      console.error('error', error);
+    }
+  }
+
   async function getUserByToken() {
     try {
       const fetchOptions = {
@@ -106,7 +146,7 @@ function useUser() {
       throw error;
     }
   }
-  return {getUserByToken, postUser, checkEmailAvailability};
+  return {getUserByToken, postUser, checkEmailAvailability, toggleSubscription};
 }
 
-export {useAuthentication, useUser};
+export {useAuthentication, useUser, useNewsletter};

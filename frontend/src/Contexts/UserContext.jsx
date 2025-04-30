@@ -48,13 +48,15 @@ const UserProvider = ({children}) => {
     handleAutoLogin();
   }, []);
 
+  const updateUser = (newUser) => setUser(newUser);
+
   return (
     <UserContext.Provider
-      value={{user, handleLogin, handleLogout, handleAutoLogin}}
+      value={{user, updateUser, handleLogin, handleLogout, handleAutoLogin}}
     >
       {children}
     </UserContext.Provider>
   );
 };
 
-export {UserContext, UserProvider}
+export {UserContext, UserProvider};
