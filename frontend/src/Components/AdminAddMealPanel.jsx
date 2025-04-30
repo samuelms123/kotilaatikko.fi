@@ -10,7 +10,8 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
     mealDescription: '',
     categoryName: '',
     categoryDescription: '',
-    ingredients: [{ name: '', price: '', description: '' }]
+    ingredients: [{ name: '', price: '', description: '' }],
+    image: null,
   });
   const [message, setMessage] = useState('');
   const [isError, setIsError] = useState(false);
@@ -161,6 +162,20 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
               rows={3}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="mealImage" className="block text-sm font-medium text-gray-700 mb-1">
+              Meal Image:
+            </label>
+            <input
+              type="file"
+              id="mealImage"
+              name="image"
+              accept="image/jpeg, image/png, image/webp"
+              onChange={handleInputChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
         </div>
