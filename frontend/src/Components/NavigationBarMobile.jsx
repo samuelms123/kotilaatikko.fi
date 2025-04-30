@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router';
+import { useUserContext } from '../Hooks/contextHooks';
 
 
 const NavigationBarMobile = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useUserContext();
+  const isLoggedIn = user || localStorage.getItem('token'); // Check both context and localStorage
 
   const toggleMenu = () => {
     setIsOpen(!isOpen)
@@ -26,16 +29,24 @@ const NavigationBarMobile = () => {
             </li>
 
             <li className="font-bold text-[3vh] group text-[var(--black-color)] py-2">
-            <Link  to="/profile" onClick={toggleMenu}>Profiili</Link>
+              <Link to="/shop" onClick={toggleMenu}>Tilaa</Link>
             </li>
-
+            {isLoggedIn && (
+            <li className="font-bold text-[3vh] group text-[var(--black-color)] py-2">
+            <Link  to="/profile" onClick={toggleMenu}>Profiili</Link>
+            </li>)}
+            {!isLoggedIn && (
             <li className="font-bold text-[3vh] group text-[var(--black-color)] py-2">
             <Link to="/login" onClick={toggleMenu}>Kirjaudu sisään</Link>
-            </li>
-
+            </li>)}
+            {!isLoggedIn && (
             <li className="font-bold text-[3vh] group text-[var(--black-color)] py-2">
             <Link to="/register" onClick={toggleMenu}>Rekisteröidy</Link>
-            </li>
+            </li>)}
+            {isLoggedIn && (
+            <li className="font-bold text-[3vh] group text-[var(--black-color)] py-2">
+            <Link to="/logout" onClick={toggleMenu}>Kirjaudu ulos</Link>
+            </li>)}
           </ul>
         </div>
       )}
