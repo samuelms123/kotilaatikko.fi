@@ -1,8 +1,13 @@
 import express from 'express';
-import {getAllIngredients} from '../controllers/ingredientController.js';
+import {
+  handleDeleteIngredient,
+  handleGetAllIngredients,
+} from '../controllers/ingredientsController.js';
 
 const ingredientsRouter = express.Router();
 
-router.get('/', getAllIngredients).delete('/:id', deleteIngredient);
+ingredientsRouter
+  .get('/', handleGetAllIngredients)
+  .delete('/:id', handleDeleteIngredient);
 
 export default ingredientsRouter;
