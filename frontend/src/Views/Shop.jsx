@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react"
-import {fetchData} from "../utils/fetchData.js"
-import ItemRow from "../components/ItemRow"
+import React, { useEffect, useState } from 'react'
+import ItemRow from '../Components/ItemRow'
+import { fetchData } from '../Utils/fetchData'
+
 
 const Shop = () => {
   const [allItems, setAllItems] = useState([]) // State to store items
@@ -8,11 +9,18 @@ const Shop = () => {
   const [error, setError] = useState(null) // State to handle errors
 
   useEffect(() => {
-    // Fetch data from the backend
     const fetchItems = async () => {
       try {
-        const data = await fetchData('http://localhost:3000/api/v1/meals');
-        setAllItems(data) // Set the fetched data to state
+        // Fetch all items
+        const data = await fetchData('http://localhost:3000/api/v1/categories') // Replace with your API endpoint
+        const itemsWithPrices = await Promise.all(
+          data.map(async (item) => {
+            // Fetch price for each item by its ID
+            const priceResponse = await fetchData(`http://localhost:3000/api/v1/categories/${item.id}/price`)
+            return { ...item, price: priceResponse.price }
+          })
+        )
+        setAllItems(itemsWithPrices) // Set the items with their prices
       } catch (err) {
         setError(err.message) // Handle errors
       } finally {
