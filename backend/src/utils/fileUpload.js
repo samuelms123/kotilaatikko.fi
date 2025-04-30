@@ -40,6 +40,8 @@ const upload = multer({
   limits: {fileSize: 5 * 1024 * 1024}, // 5MB limit
 });
 
-export const uploadSingleImage = (fieldName) => upload.single(fieldName);
-export const uploadMultipleImages = (fieldName, maxCount) =>
+const uploadSingleImage = (fieldName) => upload.single(fieldName);
+const uploadMultipleImages = (fieldName, maxCount) =>
   upload.array(fieldName, maxCount);
+
+export {uploadSingleImage, uploadMultipleImages};

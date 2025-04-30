@@ -5,7 +5,7 @@ import {
   handleDeleteMeal,
   handleGetMealDetails,
 } from '../controllers/mealController.js';
-import {uploadSingleImage} from '../utils/fileUpload.js';
+import {uploadSingleImage} from '../../utils/fileUpload.js';
 
 const mealRouter = express.Router();
 

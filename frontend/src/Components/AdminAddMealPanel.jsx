@@ -18,13 +18,21 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
+    const { name, value, files } = e.target;
 
+    // Special handling for file input
+    if (name === 'image' && files) {
+      setFormData({
+        ...formData,
+        [name]: files[0] // Store the File object
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+    }
+  };
   const handleIngredientChange = (index, e) => {
     const { name, value } = e.target;
     const ingredients = [...formData.ingredients];
@@ -58,24 +66,37 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
     setIsError(false);
 
     try {
-      // Filter out empty ingredient fields
-      const nonEmptyIngredients = formData.ingredients.filter(
-        ing => ing.name.trim() !== '' || ing.price !== '' || ing.description.trim() !== ''
-      );
+        // Create FormData object
+      const formDataToSend = new FormData();
 
-      const payload = {
-        ...formData,
-        ingredients: nonEmptyIngredients
-      };
+      // Append all fields to FormData
+      formDataToSend.append('mealName', formData.mealName);
+      formDataToSend.append('mealPrice', formData.mealPrice);
+      formDataToSend.append('mealDescription', formData.mealDescription);
+      formDataToSend.append('categoryName', formData.categoryName);
+      formDataToSend.append('categoryDescription', formData.categoryDescription);
+
+      // Append image if it exists
+      if (formData.image) {
+        formDataToSend.append('image', formData.image);
+      }
+
+      // Append ingredients
+      formData.ingredients
+        .filter(ing => ing.name.trim() !== '' || ing.price !== '' || ing.description.trim() !== '')
+        .forEach((ingredient, index) => {
+          formDataToSend.append(`ingredients[${index}][name]`, ingredient.name);
+          formDataToSend.append(`ingredients[${index}][price]`, ingredient.price);
+          formDataToSend.append(`ingredients[${index}][description]`, ingredient.description);
+        });
 
       const response = await fetchData(import.meta.env.VITE_AUTH_API + '/meals', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          // Add authentication header if needed
-          // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+          // Don't set Content-Type header - let the browser set it with boundary
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
-        body: JSON.stringify(payload)
+        body: formDataToSend
       });
 
       setMessage('Meal package added successfully!');
@@ -172,7 +193,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
             <input
               type="file"
               id="mealImage"
-              name="image"
+              name="image"  // this name should match what multer expects
               accept="image/jpeg, image/png, image/webp"
               onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"

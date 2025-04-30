@@ -34,6 +34,7 @@ const handleAddMeal = async (req, res) => {
   } = req.body;
 
   // Get the uploaded image filename if it exists
+  console.log(req.file);
   const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
 
   const meal = {
