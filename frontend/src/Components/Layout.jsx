@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router'
 import NavigationBarDesktop from './NavigationBarDesktop'
 import NavigationBarMobile from './NavigationBarMobile'
+import NewsLetter from '../Components/NewsLetter.jsx';
 
 const Layout = () => {
 
@@ -25,6 +26,7 @@ const Layout = () => {
         <Outlet/>
       </main>
 
+      <NewsLetter />
       <footer className='bg-[var(--grey-color)] pb-12 text-[var(--white-color)]'>
         <div className="max-w-[1600px] mx-auto text-center">
           <p className='py-10 text-lg font-[header]'>ASIAKASPALVELU</p>
