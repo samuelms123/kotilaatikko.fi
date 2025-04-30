@@ -51,12 +51,11 @@ const getMealDetails = async (id) => {
 };
 
 const addMeal = async (meal) => {
-  const {name, price, description} = meal;
+  const {name, price, description, image} = meal;
 
-  const sql = `INSERT INTO meals (name, price, description)
-                   VALUES (?, ?, ?)`;
-
-  const params = [name, price, description];
+  const sql = `INSERT INTO meals (name, price, description, image)
+                   VALUES (?, ?, ?, ?)`;
+  const params = [name, price, description, image];
 
   try {
     const [rows] = await promisePool.execute(sql, params);

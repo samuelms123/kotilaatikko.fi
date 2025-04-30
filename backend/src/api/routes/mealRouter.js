@@ -5,11 +5,16 @@ import {
   handleDeleteMeal,
   handleGetMealDetails,
 } from '../controllers/mealController.js';
+import {uploadSingleImage} from '../../utils/fileUpload.js';
 
 const mealRouter = express.Router();
 
-mealRouter.route('/').post(handleAddMeal).get(handleGetAllMeals);
+mealRouter
+  .route('/')
+  .post(uploadSingleImage('image'), handleAddMeal)
+  .get(handleGetAllMeals);
 
 mealRouter.route('/:id').delete(handleDeleteMeal).get(handleGetMealDetails);
+//.patch(uploadSingleImage('image'), handleUpdateMeal); // todo update functionality
 
 export default mealRouter;

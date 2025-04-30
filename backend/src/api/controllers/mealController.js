@@ -33,7 +33,16 @@ const handleAddMeal = async (req, res) => {
     ingredients = [],
   } = req.body;
 
-  const meal = {name: mealName, price: mealPrice, description: mealDescription};
+  // Get the uploaded image filename if it exists
+  console.log(req.file);
+  const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+
+  const meal = {
+    name: mealName,
+    price: mealPrice,
+    description: mealDescription,
+    image: imagePath,
+  };
   const category = {name: categoryName, description: categoryDescription};
 
   try {
