@@ -11,25 +11,32 @@ import LoginForm from './Components/LoginForm';
 import RegisterForm from './Components/RegisterForm';
 import Logout from './Views/Logout';
 import Shop from './Views/Shop';
+import { CartProvider } from './Contexts/CartContext';
+import CartDropdown from './Components/CartDropdown';
+import Checkout from './Views/Checkout';
 
 function App() {
   return (
     <BrowserRouter>
       <UserProvider>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="/shop" element={<Shop />} />
-            <Route path="/profile" element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            } />
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/register" element={<RegisterForm />} />
-            <Route path="/logout" element={<Logout />} />
-          </Route>
-        </Routes>
+        <CartProvider>
+          <CartDropdown />
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/shop" element={<Shop />} />
+              <Route path="/profile" element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              } />
+              <Route path="/login" element={<LoginForm />} />
+              <Route path="/register" element={<RegisterForm />} />
+              <Route path="/logout" element={<Logout />} />
+              <Route path="/checkout" element={<Checkout />} />
+            </Route>
+          </Routes>
+        </CartProvider>
       </UserProvider>
    </BrowserRouter>
   );
