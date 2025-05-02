@@ -109,11 +109,11 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
         ingredients: updatedFormIngredients
       });
 
-      setMessage('Ingredient deleted successfully!');
+      setMessage('Ainesosa poistettu mallikkaasti!');
       setIsError(false);
     } catch (error) {
-      console.error('Error deleting ingredient:', error);
-      setMessage(error.message || 'Failed to delete ingredient');
+      console.error('Virhe poistaessa ainesosaa:', error);
+      setMessage(error.message || 'Ainesosan poisto epäonnistui');
       setIsError(true);
     }
   };
@@ -358,7 +358,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
         {/* Ingredients Section */}
         <div className="p-4 bg-white rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">Ingredients</h3>
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">Ainesosat</h3>
 
           {formData.ingredients.map((ingredient, index) => (
             <div key={index} className="mb-6 p-4 bg-gray-50 rounded-md relative">
@@ -408,7 +408,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
               <div className="mb-4">
                 <label htmlFor={`ingredientPrice-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
-                  Price (€):
+                  Ainesosan hinta (€):
                 </label>
                 <input
                   type="number"
@@ -462,7 +462,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
           disabled={isSubmitting}
           className={`w-full py-2 px-4 rounded-md text-white font-medium ${isSubmitting ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'} transition-colors`}
         >
-          {isSubmitting ? 'Adding...' : 'Add Food Package'}
+          {isSubmitting ? 'Lisätään...' : 'Lisää ruokapaketti'}
         </button>
       </form>
     </div>

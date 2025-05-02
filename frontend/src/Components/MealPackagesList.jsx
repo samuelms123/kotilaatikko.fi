@@ -61,7 +61,7 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
   if (meals.length === 0) {
     return (
       <div className="p-4 bg-blue-100 text-blue-700 rounded-md">
-        No meal packages found. Add some to get started!
+        Ei ruokia saatavilla. Aloita lisäämällä uusia ruokia!
       </div>
     );
   }
@@ -88,7 +88,7 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
                   onClick={() => handleViewDetails(meal.id)}
                   className="text-blue-600 hover:text-blue-800 font-medium"
                 >
-                  View Details
+                  Näytä tiedot
                 </button>
                 <button
                   onClick={() => handleDeleteMeal(meal.id)}
@@ -133,17 +133,17 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
               {selectedMeal && (
                 <div className="space-y-4">
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Basic Information</h3>
-                    <p className="text-gray-600"><span className="font-medium">Price:</span> ${selectedMeal.price}</p>
-                    <p className="text-gray-600"><span className="font-medium">Description:</span> {selectedMeal.description}</p>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Perustiedot</h3>
+                    <p className="text-gray-600"><span className="font-medium">Hinta:</span> {selectedMeal.price} €</p>
+                    <p className="text-gray-600"><span className="font-medium">Kuvaus:</span> {selectedMeal.description}</p>
                   </div>
 
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Category</h3>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Kategoria</h3>
                     {selectedMeal.category ? (
                       <div>
-                        <p className="text-gray-600"><span className="font-medium">Name:</span> {selectedMeal.category.name}</p>
-                        <p className="text-gray-600"><span className="font-medium">Description:</span> {selectedMeal.category.description}</p>
+                        <p className="text-gray-600"><span className="font-medium">Nimi:</span> {selectedMeal.category.name}</p>
+                        <p className="text-gray-600"><span className="font-medium">Kuvaus:</span> {selectedMeal.category.description}</p>
                       </div>
                     ) : (
                       <p className="text-gray-500">No category assigned</p>
@@ -157,12 +157,12 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
                         {selectedMeal.ingredients.map((ingredient, index) => (
                           <li key={index} className="border-b border-gray-200 pb-2 last:border-0">
                             <p className="font-medium text-gray-800">{ingredient.name}</p>
-                            <p className="text-gray-600">${ingredient.price} - {ingredient.description}</p>
+                            <p className="text-gray-600">{ingredient.price} € - {ingredient.description}</p>
                           </li>
                         ))}
                       </ul>
                     ) : (
-                      <p className="text-gray-500">No ingredients listed</p>
+                      <p className="text-gray-500">Ei listattuja ainesosia</p>
                     )}
                   </div>
                 </div>
@@ -175,7 +175,7 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
                 onClick={closeDrawer}
                 className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
               >
-                Close
+                Sulje
               </button>
             </div>
           </div>

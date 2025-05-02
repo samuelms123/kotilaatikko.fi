@@ -56,7 +56,7 @@ const Profile = () => {
       case 'orderTracking':
         return (
           <div className="p-6 bg-white rounded-lg shadow">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Order Tracking</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Tilaukset</h2>
             <p className="text-gray-600">Order tracking functionality will be implemented here.</p>
             {/* You can add your order tracking components here later */}
           </div>
@@ -64,7 +64,7 @@ const Profile = () => {
       case 'newsletter':
         return (
           <div className="p-6 bg-white rounded-lg shadow">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Newsletter Management</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Uutiskirje</h2>
             <p className="text-gray-600">Newsletter management functionality will be implemented here.</p>
             {/* You can add your newsletter components here later */}
           </div>
@@ -77,7 +77,7 @@ const Profile = () => {
   return (
     <>
       {user?.type === 'admin' ? (
-        <div className="space-y-6">
+        <div className="m-2 space-y-6">
           {/* Tab Navigation */}
           <div className="border-b border-gray-200">
             <nav className="flex space-x-8">
@@ -85,19 +85,19 @@ const Profile = () => {
                 onClick={() => setActiveTab('mealPackages')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'mealPackages' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
               >
-                Meal Packages
+                Ruokapaketit
               </button>
               <button
                 onClick={() => setActiveTab('orderTracking')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'orderTracking' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
               >
-                Order Tracking
+                Tilaukset
               </button>
               <button
                 onClick={() => setActiveTab('newsletter')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'newsletter' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
               >
-                Newsletter
+                Uutiskirje
               </button>
             </nav>
           </div>
