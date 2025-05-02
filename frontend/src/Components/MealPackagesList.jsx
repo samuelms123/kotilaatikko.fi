@@ -68,7 +68,7 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
 
   return (
     <div className="container mx-auto px-4 py-8 relative">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Our Meal Packages</h1>
+      <h1 className="text-3xl font-bold text-gray-800 mb-8">Tietokannan ruuat</h1>
 
       <div className="w-full grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
         {meals.map((meal) => (
@@ -106,7 +106,7 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
       <div className={`fixed inset-0 z-50 overflow-hidden transition-all duration-300 ease-in-out ${isDrawerOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
         {/* Backdrop */}
         <div
-          className="absolute inset-0 bg-black bg-opacity-50 transition-opacity"
+          className="absolute inset-0 bg-black/60 transition-opacity"
           onClick={closeDrawer}
         ></div>
 

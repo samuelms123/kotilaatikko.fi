@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../Contexts/CartContext';
-import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../Hooks/apiHooks'; // Import your user hook
+import { Link } from 'react-router';
 
 const Checkout = () => {
-  const { cartItems, cartTotal, clearCart } = useCart();
+  const { cartItems, cartTotal} = useCart();
   const { getUserByToken } = useUser(); // Get the user hook function
   const [user, setUser] = useState(null);
   const [loadingUser, setLoadingUser] = useState(false);
@@ -24,7 +24,6 @@ const Checkout = () => {
   const [paymentMethod, setPaymentMethod] = useState('klarna');
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -77,12 +76,12 @@ const Checkout = () => {
   if (cartItems.length === 0) {
     return (
       <div className="max-w-4xl mx-auto p-6 text-center">
-        <h2 className="text-2xl font-bold mb-4">Your cart is empty</h2>
+        <h2 className="text-2xl font-bold mb-4">Ostoskärrysi on tyhjä!</h2>
         <Link
           to={"/shop"}
           className="bg-[var(--primary-color)] text-white px-4 py-2 rounded hover:bg-opacity-90"
         >
-          Continue Shopping
+          Jatka shoppailua
         </Link>
       </div>
     );
@@ -115,19 +114,19 @@ const Checkout = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Checkout</h1>
+      <h1 className="text-3xl font-bold mb-6">Kassa</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Customer Information */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">Customer Information</h2>
+            <h2 className="text-xl font-semibold">Asiakastiedot</h2>
             <button
               onClick={fetchUserData}
               disabled={loadingUser}
               className={`px-3 py-1 text-sm rounded ${loadingUser ? 'bg-gray-300' : 'bg-blue-100 text-blue-800 hover:bg-blue-200'}`}
             >
-              {loadingUser ? 'Loading...' : 'Fill in my info'}
+              {loadingUser ? 'Lataa...' : 'Täytä tiedot'}
             </button>
           </div>
 
@@ -139,7 +138,7 @@ const Checkout = () => {
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block text-sm font-medium mb-1">First Name</label>
+                <label className="block text-sm font-medium mb-1">Etunimi</label>
                 <input
                   type="text"
                   name="firstName"
@@ -150,7 +149,7 @@ const Checkout = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Last Name</label>
+                <label className="block text-sm font-medium mb-1">Sukunimi</label>
                 <input
                   type="text"
                   name="lastName"
@@ -175,7 +174,7 @@ const Checkout = () => {
             </div>
 
             <div className="mb-4">
-              <label className="block text-sm font-medium mb-1">Address</label>
+              <label className="block text-sm font-medium mb-1">Osoite</label>
               <input
                 type="text"
                 name="address"
@@ -188,7 +187,7 @@ const Checkout = () => {
 
             <div className="grid grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Postal Code</label>
+                <label className="block text-sm font-medium mb-1">Postinumero</label>
                 <input
                   type="text"
                   name="postalCode"
@@ -199,7 +198,7 @@ const Checkout = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">City</label>
+                <label className="block text-sm font-medium mb-1">Kaupunki</label>
                 <input
                   type="text"
                   name="city"
@@ -212,7 +211,7 @@ const Checkout = () => {
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-medium mb-1">Country</label>
+              <label className="block text-sm font-medium mb-1">Maa</label>
               <select
                 name="country"
                 value={customerInfo.country}
@@ -227,7 +226,7 @@ const Checkout = () => {
               </select>
             </div>
 
-            <h2 className="text-xl font-semibold mb-4">Payment Method</h2>
+            <h2 className="text-xl font-semibold mb-4">Maksutapa</h2>
             <div className="mb-6">
               <label className="flex items-center space-x-2">
                 <input
@@ -241,7 +240,7 @@ const Checkout = () => {
                 <span>Klarna</span>
               </label>
               <p className="text-sm text-gray-500 mt-2">
-                Pay later or in installments with Klarna
+                Maksa myöhemmin tai osissa Klarnalla.
               </p>
             </div>
 
@@ -263,7 +262,7 @@ const Checkout = () => {
 
         {/* Order Summary */}
         <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+          <h2 className="text-xl font-semibold mb-4">Tilausyhteenveto</h2>
           <div className="divide-y">
             {cartItems.map(item => (
               <div key={item.id} className="py-4 flex justify-between">
@@ -287,15 +286,15 @@ const Checkout = () => {
 
           <div className="mt-6 pt-4 border-t">
             <div className="flex justify-between mb-2">
-              <span>Subtotal</span>
+              <span>Yhteensä</span>
               <span>€{cartTotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between mb-2">
-              <span>Shipping</span>
+              <span>Postitus</span>
               <span>€0.00</span>
             </div>
             <div className="flex justify-between font-bold text-lg mt-4">
-              <span>Total</span>
+              <span>Yhteensä</span>
               <span>€{cartTotal.toFixed(2)}</span>
             </div>
           </div>
