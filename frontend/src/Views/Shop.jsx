@@ -18,12 +18,12 @@ const Shop = () => {
     const fetchItems = async () => {
       try {
         // Fetch all items
-        const data = await fetchData('http://localhost:3000/api/v1/meals'); // Replace with your API endpoint
+        const data = await fetchData(import.meta.env.VITE_AUTH_API+'/meals'); // Replace with your API endpoint
         setAllItems(data);
         setFilteredItems(data.slice(0, itemsPerPage)); // Initially load itemsPerPage items
 
         // Fetch categories
-        const categoryData = await fetchData('http://localhost:3000/api/v1/categories'); // Replace with your API endpoint
+        const categoryData = await fetchData(import.meta.env.VITE_AUTH_API+'/categories'); // Replace with your API endpoint
         setCategories(categoryData);
       } catch (err) {
         setError(err.message);
