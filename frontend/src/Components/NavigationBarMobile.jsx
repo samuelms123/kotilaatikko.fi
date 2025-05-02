@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router';
 import { useUserContext } from '../Hooks/contextHooks';
+import CartIcon from './CartIcon';
 
 
 const NavigationBarMobile = () => {
@@ -14,6 +15,10 @@ const NavigationBarMobile = () => {
 
   return (
     <div>
+      <div className="inline-flex items-center space-x-4">
+        <CartIcon />
+      </div>
+
       <button
         onClick={toggleMenu}
         className="text-[var(--primary-color)] focus:outline-none"

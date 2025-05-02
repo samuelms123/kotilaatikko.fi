@@ -1,6 +1,8 @@
 import React from 'react'
+import { useCart } from '../Contexts/CartContext';
 
 const ItemRow = ({allItems}) => {
+  const { addToCart } = useCart();
   return (
     <>
 
@@ -23,7 +25,7 @@ const ItemRow = ({allItems}) => {
           </p>
         </div>
         <div className="flex flex-col sm:flex-row sm:gap-4 sm:justify-end md:absolute md:bottom-4 md:right-4">
-          <button className="bg-[var(--primary-color)] mb-3 text-white px-4 py-2 rounded hover:bg-opacity-90 hover:scale-105 transition-transform duration-200 font-bold">
+          <button onClick={() => {addToCart(item)}} className="bg-[var(--primary-color)] mb-3 text-white px-4 py-2 rounded hover:bg-opacity-90 hover:scale-105 transition-transform duration-200 font-bold">
             Lisää ostoskoriin
           </button>
           <button className="bg-gray-200 text-gray-800 mb-3 px-4 py-2 rounded hover:bg-gray-300 hover:scale-105 transition-transform duration-200 font-bold">

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useUserContext } from '../Hooks/contextHooks';
+import CartIcon from './CartIcon';
 
 const NavigationBarDesktop = () => {
   const { user } = useUserContext();
@@ -46,7 +47,14 @@ const NavigationBarDesktop = () => {
             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-[var(--primary-color)]"></span>
           </li>
         )}
+        {/* Kinda scuffed cart icon comp placement */}
+        <li>
+          <div className="flex items-center space-x-4">
+            <CartIcon />
+          </div>
+        </li>
       </ul>
+
     </nav>
   )
 }
