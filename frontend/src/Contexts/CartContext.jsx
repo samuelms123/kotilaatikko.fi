@@ -23,6 +23,10 @@ export const CartProvider = ({ children }) => {
     setCartItems(prevItems => prevItems.filter(item => item.id !== id));
   };
 
+  const clearCart = () => {
+    setCartItems([]);
+  };
+
   const updateQuantity = (id, quantity) => {
     if (quantity <= 0) {
       removeFromCart(id);
@@ -47,7 +51,8 @@ export const CartProvider = ({ children }) => {
         updateQuantity,
         cartTotal,
         isCartOpen,
-        setIsCartOpen
+        setIsCartOpen,
+        clearCart
       }}
     >
       {children}

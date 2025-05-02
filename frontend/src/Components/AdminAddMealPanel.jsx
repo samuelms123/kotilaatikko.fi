@@ -109,11 +109,11 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
         ingredients: updatedFormIngredients
       });
 
-      setMessage('Ingredient deleted successfully!');
+      setMessage('Ainesosa poistettu mallikkaasti!');
       setIsError(false);
     } catch (error) {
-      console.error('Error deleting ingredient:', error);
-      setMessage(error.message || 'Failed to delete ingredient');
+      console.error('Virhe poistaessa ainesosaa:', error);
+      setMessage(error.message || 'Ainesosan poisto epäonnistui');
       setIsError(true);
     }
   };
@@ -227,7 +227,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
   return (
     <div className="min-w-1/2 max-w-4xl mx-auto p-6 bg-gray-50 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Add New Food Package</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Lisää uusi ruokapaketti</h2>
 
       {message && (
         <div className={`p-3 mb-6 rounded ${isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
@@ -238,11 +238,11 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Meal Information Section */}
         <div className="p-4 bg-white rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">Meal Information</h3>
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">Ruuan tiedot</h3>
 
           <div className="mb-4">
             <label htmlFor="mealName" className="block text-sm font-medium text-gray-700 mb-1">
-              Meal Name:
+              Ruuan nimi:
             </label>
             <input
               type="text"
@@ -257,7 +257,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
           <div className="mb-4">
             <label htmlFor="mealPrice" className="block text-sm font-medium text-gray-700 mb-1">
-              Price ($):
+              Hinta (€):
             </label>
             <input
               type="number"
@@ -274,7 +274,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
           <div className="mb-4">
             <label htmlFor="mealDescription" className="block text-sm font-medium text-gray-700 mb-1">
-              Description:
+              Kuvaus:
             </label>
             <textarea
               id="mealDescription"
@@ -289,7 +289,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
           <div className="mb-4">
             <label htmlFor="mealImage" className="block text-sm font-medium text-gray-700 mb-1">
-              Meal Image:
+              Ruuan kuva:
             </label>
             <input
               type="file"
@@ -304,11 +304,11 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
         {/* Category Information Section */}
         <div className="p-4 bg-white rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">Category Information</h3>
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">Kategoriatiedot</h3>
 
           <div className="mb-4">
             <label htmlFor="categorySelect" className="block text-sm font-medium text-gray-700 mb-1">
-              Select Existing Category:
+              Valitse olemassa oleva kategoria:
             </label>
             <select
               id="categorySelect"
@@ -317,7 +317,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               disabled={isLoadingCategories}
             >
-              <option value="">-- Select a category --</option>
+              <option value="">-- Valitse kategoria --</option>
               {categories.map(category => (
                 <option key={category.id} value={category.id}>
                   {category.name}
@@ -328,7 +328,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
           <div className="mb-4">
             <label htmlFor="categoryName" className="block text-sm font-medium text-gray-700 mb-1">
-              Or Create New Category Name:
+              Tai luo uusi kategorian nimi:
             </label>
             <input
               type="text"
@@ -342,7 +342,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
           <div className="mb-4">
             <label htmlFor="categoryDescription" className="block text-sm font-medium text-gray-700 mb-1">
-              Category Description:
+              Kategorian kuvaus:
             </label>
             <textarea
               id="categoryDescription"
@@ -358,13 +358,13 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
         {/* Ingredients Section */}
         <div className="p-4 bg-white rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">Ingredients</h3>
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">Ainesosat</h3>
 
           {formData.ingredients.map((ingredient, index) => (
             <div key={index} className="mb-6 p-4 bg-gray-50 rounded-md relative">
               <div className="flex justify-between items-center mb-2">
                 <label htmlFor={`ingredientSelect-${index}`} className="block text-sm font-medium text-gray-700">
-                  Select Existing Ingredient:
+                  Valitse olemassa oleva ainesosa:
                 </label>
                 {ingredient.ingredientId && (
                   <button
@@ -384,17 +384,17 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
                 disabled={isLoadingIngredients}
               >
-                <option value="">-- Select an ingredient --</option>
+                <option value="">-- Valitse ainesosa --</option>
                 {ingredients.map(ing => (
                   <option key={ing.id} value={ing.id}>
-                    {ing.name} (${ing.price})
+                    {ing.name} ({ing.price} €)
                   </option>
                 ))}
               </select>
 
               <div className="mb-4">
                 <label htmlFor={`ingredientName-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
-                  Or Create New Ingredient Name:
+                  Tai lisää uusi ainesosa:
                 </label>
                 <input
                   type="text"
@@ -408,7 +408,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
               <div className="mb-4">
                 <label htmlFor={`ingredientPrice-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
-                  Price ($):
+                  Ainesosan hinta (€):
                 </label>
                 <input
                   type="number"
@@ -424,7 +424,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
               <div className="mb-4">
                 <label htmlFor={`ingredientDescription-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
-                  Description:
+                  Kuvaus:
                 </label>
                 <textarea
                   id={`ingredientDescription-${index}`}
@@ -442,7 +442,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
                   onClick={() => removeIngredientField(index)}
                   className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition-colors"
                 >
-                  Remove Ingredient
+                  Poista ainesosa
                 </button>
               )}
             </div>
@@ -453,7 +453,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
             onClick={addIngredientField}
             className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
           >
-            Add Another Ingredient
+            Lisää uusi ainesosa
           </button>
         </div>
 
@@ -462,7 +462,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
           disabled={isSubmitting}
           className={`w-full py-2 px-4 rounded-md text-white font-medium ${isSubmitting ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'} transition-colors`}
         >
-          {isSubmitting ? 'Adding...' : 'Add Food Package'}
+          {isSubmitting ? 'Lisätään...' : 'Lisää ruokapaketti'}
         </button>
       </form>
     </div>
