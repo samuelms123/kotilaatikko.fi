@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { fetchData } from '../Utils/fetchData';
 
 const AdminAddMealPanel = ({ onMealAdded }) => {
@@ -13,9 +13,110 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
     ingredients: [{ name: '', price: '', description: '' }],
     image: null,
   });
+  const [categories, setCategories] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+  const [isLoadingIngredients, setIsLoadingIngredients] = useState(true);
   const [message, setMessage] = useState('');
   const [isError, setIsError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Fetch categories and ingredients on component mount
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await fetchData(`${import.meta.env.VITE_AUTH_API}/categories`);
+        setCategories(data);
+      } catch (err) {
+        console.error('Error fetching categories:', err);
+      } finally {
+        setIsLoadingCategories(false);
+      }
+    };
+
+    const fetchIngredients = async () => {
+      try {
+        const data = await fetchData(`${import.meta.env.VITE_AUTH_API}/ingredients`);
+        setIngredients(data);
+      } catch (err) {
+        console.error('Error fetching ingredients:', err);
+      } finally {
+        setIsLoadingIngredients(false);
+      }
+    };
+
+    fetchCategories();
+    fetchIngredients();
+  }, []);
+
+  // Update formData when selecting existing category
+  const handleCategorySelect = (e) => {
+    const selectedId = e.target.value;
+    const selectedCategory = categories.find(cat => cat.id == selectedId);
+
+    setFormData({
+      ...formData,
+      categoryId: selectedId,
+      categoryName: selectedCategory ? selectedCategory.name : '',
+      categoryDescription: selectedCategory ? selectedCategory.description : ''
+    });
+  };
+
+  // Handle ingredient selection from dropdown
+  const handleIngredientSelect = (index, e) => {
+    const selectedId = e.target.value;
+    const selectedIngredient = ingredients.find(ing => ing.id == selectedId);
+
+    const updatedIngredients = [...formData.ingredients];
+    updatedIngredients[index] = {
+      ...updatedIngredients[index],
+      ingredientId: selectedId,
+      name: selectedIngredient ? selectedIngredient.name : '',
+      price: selectedIngredient ? selectedIngredient.price : '',
+      description: selectedIngredient ? selectedIngredient.description : ''
+    };
+
+    setFormData({
+      ...formData,
+      ingredients: updatedIngredients
+    });
+  };
+
+  const handleRemoveIngredientFromDB = async (ingredientId, index) => {
+    if (!window.confirm('Are you sure you want to permanently delete this ingredient from the database?')) {
+      return;
+    }
+
+    try {
+      const response = await fetchData(`${import.meta.env.VITE_AUTH_API}/ingredients/${ingredientId}`, {
+        method: 'DELETE'
+      });
+
+      // Success case - no need to check response body for 204
+      const updatedIngredients = ingredients.filter(ing => ing.id !== ingredientId);
+      setIngredients(updatedIngredients);
+
+      const updatedFormIngredients = [...formData.ingredients];
+      updatedFormIngredients[index] = {
+        ingredientId: '',
+        name: '',
+        price: '',
+        description: ''
+      };
+
+      setFormData({
+        ...formData,
+        ingredients: updatedFormIngredients
+      });
+
+      setMessage('Ingredient deleted successfully!');
+      setIsError(false);
+    } catch (error) {
+      console.error('Error deleting ingredient:', error);
+      setMessage(error.message || 'Failed to delete ingredient');
+      setIsError(true);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
@@ -206,8 +307,28 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
           <h3 className="text-lg font-semibold text-gray-700 mb-4">Category Information</h3>
 
           <div className="mb-4">
+            <label htmlFor="categorySelect" className="block text-sm font-medium text-gray-700 mb-1">
+              Select Existing Category:
+            </label>
+            <select
+              id="categorySelect"
+              value={formData.categoryId}
+              onChange={handleCategorySelect}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={isLoadingCategories}
+            >
+              <option value="">-- Select a category --</option>
+              {categories.map(category => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="mb-4">
             <label htmlFor="categoryName" className="block text-sm font-medium text-gray-700 mb-1">
-              Category Name:
+              Or Create New Category Name:
             </label>
             <input
               type="text"
@@ -216,7 +337,6 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
               value={formData.categoryName}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
             />
           </div>
 
@@ -242,9 +362,39 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
           {formData.ingredients.map((ingredient, index) => (
             <div key={index} className="mb-6 p-4 bg-gray-50 rounded-md relative">
+              <div className="flex justify-between items-center mb-2">
+                <label htmlFor={`ingredientSelect-${index}`} className="block text-sm font-medium text-gray-700">
+                  Select Existing Ingredient:
+                </label>
+                {ingredient.ingredientId && (
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveIngredientFromDB(ingredient.ingredientId, index)}
+                    className="px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600 transition-colors"
+                  >
+                    Remove from DB
+                  </button>
+                )}
+              </div>
+
+              <select
+                id={`ingredientSelect-${index}`}
+                value={ingredient.ingredientId || ''}
+                onChange={(e) => handleIngredientSelect(index, e)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+                disabled={isLoadingIngredients}
+              >
+                <option value="">-- Select an ingredient --</option>
+                {ingredients.map(ing => (
+                  <option key={ing.id} value={ing.id}>
+                    {ing.name} (${ing.price})
+                  </option>
+                ))}
+              </select>
+
               <div className="mb-4">
                 <label htmlFor={`ingredientName-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
-                  Ingredient Name:
+                  Or Create New Ingredient Name:
                 </label>
                 <input
                   type="text"
