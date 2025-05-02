@@ -1,16 +1,15 @@
 import React from 'react'
 import { useCart } from '../Contexts/CartContext';
+import { useNavigate } from 'react-router'; // Import useNavigate
 
 const ItemRow = ({allItems}) => {
   const { addToCart } = useCart();
+    const navigate = useNavigate(); // Initialize useNavigate
+
   return (
     <>
 
   {allItems.map((item) => (
-
-    //console log item
-    console.log("itm", item),
-
     <div
       key={item.id}
       className="rounded-lg shadow-md overflow-hidden flex flex-col sm:flex-row relative bg-gray-100 hover:scale-101 transition-transform duration-300"
@@ -32,9 +31,12 @@ const ItemRow = ({allItems}) => {
           <button onClick={() => {addToCart(item)}} className="bg-[var(--primary-color)] mb-3 text-white px-4 py-2 rounded hover:bg-opacity-90 hover:scale-105 transition-transform duration-200 font-bold">
             Lisää ostoskoriin
           </button>
-          <button className="bg-gray-200 text-gray-800 mb-3 px-4 py-2 rounded hover:bg-gray-300 hover:scale-105 transition-transform duration-200 font-bold">
-            Lue lisää...
-          </button>
+          <button
+                    onClick={() => navigate(`/product/${item.id}`)} // Navigate to product page
+                    className="bg-gray-200 text-gray-800 mb-3 px-4 py-2 rounded hover:bg-gray-300 hover:scale-105 transition-transform duration-200 font-bold"
+                  >
+                    Lue lisää...
+                  </button>
         </div>
       </div>
             </div>

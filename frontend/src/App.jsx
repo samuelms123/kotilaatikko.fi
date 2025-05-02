@@ -14,6 +14,8 @@ import Shop from './Views/Shop';
 import { CartProvider } from './Contexts/CartContext';
 import CartDropdown from './Components/CartDropdown';
 import Checkout from './Views/Checkout';
+import Product from './Views/Product';
+import NotFound from './Views/NotFound';
 
 function App() {
   return (
@@ -25,6 +27,7 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<Home />} />
               <Route path="/shop" element={<Shop />} />
+              <Route path="/product/:id" element={<Product />} />
               <Route path="/profile" element={
                 <ProtectedRoute>
                   <Profile />
@@ -34,6 +37,7 @@ function App() {
               <Route path="/register" element={<RegisterForm />} />
               <Route path="/logout" element={<Logout />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path='/*' element={<NotFound/>} />
             </Route>
           </Routes>
         </CartProvider>
