@@ -29,7 +29,7 @@ const NavigationBarMobile = () => {
             </li>
 
             <li className="font-bold text-[3vh] group text-[var(--black-color)] py-2">
-              <Link to="/shop" onClick={toggleMenu}>Tilaa</Link>
+              <Link to="/shop" onClick={toggleMenu}>Kauppa</Link>
             </li>
             {isLoggedIn && (
             <li className="font-bold text-[3vh] group text-[var(--black-color)] py-2">

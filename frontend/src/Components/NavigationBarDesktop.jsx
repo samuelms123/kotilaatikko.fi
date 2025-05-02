@@ -13,7 +13,7 @@ const NavigationBarDesktop = () => {
           <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-[var(--primary-color)]"></span>
         </li>
         <li className='font-bold text-m group text-[var(--black-color)] transition duration-300'>
-          <Link className='hover:text-[var(--primary-color)]' to="/shop">Tilaa</Link>
+          <Link className='hover:text-[var(--primary-color)]' to="/shop">Kauppa</Link>
           <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-[var(--primary-color)]"></span>
         </li>
 

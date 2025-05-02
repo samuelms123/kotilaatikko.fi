@@ -37,7 +37,10 @@ const Shop = () => {
 
     // Filter by category
     if (selectedCategory) {
-      filtered = filtered.filter((item) => item.category === selectedCategory)
+      filtered = allItems.filter((item) => {item.category === selectedCategory
+        console.log(item.category + ' == ' + selectedCategory);
+        return item.category === selectedCategory
+      })
     }
 
     // Apply pagination (limit items per page)
