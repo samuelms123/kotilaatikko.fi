@@ -10,10 +10,16 @@ const ItemRow = ({allItems}) => {
     <>
 
   {allItems.map((item) => (
+
+    console.log("img", item.image),
+
     <div
       key={item.id}
       className="rounded-lg shadow-md overflow-hidden flex flex-col sm:flex-row relative bg-gray-100 hover:scale-101 transition-transform duration-300"
     >
+
+
+
       <img
         src={item?.image}
         alt={item.name}
