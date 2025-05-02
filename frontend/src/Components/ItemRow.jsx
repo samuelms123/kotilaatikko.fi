@@ -7,21 +7,25 @@ const ItemRow = ({allItems}) => {
     <>
 
   {allItems.map((item) => (
+
+    //console log item
+    console.log("itm", item),
+
     <div
       key={item.id}
       className="rounded-lg shadow-md overflow-hidden flex flex-col sm:flex-row relative bg-gray-100 hover:scale-101 transition-transform duration-300"
     >
       <img
-        src={item.image}
+        src={item?.image}
         alt={item.name}
         className="w-full sm:w-1/3 h-[300px] object-cover"
       />
       <div className="p-6 flex flex-col justify-between flex-grow relative">
         <div className="mb-4">
-          <h3 className="text-2xl font-[header] mb-2">{allItems[0].name}</h3>
-          <p className="text-gray-600 mb-4">{allItems[0].description}</p>
+          <h3 className="text-2xl font-[header] mb-2">{item.name}</h3>
+          <p className="text-gray-600 mb-4">{item.description}</p>
           <p className="text-[var(--primary-color)] font-bold text-2xl">
-            {allItems[0].price} &#8364;
+            {item.price} &#8364;
           </p>
         </div>
         <div className="flex flex-col sm:flex-row sm:gap-4 sm:justify-end md:absolute md:bottom-4 md:right-4">

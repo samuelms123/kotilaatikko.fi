@@ -2,7 +2,12 @@ import promisePool from '../../utils/database.js';
 
 const getAllMeals = async () => {
   try {
-    const [rows] = await promisePool.execute('SELECT * FROM meals');
+    const [rows] = await promisePool.execute(`
+      SELECT m.*, c.name AS category
+      FROM meals m
+      JOIN meals_categories mc ON m.id = mc.meal_id
+      JOIN categories c ON mc.category_id = c.id
+      `);
     return rows;
   } catch (error) {
     console.error('Error fetching meals:', error.message);
