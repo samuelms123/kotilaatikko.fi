@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import UserProfile from '../Components/UserProfile';
 import AdminAddMealPanel from '../Components/AdminAddMealPanel';
-import { useUserContext } from '../Hooks/contextHooks';
+import {useUserContext} from '../Hooks/contextHooks';
 import MealPackagesList from '../Components/MealPackagesList';
+import {AdminAddNewsletter} from '../Components/adminPanel/AdminAddNewsletter';
+import {NewslettersList} from '../Components/adminPanel/NewslettersList';
 import { fetchData } from '../Utils/fetchData';
 import AdminOrderTracking from '../Components/AdminOrderTracking';
 
 const Profile = () => {
-  const { user } = useUserContext();
+  const {user} = useUserContext();
   const [meals, setMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('mealPackages');
+  const [newsletters, setNewsletters] = useState([]);
 
   const fetchMeals = async () => {
     try {
@@ -24,8 +27,29 @@ const Profile = () => {
     }
   };
 
+  const fetchNewsletters = async () => {
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_AUTH_API + '/newsletter',
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        },
+      );
+      if (!response.ok) {
+        throw new Error('Failed to fetch newsletters');
+      }
+      const data = await response.json();
+      setNewsletters(data);
+    } catch (error) {
+      console.error('Error fetching newsletters:', error);
+    }
+  };
+
   useEffect(() => {
-    fetchMeals();
+    fetchMeals(), fetchNewsletters();
   }, []);
 
   const handleMealAdded = () => {
@@ -33,7 +57,7 @@ const Profile = () => {
   };
 
   const handleMealDeleted = (id) => {
-    setMeals(prevMeals => prevMeals.filter(meal => meal.id !== id));
+    setMeals((prevMeals) => prevMeals.filter((meal) => meal.id !== id));
   };
 
   const renderTabContent = () => {
@@ -64,9 +88,18 @@ const Profile = () => {
       case 'newsletter':
         return (
           <div className="p-6 bg-white rounded-lg shadow">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Uutiskirje</h2>
-            <p className="text-gray-600">Newsletter management functionality will be implemented here.</p>
-            {/* You can add your newsletter components here later */}
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+              Uutiskirje
+            </h2>
+            <div className="mb-4">
+              <AdminAddNewsletter onNewsletterAdded={fetchNewsletters} />
+            </div>
+            <div>
+              <NewslettersList
+                newsletters={newsletters}
+                fetchNewsletters={fetchNewsletters}
+              />
+            </div>
           </div>
         );
       default:
@@ -103,9 +136,7 @@ const Profile = () => {
           </div>
 
           {/* Tab Content */}
-          <div>
-            {renderTabContent()}
-          </div>
+          <div>{renderTabContent()}</div>
         </div>
       ) : (
         <UserProfile />
