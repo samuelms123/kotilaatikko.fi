@@ -17,7 +17,7 @@ const Product = () => {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const data = await fetchData(`http://localhost:3000/api/v1/meals/${id}`); // Fetch item by ID
+        const data = await fetchData(`${import.meta.env.VITE_AUTH_API}/meals/${id}`); // Fetch item by ID
         setItem(data);
       } catch (err) {
         setError(err.message);
