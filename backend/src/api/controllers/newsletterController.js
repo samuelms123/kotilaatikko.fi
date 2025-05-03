@@ -43,8 +43,14 @@ const handleAddGuestSubscription = async (req, res) => {
 };
 
 const handleAddNewsletter = async (req, res) => {
+  const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+  const newsLetter = {
+    subject: req.body.subject,
+    content: req.body.content,
+    image: imagePath,
+  };
+  console.log(newsLetter);
   try {
-    const newsLetter = req.body;
     const result = await addNewsletter(newsLetter);
     res.status(201).json({message: 'Newsletter created', result});
   } catch (error) {
@@ -56,6 +62,7 @@ const handleAddNewsletter = async (req, res) => {
 const handleGetNewsletters = async (req, res) => {
   try {
     const result = await getNewsletters();
+    console.log(result);
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({error: error.message});

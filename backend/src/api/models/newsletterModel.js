@@ -12,10 +12,9 @@ const addGuestSubscriber = async (email) => {
 };
 
 const addNewsletter = async (newsLetter) => {
-  const {subject, content} = newsLetter;
-  const sql = `INSERT INTO newsletters (subject, content) VALUES (?, ?)`;
+  const sql = `INSERT INTO newsletters (subject, content, image) VALUES (?, ?, ?)`;
 
-  const params = [subject, content];
+  const params = [newsLetter.subject, newsLetter.content, newsLetter.image];
 
   try {
     const [rows] = await promisePool.execute(sql, params);

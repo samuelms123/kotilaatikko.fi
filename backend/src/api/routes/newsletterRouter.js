@@ -8,6 +8,7 @@ import {
   handleGetSubscribers,
   handleUserSubscription,
 } from '../controllers/newsletterController.js';
+import {uploadSingleImage} from '../../utils/fileUpload.js';
 
 const newsletterRouter = express.Router();
 
@@ -19,7 +20,12 @@ newsletterRouter
 
 newsletterRouter
   .route('/modify')
-  .post(authenticateToken, adminCheck, handleAddNewsletter); // Add newsletter
+  .post(
+    authenticateToken,
+    adminCheck,
+    uploadSingleImage('image'),
+    handleAddNewsletter,
+  ); // Add newsletter
 
 newsletterRouter
   .route('/modify/:id')
