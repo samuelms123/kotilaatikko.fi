@@ -80,7 +80,7 @@ const NewsLetter = () => {
           <>
             <button
               type="submit"
-              className="sm:col-span-1 col-span-1 bg-[var(--primary-color)] text-[var(--white-color)] rounded-3xl hover:bg-[var(--grey-color)] transition duration-300 px-7 py-3 w-[50dvw] text-center"
+              className="sm:col-span-1 col-span-1 bg-[var(--primary-color)] text-[var(--white-color)] rounded-3xl hover:bg-[var(--grey-color)] transition duration-300 px-7 py-3 w-screen max-w-[300px] text-center"
             >
               {user.subscribed ? 'Peru uutiskirje' : 'Tilaa uutiskirje'}
             </button>
