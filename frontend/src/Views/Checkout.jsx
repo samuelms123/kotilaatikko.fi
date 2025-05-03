@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useCart } from '../Contexts/CartContext';
 import { useUser } from '../Hooks/apiHooks'; // Import your user hook
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
+import { createKlarnaOrder } from '../Utils/klarna';
+import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
   const { cartItems, cartTotal} = useCart();
@@ -9,6 +11,9 @@ const Checkout = () => {
   const [user, setUser] = useState(null);
   const [loadingUser, setLoadingUser] = useState(false);
   const [userError, setUserError] = useState(null);
+
+  const navigate = useNavigate();
+
 
   const [customerInfo, setCustomerInfo] = useState({
     firstName: '',
@@ -35,43 +40,42 @@ const Checkout = () => {
     setIsProcessing(true);
     setError(null);
 
+    const requiredFields = ['firstName', 'lastName', 'email', 'address', 'postalCode', 'city', 'country'];
+    const missingFields = requiredFields.filter(field => !customerInfo[field]);
+
+    if (missingFields.length > 0) {
+      throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+    }
+
+
+
     try {
-      // Create Klarna order (mock API call)
-      const klarnaResponse = await mockKlarnaCreateOrder({
+
+      console.log('Sending to Klarna:', {
         items: cartItems,
         total: cartTotal,
         customer: customerInfo
       });
 
-      if (klarnaResponse.success) {
-        // Redirect to Klarna's mock payment page
-        window.location.href = klarnaResponse.redirect_url;
-        // In a real app, you would clear cart after successful payment
-        // clearCart();
-      } else {
-        throw new Error(klarnaResponse.message || 'Payment processing failed');
-      }
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setIsProcessing(false);
+      const klarnaResponse = await createKlarnaOrder({
+      items: cartItems,
+      total: cartTotal,
+      customer: customerInfo
+    });
+
+    if (!klarnaResponse.html_snippet && !klarnaResponse.redirect_url) {
+      throw new Error('No valid payment URL received from Klarna');
     }
-  };
 
-  // Mock Klarna API function
-  const mockKlarnaCreateOrder = async (orderData) => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // This is where you would make the real Klarna API call in production
-    // For testing, we'll return a mock response
-    return {
-      success: true,
-      order_id: `mock-${Math.random().toString(36).substr(2, 9)}`,
-      redirect_url: 'https://playground.klarna.com/checkout/v3/order/mock-order',
-      message: 'Mock payment initiated successfully'
-    };
-  };
+    // Redirect to Klarna's hosted payment page
+    navigate(klarnaResponse.html_snippet || klarnaResponse.redirect_url);
+  } catch (err) {
+    setError(`Payment error: ${err.message}`);
+    console.error('Klarna error:', err);
+  } finally {
+    setIsProcessing(false);
+  }
+};
 
   if (cartItems.length === 0) {
     return (
@@ -217,12 +221,13 @@ const Checkout = () => {
                 value={customerInfo.country}
                 onChange={handleInputChange}
                 className="w-full p-2 border rounded"
+                onClick={() => {console.log(customerInfo.country)}}
                 required
               >
-                <option value="Finland">Finland</option>
-                <option value="Sweden">Sweden</option>
-                <option value="Norway">Norway</option>
-                <option value="Denmark">Denmark</option>
+                <option value="FI">Finland</option>
+                <option value="SE">Sweden</option>
+                <option value="NO">Norway</option>
+                <option value="DK">Denmark</option>
               </select>
             </div>
 
