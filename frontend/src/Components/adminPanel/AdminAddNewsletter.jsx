@@ -9,9 +9,6 @@ const AdminAddNewsletter = ({onNewsletterAdded}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (onNewsletterAdded) {
-      onNewsletterAdded(); // Refresh the list
-    }
 
     const formDataToSend = new FormData();
     formDataToSend.append('subject', formData.subject);
@@ -39,6 +36,9 @@ const AdminAddNewsletter = ({onNewsletterAdded}) => {
       }
       alert('Uutiskirje lisätty onnistuneesti!');
       setFormData({subject: '', content: '', image: null});
+      if (onNewsletterAdded) {
+        onNewsletterAdded();
+      }
     } catch (error) {
       console.error(error);
       alert('Virhe uutiskirjeen lisäämisessä');
