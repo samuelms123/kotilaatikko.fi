@@ -9,7 +9,7 @@ const AdminOrderTracking = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const data = await fetchData('http://localhost:3000/api/v1/orders'); // Replace with your API endpoint
+        const data = await fetchData(import.meta.env.VITE_AUTH_API + '/orders'); // Replace with your API endpoint
         setOrders(data);
       } catch (err) {
         setError(err.message);
@@ -25,7 +25,7 @@ const AdminOrderTracking = () => {
     if (confirmDelete) {
       try {
         // Replace with your API endpoint for deleting an order
-        await fetch(`http://localhost:3000/api/v1/orders/${orderId}`, {
+        await fetch(`${import.meta.env.VITE_AUTH_API}/orders/${orderId}`, {
           method: 'DELETE',
         });
         // Remove the deleted order from the state
