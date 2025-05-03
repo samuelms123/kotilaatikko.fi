@@ -4,6 +4,7 @@ import AdminAddMealPanel from '../Components/AdminAddMealPanel';
 import { useUserContext } from '../Hooks/contextHooks';
 import MealPackagesList from '../Components/MealPackagesList';
 import { fetchData } from '../Utils/fetchData';
+import AdminOrderTracking from '../Components/AdminOrderTracking';
 
 const Profile = () => {
   const { user } = useUserContext();
@@ -56,9 +57,8 @@ const Profile = () => {
       case 'orderTracking':
         return (
           <div className="p-6 bg-white rounded-lg shadow">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Tilaukset</h2>
-            <p className="text-gray-600">Order tracking functionality will be implemented here.</p>
-            {/* You can add your order tracking components here later */}
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Tilauksien hallinnointi</h2>
+            <AdminOrderTracking />
           </div>
         );
       case 'newsletter':
@@ -83,19 +83,19 @@ const Profile = () => {
             <nav className="flex space-x-8">
               <button
                 onClick={() => setActiveTab('mealPackages')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'mealPackages' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'mealPackages' ? 'border-[var(--primary-color)] text-[var(--primary-color)]' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
               >
                 Ruokapaketit
               </button>
               <button
                 onClick={() => setActiveTab('orderTracking')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'orderTracking' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'orderTracking' ? 'border-[var(--primary-color)] text-[var(--primary-color)]' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
               >
                 Tilaukset
               </button>
               <button
                 onClick={() => setActiveTab('newsletter')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'newsletter' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${activeTab === 'newsletter' ? 'border-[var(--primary-color)] text-[var(--primary-color)]' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
               >
                 Uutiskirje
               </button>
