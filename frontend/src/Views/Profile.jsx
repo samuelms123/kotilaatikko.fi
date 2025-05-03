@@ -5,7 +5,7 @@ import {useUserContext} from '../Hooks/contextHooks';
 import MealPackagesList from '../Components/MealPackagesList';
 import {AdminAddNewsletter} from '../Components/adminPanel/AdminAddNewsletter';
 import {NewslettersList} from '../Components/adminPanel/NewslettersList';
-import { fetchData } from '../Utils/fetchData';
+import {fetchData} from '../Utils/fetchData';
 import AdminOrderTracking from '../Components/AdminOrderTracking';
 
 const Profile = () => {
@@ -81,7 +81,9 @@ const Profile = () => {
       case 'orderTracking':
         return (
           <div className="p-6 bg-white rounded-lg shadow">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Tilauksien hallinnointi</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+              Tilauksien hallinnointi
+            </h2>
             <AdminOrderTracking />
           </div>
         );
