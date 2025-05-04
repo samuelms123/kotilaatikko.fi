@@ -3,7 +3,6 @@ import {useCart} from '../Contexts/CartContext';
 import {useUser} from '../Hooks/apiHooks'; // Import your user hook
 import {Link} from 'react-router-dom';
 import {createKlarnaOrder} from '../Utils/klarna';
-import {useNavigate} from 'react-router-dom';
 
 const Checkout = () => {
   const {cartItems, cartTotal} = useCart();
@@ -13,7 +12,6 @@ const Checkout = () => {
   const [userError, setUserError] = useState(null);
   const [klarnaSnippet, setKlarnaSnippet] = useState('');
 
-  const navigate = useNavigate();
 
   const [customerInfo, setCustomerInfo] = useState({
     firstName: '',
