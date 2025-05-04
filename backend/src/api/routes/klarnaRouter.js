@@ -86,6 +86,7 @@ klarnaRouter.post('/orders', async (req, res) => {
 
     // Return Klarna response to client
     res.json(response.data);
+    console.log('KLARNA DATA', response.data);
   } catch (error) {
     console.error('Klarna API error:', error.response?.data || error.message);
     res.status(error.response?.status || 500).json({
