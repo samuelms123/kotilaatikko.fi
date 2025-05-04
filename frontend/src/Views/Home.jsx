@@ -30,11 +30,19 @@ const Home = () => {
     <>
       <Hero />
 
-      <h1 className="font-bold text-[3.5vh] m-auto text-center">HERKULLISTA MAKAROONILAATIKKOA</h1>
+      <h1 className="mt-5 font-bold text-[5.5vh] m-auto text-center text-shadow-2xs">Tervetuloa kotilaatikkoon!</h1>
 
-      <div className="p-8">
+      <div className="p-5">
 
-      <h1 className="text-[3vh] font-bold text-center mb-8">Featured Cats</h1>
+      <div className="p-5 items-center justify-center">
+        <h1 className="text-[3vh] font-bold max-w-4xl mx-auto mb-8">Tuoreena pakatut ainesosat suoraan kotiisi, kokkaamista vaille valmista.</h1>
+
+        <p className=" max-w-4xl mx-auto mb-8">
+          Kotilaatikon ruokapakettimme ovat valmiiksi mietittyjä ateriakokonaisuuksia.
+          Jokaiseen pakettiin kuuluu kaikki ruuan laittoon tarvittavat ainesosat ja reseptit.
+          Voit siis vaikka tilata koko viikon ruuat valmiiksi ainesosina ja kokata joka päivä jotain uutta!
+        </p>
+      </div>
 
 
       <CarouselInfoBuyOptions items={allItems} />

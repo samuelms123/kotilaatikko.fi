@@ -60,8 +60,8 @@ const CarouselInfoBuyOptions = ({ items }) => {
       </button>
 
       <div className="flex justify-end">
-        <button className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] hover:bg-[var(--grey-color)] py-4 px-6 ml-1 mr-1 " onClick={() => {console.log("info pressed")}}>Laatikko information</button>
-        <button className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] hover:bg-[var(--grey-color)] py-4 px-6 ml-1 mr-1 " onClick={() => {console.log("buy pressed")}}>Buy this Kotilaatikko</button>
+        <button className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] hover:bg-[var(--grey-color)] py-4 px-6 ml-1 mr-1 " onClick={() => {console.log("info pressed")}}>Lisää ruuasta</button>
+        <button className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] hover:bg-[var(--grey-color)] py-4 px-6 ml-1 mr-1 " onClick={() => {console.log("buy pressed")}}>Tilaa kotiin!</button>
       </div>
 
       {/* Dots indicator */}
