@@ -70,4 +70,10 @@ const getUserById = async (id) => {
   return result;
 };
 
-export {addUser, getEmail, updateUserSubscription, getUserById};
+const deleteUser = async (id) => {
+  const sql = `DELETE FROM users WHERE id = ?`;
+  const [result] = await promisePool.execute(sql, [id]);
+  return result;
+};
+
+export {addUser, getEmail, updateUserSubscription, getUserById, deleteUser};

@@ -104,6 +104,10 @@ const handleGetMealsByCategoryId = async (req, res) => {
 const handleGetMealDetails = async (req, res) => {
   try {
     const mealDetails = await getMealDetails(req.params.id);
+    if (!mealDetails) {
+      return res.status(404).json({message: 'Meal not found'});
+    }
+
     res.status(200).json(mealDetails);
   } catch (error) {
     console.error(error);
