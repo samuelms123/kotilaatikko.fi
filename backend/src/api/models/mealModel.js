@@ -25,7 +25,7 @@ const getMealDetails = async (id) => {
     const meal = mealRows[0];
 
     if (!meal) {
-      throw new Error('Meal not found');
+      return null;
     }
 
     // Get category
@@ -225,7 +225,7 @@ const getMealsByCategoryId = async (categoryId) => {
       throw new Error('Meals not found');
     }
 
-    return mealRows
+    return mealRows;
   } catch (error) {
     console.error('Error unlinking categories:', error.message);
     throw new Error(`Database error: ${error.message}`);

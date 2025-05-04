@@ -1,4 +1,4 @@
-import {addUser, getEmail} from '../models/userModel.js';
+import {addUser, deleteUser, getEmail} from '../models/userModel.js';
 import bcrypt from 'bcrypt';
 
 const handleEmailAvailable = async (req, res) => {
@@ -18,11 +18,24 @@ const handlePostUser = async (req, res) => {
   req.body.password = bcrypt.hashSync(req.body.password, saltRounds);
   const result = await addUser(req.body);
   if (result) {
-    res.status(201);
-    res.json({message: 'New user added.', result});
+    res.status(201).json({message: 'New user added.', result});
   } else {
     res.sendStatus(400);
   }
 };
 
-export {handlePostUser, handleEmailAvailable};
+const handleDeleteUser = async (req, res) => {
+  const {id} = req.params;
+  try {
+    const result = await deleteUser(id);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({message: 'User not found'});
+    }
+    res.status(200).json({message: 'User deleted successfully'});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({message: 'Failed to delete user'});
+  }
+};
+
+export {handlePostUser, handleEmailAvailable, handleDeleteUser};
