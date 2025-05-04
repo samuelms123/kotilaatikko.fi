@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { fetchData } from "../Utils/fetchData";
+import React, {useState} from 'react';
+import {fetchData} from '../Utils/fetchData';
 
-const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
+const MealPackagesList = ({meals, isLoading, error, onMealDeleted}) => {
   const [selectedMeal, setSelectedMeal] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -12,7 +12,10 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
 
     try {
       await fetchData(`${import.meta.env.VITE_AUTH_API}/meals/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
       });
 
       if (onMealDeleted) {
@@ -29,7 +32,9 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
 
   const handleViewDetails = async (id) => {
     try {
-      const mealDetails = await fetchData(`${import.meta.env.VITE_AUTH_API}/meals/${id}`);
+      const mealDetails = await fetchData(
+        `${import.meta.env.VITE_AUTH_API}/meals/${id}`,
+      );
       setSelectedMeal(mealDetails);
       setIsDrawerOpen(true);
     } catch (err) {
@@ -68,14 +73,21 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
 
   return (
     <div className="container mx-auto px-4 py-8 relative">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Tietokannan ruuat</h1>
+      <h1 className="text-3xl font-bold text-gray-800 mb-8">
+        Tietokannan ruuat
+      </h1>
 
       <div className="w-full grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
         {meals.map((meal) => (
-          <div key={meal.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+          <div
+            key={meal.id}
+            className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+          >
             <div className="p-6">
               <div className="flex justify-between items-start mb-4">
-                <h2 className="text-xl font-semibold text-gray-800">{meal.name}</h2>
+                <h2 className="text-xl font-semibold text-gray-800">
+                  {meal.name}
+                </h2>
                 <span className="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded">
                   {Number(meal.price).toFixed(2)} €
                 </span>
@@ -103,7 +115,9 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
       </div>
 
       {/* Drawer Component */}
-      <div className={`fixed inset-0 z-50 overflow-hidden transition-all duration-300 ease-in-out ${isDrawerOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
+      <div
+        className={`fixed inset-0 z-50 overflow-hidden transition-all duration-300 ease-in-out ${isDrawerOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+      >
         {/* Backdrop */}
         <div
           className="absolute inset-0 bg-black/60 transition-opacity"
@@ -111,7 +125,9 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
         ></div>
 
         {/* Drawer Panel */}
-        <div className={`absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl transition-transform duration-300 ease-in-out ${isDrawerOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div
+          className={`absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-xl transition-transform duration-300 ease-in-out ${isDrawerOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        >
           <div className="flex flex-col h-full">
             {/* Drawer Header */}
             <div className="flex items-center justify-between p-4 border-b">
@@ -122,8 +138,18 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
                 onClick={closeDrawer}
                 className="text-gray-500 hover:text-gray-700"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path>
                 </svg>
               </button>
             </div>
@@ -133,17 +159,33 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
               {selectedMeal && (
                 <div className="space-y-4">
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Perustiedot</h3>
-                    <p className="text-gray-600"><span className="font-medium">Hinta:</span> {selectedMeal.price} €</p>
-                    <p className="text-gray-600"><span className="font-medium">Kuvaus:</span> {selectedMeal.description}</p>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                      Perustiedot
+                    </h3>
+                    <p className="text-gray-600">
+                      <span className="font-medium">Hinta:</span>{' '}
+                      {selectedMeal.price} €
+                    </p>
+                    <p className="text-gray-600">
+                      <span className="font-medium">Kuvaus:</span>{' '}
+                      {selectedMeal.description}
+                    </p>
                   </div>
 
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Kategoria</h3>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                      Kategoria
+                    </h3>
                     {selectedMeal.category ? (
                       <div>
-                        <p className="text-gray-600"><span className="font-medium">Nimi:</span> {selectedMeal.category.name}</p>
-                        <p className="text-gray-600"><span className="font-medium">Kuvaus:</span> {selectedMeal.category.description}</p>
+                        <p className="text-gray-600">
+                          <span className="font-medium">Nimi:</span>{' '}
+                          {selectedMeal.category.name}
+                        </p>
+                        <p className="text-gray-600">
+                          <span className="font-medium">Kuvaus:</span>{' '}
+                          {selectedMeal.category.description}
+                        </p>
                       </div>
                     ) : (
                       <p className="text-gray-500">No category assigned</p>
@@ -151,13 +193,22 @@ const MealPackagesList = ({ meals, isLoading, error, onMealDeleted }) => {
                   </div>
 
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Ingredients</h3>
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                      Ingredients
+                    </h3>
                     {selectedMeal.ingredients?.length > 0 ? (
                       <ul className="space-y-2">
                         {selectedMeal.ingredients.map((ingredient, index) => (
-                          <li key={index} className="border-b border-gray-200 pb-2 last:border-0">
-                            <p className="font-medium text-gray-800">{ingredient.name}</p>
-                            <p className="text-gray-600">{ingredient.price} € - {ingredient.description}</p>
+                          <li
+                            key={index}
+                            className="border-b border-gray-200 pb-2 last:border-0"
+                          >
+                            <p className="font-medium text-gray-800">
+                              {ingredient.name}
+                            </p>
+                            <p className="text-gray-600">
+                              {ingredient.price} € - {ingredient.description}
+                            </p>
                           </li>
                         ))}
                       </ul>

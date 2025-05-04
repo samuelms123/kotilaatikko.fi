@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { fetchData } from '../Utils/fetchData';
+import React, {useEffect, useState} from 'react';
+import {fetchData} from '../Utils/fetchData';
 
-const AdminAddMealPanel = ({ onMealAdded }) => {
-
+const AdminAddMealPanel = ({onMealAdded}) => {
   // State to manage form data
   const [formData, setFormData] = useState({
     mealName: '',
@@ -10,7 +9,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
     mealDescription: '',
     categoryName: '',
     categoryDescription: '',
-    ingredients: [{ name: '', price: '', description: '' }],
+    ingredients: [{name: '', price: '', description: ''}],
     image: null,
   });
   const [categories, setCategories] = useState([]);
@@ -25,7 +24,9 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const data = await fetchData(`${import.meta.env.VITE_AUTH_API}/categories`);
+        const data = await fetchData(
+          `${import.meta.env.VITE_AUTH_API}/categories`,
+        );
         setCategories(data);
       } catch (err) {
         console.error('Error fetching categories:', err);
@@ -36,7 +37,9 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
     const fetchIngredients = async () => {
       try {
-        const data = await fetchData(`${import.meta.env.VITE_AUTH_API}/ingredients`);
+        const data = await fetchData(
+          `${import.meta.env.VITE_AUTH_API}/ingredients`,
+        );
         setIngredients(data);
       } catch (err) {
         console.error('Error fetching ingredients:', err);
@@ -52,20 +55,20 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
   // Update formData when selecting existing category
   const handleCategorySelect = (e) => {
     const selectedId = e.target.value;
-    const selectedCategory = categories.find(cat => cat.id == selectedId);
+    const selectedCategory = categories.find((cat) => cat.id == selectedId);
 
     setFormData({
       ...formData,
       categoryId: selectedId,
       categoryName: selectedCategory ? selectedCategory.name : '',
-      categoryDescription: selectedCategory ? selectedCategory.description : ''
+      categoryDescription: selectedCategory ? selectedCategory.description : '',
     });
   };
 
   // Handle ingredient selection from dropdown
   const handleIngredientSelect = (index, e) => {
     const selectedId = e.target.value;
-    const selectedIngredient = ingredients.find(ing => ing.id == selectedId);
+    const selectedIngredient = ingredients.find((ing) => ing.id == selectedId);
 
     const updatedIngredients = [...formData.ingredients];
     updatedIngredients[index] = {
@@ -73,27 +76,37 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
       ingredientId: selectedId,
       name: selectedIngredient ? selectedIngredient.name : '',
       price: selectedIngredient ? selectedIngredient.price : '',
-      description: selectedIngredient ? selectedIngredient.description : ''
+      description: selectedIngredient ? selectedIngredient.description : '',
     };
 
     setFormData({
       ...formData,
-      ingredients: updatedIngredients
+      ingredients: updatedIngredients,
     });
   };
 
   const handleRemoveIngredientFromDB = async (ingredientId, index) => {
-    if (!window.confirm('Are you sure you want to permanently delete this ingredient from the database?')) {
+    if (
+      !window.confirm(
+        'Are you sure you want to permanently delete this ingredient from the database?',
+      )
+    ) {
       return;
     }
 
     try {
-      const response = await fetchData(`${import.meta.env.VITE_AUTH_API}/ingredients/${ingredientId}`, {
-        method: 'DELETE'
-      });
+      const response = await fetchData(
+        `${import.meta.env.VITE_AUTH_API}/ingredients/${ingredientId}`,
+        {
+          method: 'DELETE',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      );
 
       // Success case - no need to check response body for 204
-      const updatedIngredients = ingredients.filter(ing => ing.id !== ingredientId);
+      const updatedIngredients = ingredients.filter(
+        (ing) => ing.id !== ingredientId,
+      );
       setIngredients(updatedIngredients);
 
       const updatedFormIngredients = [...formData.ingredients];
@@ -101,12 +114,12 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
         ingredientId: '',
         name: '',
         price: '',
-        description: ''
+        description: '',
       };
 
       setFormData({
         ...formData,
-        ingredients: updatedFormIngredients
+        ingredients: updatedFormIngredients,
       });
 
       setMessage('Ainesosa poistettu mallikkaasti!');
@@ -119,35 +132,38 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value, files } = e.target;
+    const {name, value, files} = e.target;
 
     // Special handling for file input
     if (name === 'image' && files) {
       setFormData({
         ...formData,
-        [name]: files[0] // Store the File object
+        [name]: files[0], // Store the File object
       });
     } else {
       setFormData({
         ...formData,
-        [name]: value
+        [name]: value,
       });
     }
   };
   const handleIngredientChange = (index, e) => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
     const ingredients = [...formData.ingredients];
     ingredients[index][name] = value;
     setFormData({
       ...formData,
-      ingredients
+      ingredients,
     });
   };
 
   const addIngredientField = () => {
     setFormData({
       ...formData,
-      ingredients: [...formData.ingredients, { name: '', price: '', description: '' }]
+      ingredients: [
+        ...formData.ingredients,
+        {name: '', price: '', description: ''},
+      ],
     });
   };
 
@@ -156,7 +172,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
     ingredients.splice(index, 1);
     setFormData({
       ...formData,
-      ingredients
+      ingredients,
     });
   };
 
@@ -167,7 +183,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
     setIsError(false);
 
     try {
-        // Create FormData object
+      // Create FormData object
       const formDataToSend = new FormData();
 
       // Append all fields to FormData
@@ -175,7 +191,10 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
       formDataToSend.append('mealPrice', formData.mealPrice);
       formDataToSend.append('mealDescription', formData.mealDescription);
       formDataToSend.append('categoryName', formData.categoryName);
-      formDataToSend.append('categoryDescription', formData.categoryDescription);
+      formDataToSend.append(
+        'categoryDescription',
+        formData.categoryDescription,
+      );
 
       // Append image if it exists
       if (formData.image) {
@@ -184,21 +203,35 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
       // Append ingredients
       formData.ingredients
-        .filter(ing => ing.name.trim() !== '' || ing.price !== '' || ing.description.trim() !== '')
+        .filter(
+          (ing) =>
+            ing.name.trim() !== '' ||
+            ing.price !== '' ||
+            ing.description.trim() !== '',
+        )
         .forEach((ingredient, index) => {
           formDataToSend.append(`ingredients[${index}][name]`, ingredient.name);
-          formDataToSend.append(`ingredients[${index}][price]`, ingredient.price);
-          formDataToSend.append(`ingredients[${index}][description]`, ingredient.description);
+          formDataToSend.append(
+            `ingredients[${index}][price]`,
+            ingredient.price,
+          );
+          formDataToSend.append(
+            `ingredients[${index}][description]`,
+            ingredient.description,
+          );
         });
 
-      const response = await fetchData(import.meta.env.VITE_AUTH_API + '/meals', {
-        method: 'POST',
-        headers: {
-          // Don't set Content-Type header - let the browser set it with boundary
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+      const response = await fetchData(
+        import.meta.env.VITE_AUTH_API + '/meals',
+        {
+          method: 'POST',
+          headers: {
+            // Don't set Content-Type header - let the browser set it with boundary
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: formDataToSend,
         },
-        body: formDataToSend
-      });
+      );
 
       setMessage('Meal package added successfully!');
       // Reset form after successful submission
@@ -208,14 +241,13 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
         mealDescription: '',
         categoryName: '',
         categoryDescription: '',
-        ingredients: [{ name: '', price: '', description: '' }]
+        ingredients: [{name: '', price: '', description: ''}],
       });
 
       // Call the callback to notify parent
       if (onMealAdded) {
         onMealAdded();
       }
-
     } catch (error) {
       console.error('Error adding meal:', error);
       setIsError(true);
@@ -227,10 +259,14 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
   return (
     <div className="min-w-1/2 max-w-4xl mx-auto p-6 bg-gray-50 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Lisää uusi ruokapaketti</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        Lisää uusi ruokapaketti
+      </h2>
 
       {message && (
-        <div className={`p-3 mb-6 rounded ${isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
+        <div
+          className={`p-3 mb-6 rounded ${isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}
+        >
           {message}
         </div>
       )}
@@ -238,10 +274,15 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Meal Information Section */}
         <div className="p-4 bg-white rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">Ruuan tiedot</h3>
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">
+            Ruuan tiedot
+          </h3>
 
           <div className="mb-4">
-            <label htmlFor="mealName" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="mealName"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Ruuan nimi:
             </label>
             <input
@@ -256,7 +297,10 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="mealPrice" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="mealPrice"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Hinta (€):
             </label>
             <input
@@ -273,7 +317,10 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="mealDescription" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="mealDescription"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Kuvaus:
             </label>
             <textarea
@@ -288,13 +335,16 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="mealImage" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="mealImage"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Ruuan kuva:
             </label>
             <input
               type="file"
               id="mealImage"
-              name="image"  // this name should match what multer expects
+              name="image" // this name should match what multer expects
               accept="image/jpeg, image/png, image/webp"
               onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -304,10 +354,15 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
         {/* Category Information Section */}
         <div className="p-4 bg-white rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">Kategoriatiedot</h3>
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">
+            Kategoriatiedot
+          </h3>
 
           <div className="mb-4">
-            <label htmlFor="categorySelect" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="categorySelect"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Valitse olemassa oleva kategoria:
             </label>
             <select
@@ -318,7 +373,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
               disabled={isLoadingCategories}
             >
               <option value="">-- Valitse kategoria --</option>
-              {categories.map(category => (
+              {categories.map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
                 </option>
@@ -327,7 +382,10 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="categoryName" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="categoryName"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Tai luo uusi kategorian nimi:
             </label>
             <input
@@ -341,7 +399,10 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="categoryDescription" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="categoryDescription"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Kategorian kuvaus:
             </label>
             <textarea
@@ -358,18 +419,31 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
 
         {/* Ingredients Section */}
         <div className="p-4 bg-white rounded-lg shadow">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">Ainesosat</h3>
+          <h3 className="text-lg font-semibold text-gray-700 mb-4">
+            Ainesosat
+          </h3>
 
           {formData.ingredients.map((ingredient, index) => (
-            <div key={index} className="mb-6 p-4 bg-gray-50 rounded-md relative">
+            <div
+              key={index}
+              className="mb-6 p-4 bg-gray-50 rounded-md relative"
+            >
               <div className="flex justify-between items-center mb-2">
-                <label htmlFor={`ingredientSelect-${index}`} className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor={`ingredientSelect-${index}`}
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Valitse olemassa oleva ainesosa:
                 </label>
                 {ingredient.ingredientId && (
                   <button
                     type="button"
-                    onClick={() => handleRemoveIngredientFromDB(ingredient.ingredientId, index)}
+                    onClick={() =>
+                      handleRemoveIngredientFromDB(
+                        ingredient.ingredientId,
+                        index,
+                      )
+                    }
                     className="px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600 transition-colors"
                   >
                     Remove from DB
@@ -385,7 +459,7 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
                 disabled={isLoadingIngredients}
               >
                 <option value="">-- Valitse ainesosa --</option>
-                {ingredients.map(ing => (
+                {ingredients.map((ing) => (
                   <option key={ing.id} value={ing.id}>
                     {ing.name} ({ing.price} €)
                   </option>
@@ -393,7 +467,10 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
               </select>
 
               <div className="mb-4">
-                <label htmlFor={`ingredientName-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor={`ingredientName-${index}`}
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Tai lisää uusi ainesosa:
                 </label>
                 <input
@@ -407,7 +484,10 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
               </div>
 
               <div className="mb-4">
-                <label htmlFor={`ingredientPrice-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor={`ingredientPrice-${index}`}
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Ainesosan hinta (€):
                 </label>
                 <input
@@ -423,7 +503,10 @@ const AdminAddMealPanel = ({ onMealAdded }) => {
               </div>
 
               <div className="mb-4">
-                <label htmlFor={`ingredientDescription-${index}`} className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor={`ingredientDescription-${index}`}
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Kuvaus:
                 </label>
                 <textarea

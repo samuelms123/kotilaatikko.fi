@@ -1,8 +1,9 @@
 import express from 'express';
 import {handleGetOrders} from '../controllers/orderController.js';
+import {adminCheck, authenticateToken} from '../../middlewares.js';
 const orderRouter = express.Router();
 
-orderRouter.route('/').get(handleGetOrders);
+orderRouter.route('/').get(authenticateToken, adminCheck, handleGetOrders);
 //   .post(uploadSingleImage('image'), handleAddMeal)
 //   .get(handleGetAllMeals);
 
