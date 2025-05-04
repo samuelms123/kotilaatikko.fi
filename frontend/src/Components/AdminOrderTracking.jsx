@@ -76,7 +76,7 @@ const AdminOrderTracking = () => {
           <tbody>
             {orders.map((order, index) => (
               <tr
-                key={order.id}
+                key={order.order_id}
                 className={`hover:bg-orange-300 ${
                   index % 2 === 0 ? 'bg-gray-200' : 'bg-white'
                 }`}
