@@ -1,37 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {CarouselInfoBuyOptions} from '../Components/CarouselInfoBuyOptions.jsx'
 import Hero from '../Components/Hero.jsx';
+import { fetchData } from '../Utils/fetchData';
 
 
 
 const Home = () => {
-  // Carousel mock items with images, titles, and descriptions
-  const carouselItems = [
-    {
-      image: 'https://placecats.com/neo/300/200',
-      alt: 'cat',
-      title: 'Truly a cat',
-      description: 'Experience the cat of your dreams'
-    },
-    {
-      image: 'https://placecats.com/millie/300/150',
-      alt: 'cat',
-      title: 'A cat',
-      description: 'One of the cats of all time'
-    },
-    {
-      image: 'https://placecats.com/neo_banana/300/200',
-      alt: 'cat',
-      title: "It's a cat",
-      description: 'Love me some cat'
-    },
-    {
-      image: 'https://placecats.com/millie_neo/300/200',
-      alt: 'cat',
-      title: 'Another cat',
-      description: "Who could've guessed?"
-    }
-  ];
+  const [allItems, setAllItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        // Fetch all items
+        const data = await fetchData(import.meta.env.VITE_AUTH_API+'/meals'); // Replace with your API endpoint
+        setAllItems(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchItems();
+  }, []);
 
   return (
 
@@ -45,7 +37,7 @@ const Home = () => {
       <h1 className="text-[3vh] font-bold text-center mb-8">Featured Cats</h1>
 
 
-      <CarouselInfoBuyOptions items={carouselItems} />
+      <CarouselInfoBuyOptions items={allItems} />
       </div>
     </>
 
