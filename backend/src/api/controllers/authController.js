@@ -5,12 +5,7 @@ import bcrypt from 'bcrypt';
 const handleLogin = async (req, res) => {
   const result = await login(req.body.email);
   let passwordValid = false;
-  if (result.type === 'admin') {
-    // dangerous, but for now, we allow admin to login without password
-    passwordValid = true;
-  } else {
-    passwordValid = bcrypt.compareSync(req.body.password, result.password);
-  }
+  passwordValid = bcrypt.compareSync(req.body.password, result.password);
 
   console.log('password is valid', passwordValid);
 

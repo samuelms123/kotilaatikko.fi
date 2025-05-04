@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { fetchData } from '../Utils/fetchData';
+import React, {useEffect, useState} from 'react';
+import {fetchData} from '../Utils/fetchData';
 
 const AdminOrderTracking = () => {
   const [orders, setOrders] = useState([]); // State to store orders
@@ -9,7 +9,15 @@ const AdminOrderTracking = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const data = await fetchData(import.meta.env.VITE_AUTH_API + '/orders'); // Replace with your API endpoint
+        const data = await fetchData(
+          import.meta.env.VITE_AUTH_API + '/orders',
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          },
+        );
         setOrders(data);
       } catch (err) {
         setError(err.message);
@@ -21,15 +29,22 @@ const AdminOrderTracking = () => {
   }, []);
 
   const handleDelete = async (orderId) => {
-    const confirmDelete = window.confirm(`Haluatko varmasti poistaa tilauksen ID: ${orderId}?`);
+    const confirmDelete = window.confirm(
+      `Haluatko varmasti poistaa tilauksen ID: ${orderId}?`,
+    );
     if (confirmDelete) {
       try {
         // Replace with your API endpoint for deleting an order
         await fetch(`${import.meta.env.VITE_AUTH_API}/orders/${orderId}`, {
           method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
         });
         // Remove the deleted order from the state
-        setOrders((prevOrders) => prevOrders.filter((order) => order.order_id !== orderId));
+        setOrders((prevOrders) =>
+          prevOrders.filter((order) => order.order_id !== orderId),
+        );
         alert(`Tilaus ID: ${orderId} poistettu onnistuneesti.`);
       } catch {
         alert(`Virhe poistettaessa tilausta ID: ${orderId}. `);
@@ -79,7 +94,11 @@ const AdminOrderTracking = () => {
                 </td>
                 <td className="px-4 py-2 flex gap-2">
                   <button
-                    onClick={() => alert(`Näytä lisätiedot tilaukselle ID: ${order?.order_id}`)}
+                    onClick={() =>
+                      alert(
+                        `Näytä lisätiedot tilaukselle ID: ${order?.order_id}`,
+                      )
+                    }
                     className="bg-[var(--primary-color)] text-white px-4 py-2 rounded hover:bg-opacity-90 hover:scale-105 transition-transform duration-200"
                   >
                     Näytä lisätiedot
