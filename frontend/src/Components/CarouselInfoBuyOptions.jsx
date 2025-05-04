@@ -18,7 +18,7 @@ const CarouselInfoBuyOptions = ({ items }) => {
   };
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto overflow-hidden">
+    <div className=" relative w-full max-w-4xl mx-auto overflow-hidden">
       <div className="flex transition-transform duration-500 ease-in-out h-96">
         {items.map((item, index) => (
           <div
@@ -28,19 +28,17 @@ const CarouselInfoBuyOptions = ({ items }) => {
           >
             <div className="flex flex-auto h-full justify-evenly items-center p-5">
               {/* More flexible content rendering */}
-              {item.content && (
-                <div className="text-left mt-5">{item.content}</div>
-              )}
-              {!item.content && (item.title || item.description) && (
-                <div className="text-left mt-5">
-                  {item.title && <h3 className="text-xl font-bold">{item.title}</h3>}
-                  {item.description && <p className="mt-2">{item.description}</p>}
-                </div>
-              )}
+
+
+              <div className="max-w-1/2 text-left m-5 p-5">
+                {item.name && <h3 className="text-xl font-bold">{item.name}</h3>}
+                {item.description && <p className="mt-2">{item.description}</p>}
+              </div>
+
               <img
-                src={item.image}
-                alt={item.alt || `Slide ${index + 1}`}
-                className="max-w-full max-h-[70%] object-contain"
+                src={item?.image}
+                alt={item.name}
+                className="w-full sm:w-1/3 h-[300px] object-cover"
               />
             </div>
           </div>
@@ -50,20 +48,20 @@ const CarouselInfoBuyOptions = ({ items }) => {
       {/* Navigation arrows */}
       <button
         onClick={goToPrevious}
-        className="absolute top-1/2 left-5 transform -translate-y-1/2 bg-black text-white text-2xl p-4 rounded-full hover:bg-gray-950 z-10"
+        className="h-1/3 absolute top-1/2 left-5 transform -translate-y-1/2 bg-black/30 text-white text-2xl p-4 rounded-full hover:bg-gray-950 z-10"
       >
         &larr;
       </button>
       <button
         onClick={goToNext}
-        className="absolute top-1/2 right-5 transform -translate-y-1/2 bg-black text-white text-2xl p-4 rounded-full hover:bg-gray-950 z-10"
+        className="h-1/3 absolute top-1/2 right-5 transform -translate-y-1/2 bg-black/30 text-white text-2xl p-4 rounded-full hover:bg-gray-950 z-10"
       >
         &rarr;
       </button>
 
       <div className="flex justify-end">
-        <button className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] hover:bg-[var(--grey-color)] py-4 px-6 ml-1 mr-1 " onClick={() => {console.log("info pressed")}}>Laatikko information</button>
-        <button className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] hover:bg-[var(--grey-color)] py-4 px-6 ml-1 mr-1 " onClick={() => {console.log("buy pressed")}}>Buy this Kotilaatikko</button>
+        <button className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] hover:bg-[var(--grey-color)] py-4 px-6 ml-1 mr-1 " onClick={() => {console.log("info pressed")}}>Lisää ruuasta</button>
+        <button className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] hover:bg-[var(--grey-color)] py-4 px-6 ml-1 mr-1 " onClick={() => {console.log("buy pressed")}}>Tilaa kotiin!</button>
       </div>
 
       {/* Dots indicator */}
