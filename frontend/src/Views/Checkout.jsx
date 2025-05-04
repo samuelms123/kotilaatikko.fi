@@ -47,38 +47,71 @@ const Checkout = () => {
       'city',
       'country',
     ];
-    const missingFields = requiredFields.filter(
-      (field) => !customerInfo[field],
-    );
+    const missingFields = requiredFields.filter((field) => !customerInfo[field]);
 
     if (missingFields.length > 0) {
-      throw new Error(`Missing required fields: ${missingFields.join(', ')}`);
+      setError(`Puuttuvat kentät: ${missingFields.join(', ')}`);
+      setIsProcessing(false);
+      return;
     }
 
     try {
-      console.log('Sending to Klarna:', {
-        items: cartItems,
-        total: cartTotal,
-        customer: customerInfo,
-      });
+      console.log('Processing payment with:', paymentMethod);
 
-      const klarnaResponse = await createKlarnaOrder({
-        items: cartItems,
-        total: cartTotal,
-        customer: customerInfo,
-      });
-      console.log(klarnaResponse);
+      if (paymentMethod === 'klarna') {
+        // Klarna payment logic
+        console.log('Sending to Klarna:', {
+          items: cartItems,
+          total: cartTotal,
+          customer: customerInfo,
+        });
 
-      if (!klarnaResponse.html_snippet && !klarnaResponse.redirect_url) {
-        throw new Error('No valid payment URL received from Klarna');
+        const klarnaResponse = await createKlarnaOrder({
+          items: cartItems,
+          total: cartTotal,
+          customer: customerInfo,
+        });
+
+        if (!klarnaResponse.html_snippet && !klarnaResponse.redirect_url) {
+          throw new Error('No valid payment URL received from Klarna');
+        }
+
+        setKlarnaSnippet(klarnaResponse.html_snippet);
+      } else if (paymentMethod === 'paypal') {
+        // PayPal payment logic
+        console.log('Redirecting to PayPal...');
+        alert('PayPal payment is not implemented yet.');
+      } else if (paymentMethod === 'dummy') {
+        // Dummy payment logic
+        console.log('Processing dummy payment...');
+
+        // Post order information to the database
+        const response = await fetch(`${import.meta.env.VITE_AUTH_API}/orders`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+          body: JSON.stringify({
+            customer: customerInfo,
+            items: cartItems,
+            total: cartTotal,
+            paymentMethod: 'dummy',
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Tilausta ei voitu lähettää tietokantaan.');
+        }
+
+        // Redirect to Confirmation page
+        window.location.href = '/confirmation';
+      } else {
+        throw new Error('Invalid payment method selected');
       }
-
-      // Redirect to Klarna's hosted payment page
-      // navigate(klarnaResponse.html_snippet || klarnaResponse.redirect_url);
-      setKlarnaSnippet(klarnaResponse.html_snippet);
     } catch (err) {
-      setError(`Payment error: ${err.message}`);
-      console.error('Klarna error:', err);
+      setError(`Maksuvirhe: ${err.message}`);
+      console.error('Maksuvirhe:', err);
     } finally {
       setIsProcessing(false);
     }
@@ -276,6 +309,36 @@ const Checkout = () => {
                   Maksa myöhemmin tai osissa Klarnalla.
                 </p>
               </div>
+              <div className="mb-6">
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="paypal"
+                    checked={paymentMethod === 'paypal'}
+                    onChange={() => setPaymentMethod('paypal')}
+                    className="h-4 w-4"
+                  />
+                  <span>PayPal</span>
+                </label>
+                <p className="text-sm text-gray-500 mt-2">Maksa PayPal-tililtäsi.</p>
+              </div>
+              <div className="mb-6">
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="paymentMethod"
+                    value="dummy"
+                    checked={paymentMethod === 'dummy'}
+                    onChange={() => setPaymentMethod('dummy')}
+                    className="h-4 w-4"
+                  />
+                  <span>Dummy</span>
+                </label>
+                <p className="text-sm text-gray-500 mt-2">
+                  Kehittäjätarkoituksiin. Ei oikeaa maksua.
+                </p>
+            </div>
 
               {error && (
                 <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">
@@ -292,7 +355,7 @@ const Checkout = () => {
                     : 'bg-[var(--primary-color)] hover:bg-opacity-90'
                 }`}
               >
-                {isProcessing ? 'Processing...' : 'Proceed to Payment'}
+                {isProcessing ? 'Lataa...' : 'Jatka maksamaan'}
               </button>
             </form>
           )}
