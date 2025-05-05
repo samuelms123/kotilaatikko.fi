@@ -26,7 +26,7 @@ const getOrders = async () => {
                   JOIN meals m ON om.meal_id = m.id
                   GROUP BY o.id;
               `);
-            console.log('Rows affected:', rows);
+    console.log('Rows affected:', rows);
     return rows;
   } catch (error) {
     console.error('Error fetching orders:', error.message);
@@ -35,7 +35,8 @@ const getOrders = async () => {
 };
 
 const getOrderDetailsById = async (orderId) => {
-  const [rows] = await promisePool.execute(`
+  const [rows] = await promisePool.execute(
+    `
     SELECT JSON_OBJECT(
       'order_id', o.id,
       'order_date', o.date,
@@ -80,7 +81,9 @@ const getOrderDetailsById = async (orderId) => {
     JOIN project.meals m ON om.meal_id = m.id
     WHERE o.id = ?
     GROUP BY o.id, o.date, u.first_name, u.last_name, u.email
-  `, [orderId]);
+  `,
+    [orderId],
+  );
 
   return rows[0]; // returns one row with JSON string
 };
@@ -89,21 +92,22 @@ const postOrder = async (userId, meals) => {
   try {
     const [orderResult] = await promisePool.execute(
       'INSERT INTO orders (user_id, date) VALUES (?, CURDATE())',
-      [userId]
+      [userId],
     );
     const orderId = orderResult.insertId;
+    console.log('orderId:', orderId);
 
-    const values = meals.map(meal => [orderId, meal.meal_id, meal.quantity]);
-    const placeholders = values.map(() => '(?, ?, ?)').join(', ');
-    const flatValues = values.flat();
+    for (const meal of meals) {
+      console.log('mealID:', meal.id);
+      console.log('mealQuantity:', meal.quantity);
 
-    await promisePool.execute(
-      `INSERT INTO order_meals (order_id, meal_id, quantity) VALUES ${placeholders}`,
-      flatValues
-    );
+      await promisePool.execute(
+        'INSERT INTO order_meals (order_id, meal_id, quantity) VALUES (?, ?, ?)',
+        [orderId, meal.id, meal.quantity],
+      );
+    }
 
-
-    return { success: true, orderId };
+    return {success: true, orderId};
   } catch (err) {
     throw err;
   }
@@ -111,15 +115,15 @@ const postOrder = async (userId, meals) => {
 
 const deleteOrder = async (orderId) => {
   try {
-    await promisePool.execute('DELETE FROM order_meals WHERE order_id = ?', [orderId]);
+    await promisePool.execute('DELETE FROM order_meals WHERE order_id = ?', [
+      orderId,
+    ]);
     await promisePool.execute('DELETE FROM orders WHERE id = ?', [orderId]);
 
-    return { success: true };
+    return {success: true};
   } catch (err) {
     throw new Error('Failed to delete order: ' + err.message);
   }
 };
 
-export {
-  getOrders, getOrderDetailsById, postOrder, deleteOrder
-};
+export {getOrders, getOrderDetailsById, postOrder, deleteOrder};

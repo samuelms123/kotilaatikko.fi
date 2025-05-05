@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useCart} from '../Contexts/CartContext';
 import {useUser} from '../Hooks/apiHooks'; // Import your user hook
-import {Link} from 'react-router-dom';
+import {Link, Navigate, useNavigate} from 'react-router-dom';
 import {createKlarnaOrder} from '../Utils/klarna';
 
 const Checkout = () => {
@@ -11,7 +11,7 @@ const Checkout = () => {
   const [loadingUser, setLoadingUser] = useState(false);
   const [userError, setUserError] = useState(null);
   const [klarnaSnippet, setKlarnaSnippet] = useState('');
-
+  const navigate = useNavigate();
 
   const [customerInfo, setCustomerInfo] = useState({
     firstName: '',
@@ -47,7 +47,9 @@ const Checkout = () => {
       'city',
       'country',
     ];
-    const missingFields = requiredFields.filter((field) => !customerInfo[field]);
+    const missingFields = requiredFields.filter(
+      (field) => !customerInfo[field],
+    );
 
     if (missingFields.length > 0) {
       setError(`Puuttuvat kentät: ${missingFields.join(', ')}`);
@@ -86,26 +88,29 @@ const Checkout = () => {
         console.log('Processing dummy payment...');
 
         // Post order information to the database
-        const response = await fetch(`${import.meta.env.VITE_AUTH_API}/orders`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        console.log('customerInfo:', customerInfo);
+        console.log('cartItems:', cartItems);
+        console.log('cartTotal:', cartTotal);
+        const response = await fetch(
+          `${import.meta.env.VITE_AUTH_API}/orders`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: JSON.stringify({
+              meals: cartItems,
+            }),
           },
-          body: JSON.stringify({
-            customer: customerInfo,
-            items: cartItems,
-            total: cartTotal,
-            paymentMethod: 'dummy',
-          }),
-        });
+        );
 
         if (!response.ok) {
           throw new Error('Tilausta ei voitu lähettää tietokantaan.');
         }
 
         // Redirect to Confirmation page
-        window.location.href = '/confirmation';
+        navigate('/confirmation');
       } else {
         throw new Error('Invalid payment method selected');
       }
@@ -321,7 +326,9 @@ const Checkout = () => {
                   />
                   <span>PayPal</span>
                 </label>
-                <p className="text-sm text-gray-500 mt-2">Maksa PayPal-tililtäsi.</p>
+                <p className="text-sm text-gray-500 mt-2">
+                  Maksa PayPal-tililtäsi.
+                </p>
               </div>
               <div className="mb-6">
                 <label className="flex items-center space-x-2">
@@ -338,7 +345,7 @@ const Checkout = () => {
                 <p className="text-sm text-gray-500 mt-2">
                   Kehittäjätarkoituksiin. Ei oikeaa maksua.
                 </p>
-            </div>
+              </div>
 
               {error && (
                 <div className="mb-4 p-2 bg-red-100 text-red-700 rounded">
@@ -369,7 +376,7 @@ const Checkout = () => {
               <div key={item.id} className="py-4 flex justify-between">
                 <div className="flex items-center space-x-4">
                   <img
-                    src={'http://localhost:3000'+item.image}
+                    src={'http://localhost:3000' + item.image}
                     alt={item.name}
                     className="w-16 h-16 object-cover rounded"
                   />
