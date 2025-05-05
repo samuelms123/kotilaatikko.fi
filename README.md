@@ -37,7 +37,11 @@ Your virtual machine should have these installed:
 npm build
 ```
 
-2. Upload site to https://webdisk.metropolia.fi/htcomnet/login.html
+2. Make sure your vite.config.js has the correct base path for your Metropolia user
+
+3. Point your IMG_SERVE_URL in .env to your backend IP
+
+4. Upload built front to https://webdisk.metropolia.fi/htcomnet/login.html
 
 #### Virtual Machine Setup / Backend
 
