@@ -20,7 +20,7 @@ Online food package delivery platform built with React. Enables users to browse 
 
 Access to Metropolia webdisk:
 
-- [https://webdisk.metropolia.fi/htcomnet/login.html]
+https://webdisk.metropolia.fi/htcomnet/login.html
 
 Your virtual machine should have these installed:
 
@@ -37,7 +37,7 @@ Your virtual machine should have these installed:
 npm build
 ```
 
-2. Upload site to [https://webdisk.metropolia.fi/htcomnet/login.html]
+2. Upload site to https://webdisk.metropolia.fi/htcomnet/login.html
 
 #### Virtual Machine Setup / Backend
 
