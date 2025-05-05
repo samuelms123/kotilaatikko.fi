@@ -3,6 +3,8 @@ import {
   getOrderDetailsById,
   postOrder,
   deleteOrder,
+  getOrdersByUserId,
+  getMostOrderedMeal
 } from '../models/orderModel.js';
 
 const handleGetOrders = async (req, res) => {
@@ -66,9 +68,37 @@ const handleDeleteOrder = async (req, res) => {
   }
 };
 
+const handleGetOrderByUserId = async (req, res) => {
+  const userId = req.params.id;
+
+  if (!userId) {
+    return res.status(400).json({ message: 'Missing user ID' });
+  }
+
+  try {
+    const orders = await getOrdersByUserId(userId);
+    res.json({ orders: orders.map(row => JSON.parse(row.order_details)) });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error.' });
+  }
+};
+
+const handleGetMostOrderedMeal = async (req, res) => {
+  try {
+    const meal = await getMostOrderedMeal();
+    res.json({ mostOrderedMeal: meal });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error.' });
+  }
+};
+
 export {
   handleGetOrders,
   handleGetOrderDetailsById,
   handlePostOrder,
   handleDeleteOrder,
+  handleGetOrderByUserId,
+  handleGetMostOrderedMeal
 };

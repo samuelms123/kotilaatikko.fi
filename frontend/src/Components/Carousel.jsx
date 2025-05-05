@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Carousel = ({ items }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -16,6 +16,15 @@ const Carousel = ({ items }) => {
   const goToSlide = (index) => {
     setCurrentIndex(index);
   };
+
+  // Automatically change slides every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
+    }, 1); // 5000ms = 5 seconds
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, [items.length]); // Only re-run if the number of items changes
 
   return (
     <div className="relative w-full max-w-4xl mx-auto overflow-hidden">

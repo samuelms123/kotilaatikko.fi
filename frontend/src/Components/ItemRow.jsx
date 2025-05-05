@@ -10,16 +10,10 @@ const ItemRow = ({allItems}) => {
     <>
 
   {allItems.map((item) => (
-
-    console.log("img", import.meta.env.VITE_IMG_SERVE_URL+item.image),
-
     <div
       key={item.id}
       className="rounded-lg shadow-md overflow-hidden flex flex-col sm:flex-row relative bg-gray-100 hover:scale-101 transition-transform duration-300"
     >
-
-
-
       <img
         src={import.meta.env.VITE_IMG_SERVE_URL+item?.image}
         alt={item.name}

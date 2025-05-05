@@ -1,4 +1,4 @@
-import {Outlet} from 'react-router';
+import {Link, Outlet} from 'react-router';
 import NavigationBarDesktop from './NavigationBarDesktop';
 import NavigationBarMobile from './NavigationBarMobile';
 import NewsLetter from '../Components/NewsLetter.jsx';
@@ -7,9 +7,11 @@ const Layout = () => {
   return (
     <>
       <div className="max-w-screen mx-auto">
-        <header className="border-b-2 border-[var(--primary-color)]">
+      <header className="border-b-2 border-[var(--primary-color)]">
           <div className="flex justify-between items-center p-4 max-w-[1600px] mx-auto">
-            <h1 className="text-3xl font-[header]">kotilaatikko.fi</h1>
+            <Link to="/" className="text-3xl font-[header] hover:scale-105 transition-transform duration-200">
+              kotilaatikko.fi
+            </Link>
             <nav>
               <div className="hidden md:block">
                 <NavigationBarDesktop />
@@ -20,6 +22,7 @@ const Layout = () => {
             </nav>
           </div>
         </header>
+
 
         <main className="max-w-[1600px] mx-auto min-h-screen">
           <Outlet />

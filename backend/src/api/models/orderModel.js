@@ -126,4 +126,49 @@ const deleteOrder = async (orderId) => {
   }
 };
 
-export {getOrders, getOrderDetailsById, postOrder, deleteOrder};
+const getOrdersByUserId = async (userId) => {
+  const [rows] = await promisePool.execute(`
+    SELECT JSON_OBJECT(
+      'order_id', o.id,
+      'order_date', o.date,
+      'total_price', SUM(m.price * om.quantity),
+      'meals', JSON_ARRAYAGG(
+        JSON_OBJECT(
+          'meal_id', m.id,
+          'meal_name', m.name,
+          'meal_price', m.price,
+          'quantity', om.quantity,
+          'total_price', m.price * om.quantity
+        )
+      )
+    ) AS order_details
+    FROM project.orders o
+    JOIN project.order_meals om ON om.order_id = o.id
+    JOIN project.meals m ON om.meal_id = m.id
+    WHERE o.user_id = ?
+    GROUP BY o.id, o.date
+  `, [userId]);
+
+  return rows;
+};
+
+const getMostOrderedMeal = async () => {
+  const [rows] = await promisePool.execute(`
+    SELECT
+      m.id AS meal_id,
+      m.name AS meal_name,
+      m.price AS meal_price,
+      m.description AS meal_description,
+      m.image AS meal_image,
+      SUM(om.quantity) AS total_ordered
+    FROM project.order_meals om
+    JOIN project.meals m ON om.meal_id = m.id
+    GROUP BY m.id, m.name, m.price, m.description, m.image
+    ORDER BY total_ordered DESC
+    LIMIT 1
+  `);
+
+  return rows[0];
+};
+
+export {getOrders, getOrderDetailsById, postOrder, deleteOrder, getOrdersByUserId, getMostOrderedMeal};
