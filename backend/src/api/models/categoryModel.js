@@ -1,5 +1,16 @@
 import promisePool from '../../utils/database.js';
 
+const deleteCategory = async (id) => {
+  const sql = `DELETE FROM categories WHERE id = ?`;
+  try {
+    const [result] = await promisePool.execute(sql, [id]);
+    return result.affectedRows > 0;
+  } catch (error) {
+    console.error('Error deleting category:', error.message);
+    throw new Error(`Database error: ${error.message}`);
+  }
+};
+
 const getallCategories = async () => {
   try {
     const [rows] = await promisePool.execute('SELECT * FROM categories');
@@ -81,4 +92,5 @@ export {
   getallCategories,
   getCategoryById,
   getCategoryPriceById,
+  deleteCategory,
 };

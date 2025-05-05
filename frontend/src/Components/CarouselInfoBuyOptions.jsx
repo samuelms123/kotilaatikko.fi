@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const CarouselInfoBuyOptions = ({ items }) => {
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const goToPrevious = () => {
@@ -17,8 +19,11 @@ const CarouselInfoBuyOptions = ({ items }) => {
     setCurrentIndex(index);
   };
 
+  // Get the current item based on currentIndex
+  const currentItem = items[currentIndex];
+
   return (
-    <div className=" relative w-full max-w-4xl mx-auto overflow-hidden">
+    <div className="relative w-full max-w-4xl mx-auto overflow-hidden">
       <div className="flex transition-transform duration-500 ease-in-out h-96">
         {items.map((item, index) => (
           <div
@@ -27,9 +32,6 @@ const CarouselInfoBuyOptions = ({ items }) => {
             style={{ transform: `translateX(${-100 * currentIndex}%)` }}
           >
             <div className="flex flex-auto h-full justify-evenly items-center p-5">
-              {/* More flexible content rendering */}
-
-
               <div className="max-w-1/2 text-left m-5 p-5">
                 {item.name && <h3 className="text-xl font-bold">{item.name}</h3>}
                 {item.description && <p className="mt-2">{item.description}</p>}
@@ -60,8 +62,18 @@ const CarouselInfoBuyOptions = ({ items }) => {
       </button>
 
       <div className="flex justify-end">
-        <button className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] hover:bg-[var(--grey-color)] py-4 px-6 ml-1 mr-1 " onClick={() => {console.log("info pressed")}}>Lisää ruuasta</button>
-        <button className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] hover:bg-[var(--grey-color)] py-4 px-6 ml-1 mr-1 " onClick={() => {console.log("buy pressed")}}>Tilaa kotiin!</button>
+        <button
+          className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] hover:bg-[var(--grey-color)] py-4 px-6 ml-1 mr-1"
+          onClick={() => navigate(`/product/${currentItem.id || currentIndex}`)}
+        >
+          Lisää ruuasta
+        </button>
+        <button
+          className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] hover:bg-[var(--grey-color)] py-4 px-6 ml-1 mr-1"
+          onClick={() => navigate('/shop')}
+        >
+          Tilaa kaupasta!
+        </button>
       </div>
 
       {/* Dots indicator */}
@@ -74,7 +86,6 @@ const CarouselInfoBuyOptions = ({ items }) => {
           />
         ))}
       </div>
-
     </div>
   );
 };
