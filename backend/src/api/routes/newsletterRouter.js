@@ -6,6 +6,7 @@ import {
   handleDeleteNewsletter,
   handleGetNewsletters,
   handleGetSubscribers,
+  handleIsSubscribed,
   handleUserSubscription,
 } from '../controllers/newsletterController.js';
 import {uploadSingleImage} from '../../utils/fileUpload.js';
@@ -17,6 +18,8 @@ newsletterRouter
   .put(authenticateToken, handleUserSubscription) // Logged in user sub/unsub
   .post(handleAddGuestSubscription) // Guest sub
   .get(authenticateToken, adminCheck, handleGetNewsletters); // Get newsletters
+
+newsletterRouter.route('/:email').get(handleIsSubscribed); // Check if guest user is subscribed
 
 newsletterRouter
   .route('/modify')
