@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router'; // Import useNavigate
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router'; // Import useNavigate
 import ItemRow from '../Components/ItemRow';
-import { fetchData } from '../Utils/fetchData';
+import {fetchData} from '../Utils/fetchData';
 
 const Shop = () => {
   const [allItems, setAllItems] = useState([]); // State to store all items
@@ -18,12 +18,14 @@ const Shop = () => {
     const fetchItems = async () => {
       try {
         // Fetch all items
-        const data = await fetchData(import.meta.env.VITE_AUTH_API+'/meals'); // Replace with your API endpoint
+        const data = await fetchData(import.meta.env.VITE_AUTH_API + '/meals'); // Replace with your API endpoint
         setAllItems(data);
         setFilteredItems(data.slice(0, itemsPerPage)); // Initially load itemsPerPage items
 
         // Fetch categories
-        const categoryData = await fetchData(import.meta.env.VITE_AUTH_API+'/categories'); // Replace with your API endpoint
+        const categoryData = await fetchData(
+          import.meta.env.VITE_AUTH_API + '/categories',
+        ); // Replace with your API endpoint
         setCategories(categoryData);
       } catch (err) {
         setError(err.message);
@@ -57,14 +59,16 @@ const Shop = () => {
   }
 
   if (allItems.length === 0) {
-    return <div className="text-center mt-8">Sivustolla ei ole yhtään ateriaa?!</div>;
+    return (
+      <div className="text-center mt-8">Sivustolla ei ole yhtään ateriaa?!</div>
+    );
   }
 
   return (
     <div className="shop-page">
       <div className="relative">
         <img
-          src="/hero-blur.jpg"
+          src={`${import.meta.env.BASE_URL}hero-blur.jpg`}
           alt="Shop Hero"
           className="w-full h-[200px] object-cover rounded-b-lg"
         />
@@ -73,7 +77,9 @@ const Shop = () => {
             Tee arjestasi helppoa &#8212; Tilaa tänään!
           </h1>
           <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl mt-4 md:mt-6">
-            Sinun ei tarvitse enää huolehtia ruokalistan suunnittelusta tai kaupasta ravaamisesta – saat kaiken valmiiksi toimitettuna. Näin voit nauttia ruoasta ilman turhaa vaivannäköä!
+            Sinun ei tarvitse enää huolehtia ruokalistan suunnittelusta tai
+            kaupasta ravaamisesta – saat kaiken valmiiksi toimitettuna. Näin
+            voit nauttia ruoasta ilman turhaa vaivannäköä!
           </p>
         </div>
       </div>
@@ -81,7 +87,9 @@ const Shop = () => {
       <div className="max-w-[1600px] mx-auto px-4">
         {/* Recommended Section */}
         <div className="recommended-section my-8">
-          <h2 className="text-2xl font-[header] mb-4">Viikon suosituin ateria</h2>
+          <h2 className="text-2xl font-[header] mb-4">
+            Viikon suosituin ateria
+          </h2>
           {allItems.length > 0 && (
             <div className="rounded-lg shadow-md overflow-hidden flex flex-col sm:flex-row relative bg-gray-100 hover:scale-102 transition-transform duration-300">
               <div className="absolute top-0 left-0 bg-[var(--primary-color)] text-white text-sm font-bold px-3 py-1 rounded-br-lg">
@@ -94,8 +102,12 @@ const Shop = () => {
               />
               <div className="p-6 flex flex-col justify-between flex-grow relative">
                 <div className="mb-4">
-                  <h3 className="text-2xl font-[header] mb-2">{allItems[0].name}</h3>
-                  <p className="text-gray-600 mb-4">{allItems[0].description}</p>
+                  <h3 className="text-2xl font-[header] mb-2">
+                    {allItems[0].name}
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    {allItems[0].description}
+                  </p>
                   <p className="text-[var(--primary-color)] font-bold text-2xl">
                     {allItems[0].price} &#8364;
                   </p>
@@ -154,7 +166,8 @@ const Shop = () => {
           </div>
 
           <div className="flex flex-col gap-4">
-            <ItemRow allItems={filteredItems} /> {/* Pass filteredItems to ItemRow */}
+            <ItemRow allItems={filteredItems} />{' '}
+            {/* Pass filteredItems to ItemRow */}
           </div>
         </div>
       </div>
