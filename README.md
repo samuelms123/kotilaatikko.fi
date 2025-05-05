@@ -18,6 +18,10 @@ Online food package delivery platform built with React. Enables users to browse 
 
 ### Prerequisites
 
+Access to Metropolia webdisk:
+
+- [https://webdisk.metropolia.fi/htcomnet/login.html]
+
 Your virtual machine should have these installed:
 
 - Node.js (v14 or higher)
@@ -25,7 +29,17 @@ Your virtual machine should have these installed:
 
 ### Installation
 
-#### Virtual Machine Setup
+#### Frontend setup
+
+1. Build the frontend:
+
+```bash
+npm build
+```
+
+2. Upload site to [https://webdisk.metropolia.fi/htcomnet/login.html]
+
+#### Virtual Machine Setup / Backend
 
 1. Clone the repository onto your VM:
 
