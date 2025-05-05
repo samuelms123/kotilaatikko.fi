@@ -2,6 +2,8 @@
 
 Online food package delivery platform built with React. Enables users to browse and purchase site admin authored mail order meal packages.
 
+This project serves as a useful template for food package delivery sites.
+
 ## Features
 
 - Front page with animated hero, meal packages carousel, newsletter subscription and contact info
@@ -39,9 +41,11 @@ npm build
 
 2. Make sure your vite.config.js has the correct base path for your Metropolia user
 
-3. Point your IMG_SERVE_URL in .env to your backend IP
+3. Point your VITE_IMG_SERVE_URL in .env to your backend IP where you serve images
 
 4. Upload built front to https://webdisk.metropolia.fi/htcomnet/login.html
+
+5. Pray
 
 #### Virtual Machine Setup / Backend
 
