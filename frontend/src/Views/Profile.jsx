@@ -49,7 +49,10 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    fetchMeals(), fetchNewsletters();
+    fetchMeals();
+    if (user?.type === 'admin') {
+      fetchNewsletters();
+    }
   }, []);
 
   const handleMealAdded = () => {
