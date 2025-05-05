@@ -85,6 +85,45 @@ const AdminAddMealPanel = ({onMealAdded}) => {
     });
   };
 
+  const handleRemoveCategoryFromDB = async (categoryId) => {
+    if (!window.confirm('Are you sure you want to permanently delete this category from the database?')) {
+      return;
+    }
+
+    try {
+      await fetchData(
+        `${import.meta.env.VITE_AUTH_API}/categories/${categoryId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          }
+        }
+      );
+
+      // Update categories list
+      const updatedCategories = categories.filter(cat => cat.id !== categoryId);
+      setCategories(updatedCategories);
+
+      // Clear form if the deleted category was selected
+      if (formData.categoryId === categoryId) {
+        setFormData({
+          ...formData,
+          categoryId: '',
+          categoryName: '',
+          categoryDescription: '',
+        });
+      }
+
+      setMessage('Kategoria poistettu onnistuneesti!');
+      setIsError(false);
+    } catch (error) {
+      console.error('Virhe poistaessa kategoriaa:', error);
+      setMessage(error.message || 'Kategorian poisto epäonnistui');
+      setIsError(true);
+    }
+  };
+
   const handleRemoveIngredientFromDB = async (ingredientId, index) => {
     if (
       !window.confirm(
@@ -95,11 +134,13 @@ const AdminAddMealPanel = ({onMealAdded}) => {
     }
 
     try {
-      const response = await fetchData(
+      await fetchData(
         `${import.meta.env.VITE_AUTH_API}/ingredients/${ingredientId}`,
         {
           method: 'DELETE',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          }
         },
       );
 
@@ -107,6 +148,7 @@ const AdminAddMealPanel = ({onMealAdded}) => {
       const updatedIngredients = ingredients.filter(
         (ing) => ing.id !== ingredientId,
       );
+
       setIngredients(updatedIngredients);
 
       const updatedFormIngredients = [...formData.ingredients];
@@ -221,7 +263,7 @@ const AdminAddMealPanel = ({onMealAdded}) => {
           );
         });
 
-      const response = await fetchData(
+      await fetchData(
         import.meta.env.VITE_AUTH_API + '/meals',
         {
           method: 'POST',
@@ -359,12 +401,24 @@ const AdminAddMealPanel = ({onMealAdded}) => {
           </h3>
 
           <div className="mb-4">
-            <label
-              htmlFor="categorySelect"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Valitse olemassa oleva kategoria:
-            </label>
+            <div className="flex justify-between items-center mb-2">
+              <label
+                htmlFor="categorySelect"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Valitse olemassa oleva kategoria:
+              </label>
+              {formData.categoryId && (
+                <button
+                  type="button"
+                  onClick={() => handleRemoveCategoryFromDB(formData.categoryId)}
+                  className="px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600 transition-colors"
+                >
+                  Poista tietokannasta
+                </button>
+              )}
+            </div>
+
             <select
               id="categorySelect"
               value={formData.categoryId}
@@ -446,7 +500,7 @@ const AdminAddMealPanel = ({onMealAdded}) => {
                     }
                     className="px-2 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600 transition-colors"
                   >
-                    Remove from DB
+                    Poista tietokannasta
                   </button>
                 )}
               </div>
