@@ -4,6 +4,8 @@ Online food package delivery platform built with React. Enables users to browse 
 
 This project serves as a useful template for food package delivery sites.
 
+Link to questionnaire: https://docs.google.com/forms/d/14uSWWsobukuv93JEH9IMoyOi6ki6zYq_qvagdybfYO4/edit?pli=1 (requires Metropolia user)
+
 ## Features
 
 - Front page with animated hero, meal packages carousel, newsletter subscription and contact info
