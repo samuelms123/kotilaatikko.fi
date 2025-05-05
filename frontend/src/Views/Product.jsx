@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { fetchData } from '../Utils/fetchData';
+import { useCart } from '../Contexts/CartContext';
 
 const Product = () => {
   const { id } = useParams(); // Get the item ID from the URL
@@ -8,6 +9,7 @@ const Product = () => {
   const [item, setItem] = useState(null); // State to store the item details
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { addToCart } = useCart();
 
   // Scroll to the top when the component is mounted
   useEffect(() => {
@@ -70,7 +72,7 @@ const Product = () => {
         </ul>
 
         {/* Purchase Button */}
-        <button className="bg-[var(--primary-color)] text-white px-6 py-3 rounded hover:bg-opacity-90 hover:scale-105 transition-transform duration-200 font-bold">
+        <button onClick={() => {addToCart(item)}} className="bg-[var(--primary-color)] text-white px-6 py-3 rounded hover:bg-opacity-90 hover:scale-105 transition-transform duration-200 font-bold">
           Lisää ostoskoriin
         </button>
       </div>
