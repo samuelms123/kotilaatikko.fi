@@ -24,11 +24,18 @@ app.get('/', (req, res) => {
   res.send('Welcome to my REST API!');
 });
 
+// serve static files from the 'public' directory
+app.use(
+  '/uploads',
+  express.static(path.join(__dirname, '..', 'public', 'uploads')),
+);
+console.log(
+  'Static files path:',
+  path.join(__dirname, '..', 'public', 'uploads'),
+);
+
 app.use('/api/v1', api);
 
 app.use('/api/v1/klarna', klarnaRouter);
-
-// serve static files from the 'public' directory
-app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
 export default app;
