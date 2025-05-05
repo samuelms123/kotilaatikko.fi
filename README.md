@@ -1,17 +1,18 @@
 # Kotilaatikko Project Starter
 
-Online food package delivery platform built with React.
+Online food package delivery platform built with React. Enables users to browse and purchase site admin authored mail order meal packages.
 
 ## Features
 
-- Front page with carousel, newsletter subscription and contact info
+- Front page with animated hero, meal packages carousel, newsletter subscription and contact info
+- Store view with dynamic meal package listing
+- Single store item viewing
 - User registration and profile
-- Store view that uses backend MariaDB to fetch meals
-- Backend that handles food orders through KlarnaAPI (playground)
 - Content management system for admin users:
-  - Add/remove meal packages to DB
+  - Add/remove meal packages to DB. Controls to add ingredients, place meal in a category, include image
+  - Add/remove ingredients and categories from DB
   - Newsletter creation and management
-  - Track incoming orders made by users
+  - Track incoming orders made by users, view order information
 
 ## Getting Started
 
@@ -24,13 +25,15 @@ Your virtual machine should have these installed:
 
 ### Installation
 
-1. Clone the repository:
+#### Virtual Machine Setup
+
+1. Clone the repository onto your VM:
 
 ```bash
 git clone https://github.com/mehiis/react-project.git
 ```
 
-2. Navigate to the project directory
+2. Navigate to the project backend directory
 
 ```bash
 cd react-project
@@ -39,13 +42,7 @@ cd react-project
 3. Install dependencies:
 
 ```bash
-npm install
+npm i
 ```
 
-4. Install ngrok for https tunneling if your virtual machine is running inside a local network only:
-
-```bash
-npm install @ngrok/ngrok
-```
-
-5. Configure .env file in react-project/backend to match the provided example .env
+4. Configure .env file in react-project/backend to match the provided example .env

@@ -2,12 +2,8 @@ import React, { useEffect, useState } from 'react'
 import {CarouselInfoBuyOptions} from '../Components/CarouselInfoBuyOptions.jsx'
 import Hero from '../Components/Hero.jsx';
 import { fetchData } from '../Utils/fetchData';
-import { useNavigate } from 'react-router-dom';
-
-
 
 const Home = () => {
-  const navigate = useNavigate();
   const [allItems, setAllItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
