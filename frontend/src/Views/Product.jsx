@@ -50,7 +50,7 @@ const Product = () => {
       {/* Item Image */}
       <div className="flex-shrink-0">
         <img
-          src={item.image}
+          src={'http://localhost:3000'+item.image}
           alt={item.name}
           className="w-full md:w-[400px] h-[300px] object-cover rounded-lg shadow-md"
         />

@@ -11,7 +11,7 @@ const ItemRow = ({allItems}) => {
 
   {allItems.map((item) => (
 
-    console.log("img", item.image),
+    console.log("img", 'http://localhost:3000'+item.image),
 
     <div
       key={item.id}
@@ -21,7 +21,7 @@ const ItemRow = ({allItems}) => {
 
 
       <img
-        src={item?.image}
+        src={'http://localhost:3000'+item?.image}
         alt={item.name}
         className="w-full sm:w-1/3 h-[300px] object-cover"
       />
