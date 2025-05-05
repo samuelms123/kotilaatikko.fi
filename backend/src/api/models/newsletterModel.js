@@ -67,10 +67,22 @@ const getSubscribers = async () => {
   }
 };
 
+const getGuestSubscriber = async (email) => {
+  const sql = `SELECT email FROM guest_subscribers WHERE email = ?`;
+  const [rows] = await promisePool.execute(sql, [email]);
+
+  if (rows.length === 0) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
 export {
   addGuestSubscriber,
   addNewsletter,
   getNewsletters,
   deleteNewsletter,
   getSubscribers,
+  getGuestSubscriber,
 };

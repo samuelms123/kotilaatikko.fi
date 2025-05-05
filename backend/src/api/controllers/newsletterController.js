@@ -2,6 +2,7 @@ import {
   addGuestSubscriber,
   addNewsletter,
   deleteNewsletter,
+  getGuestSubscriber,
   getNewsletters,
   getSubscribers,
 } from '../models/newsletterModel.js';
@@ -88,6 +89,18 @@ const handleGetSubscribers = async (req, res) => {
   }
 };
 
+const handleIsSubscribed = async (req, res) => {
+  const {email} = req.params;
+
+  try {
+    const isSubscribed = await getGuestSubscriber(email);
+    res.status(200).json({isSubscribed: isSubscribed});
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+};
+
 export {
   handleUserSubscription,
   handleAddGuestSubscription,
@@ -95,4 +108,5 @@ export {
   handleGetNewsletters,
   handleDeleteNewsletter,
   handleGetSubscribers,
+  handleIsSubscribed,
 };

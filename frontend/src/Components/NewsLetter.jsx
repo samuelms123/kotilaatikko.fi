@@ -5,9 +5,10 @@ import {useNewsletter, useUser} from '../Hooks/apiHooks';
 const NewsLetter = () => {
   const {user, updateUser} = useContext(UserContext);
   const {toggleSubscription} = useUser();
-  const {subscribeAsGuest} = useNewsletter();
+  const {subscribeAsGuest, checkIfGuestSubscribed} = useNewsletter();
   const emailRef = useRef();
   const [message, setMessage] = useState('');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (user) {
@@ -28,6 +29,12 @@ const NewsLetter = () => {
     } else {
       try {
         const email = e.target.email.value;
+        const isSubscribed = await checkIfGuestSubscribed(email);
+        if (isSubscribed) {
+          setMessage('Olet jo tilannut uutiskirjeen.');
+          emailRef.current && (emailRef.current.value = '');
+          return;
+        }
         const result = await subscribeAsGuest(email);
         console.log(result);
         setMessage('Kiitos tilauksesta!');

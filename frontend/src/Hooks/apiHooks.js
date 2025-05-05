@@ -9,6 +9,22 @@ const tokenInLocalStorage = () => {
 // make a table with the mediaArray
 
 const useNewsletter = () => {
+  const checkIfGuestSubscribed = async (email) => {
+    try {
+      const response = await fetch(
+        import.meta.env.VITE_AUTH_API + `/newsletter/${email}`,
+        {
+          method: 'GET',
+        },
+      );
+      const result = await response.json();
+      return result.isSubscribed;
+    } catch (error) {
+      console.error('Subscription check failed:', error);
+      throw error;
+    }
+  };
+
   const subscribeAsGuest = async (email) => {
     try {
       const response = await fetch(
@@ -27,7 +43,7 @@ const useNewsletter = () => {
     }
   };
 
-  return {subscribeAsGuest};
+  return {subscribeAsGuest, checkIfGuestSubscribed};
 };
 
 const useAuthentication = () => {
