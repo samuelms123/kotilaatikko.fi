@@ -57,6 +57,7 @@ logs
 **/*.back.*
 
 node_modules
+apidoc
 bower_components
 
 *.sublime*

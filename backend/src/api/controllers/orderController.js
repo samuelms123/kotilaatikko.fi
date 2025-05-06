@@ -172,11 +172,32 @@ const handleGetOrderDetailsById = async (req, res) => {
  * @apiHeader {String} Authorization User's access token (Bearer Token).
  *
  * @apiBody {Object[]} meals List of meals in the order.
- * @apiBody {Number} meals.meal_id Meal ID.
+ * @apiBody {Number} meals.id Meal ID.
  * @apiBody {Number} meals.quantity Quantity of the meal.
  *
  * @apiSuccess {String} message Success message.
  * @apiSuccess {Number} orderId ID of the created order.
+ *
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 201 Created
+ * {
+ *   "message": "Order created",
+ *   "orderId": 123
+ * }
+ *
+ * @apiExample {json} Request Body Example:
+ * {
+ *   "meals": [
+ *     {
+ *       "id": 46,
+ *       "quantity": 2
+ *     },
+ *     {
+ *       "id": 47,
+ *       "quantity": 1
+ *     }
+ *   ]
+ * }
  */
 const handlePostOrder = async (req, res) => {
   const userId = res.locals.user.id;
@@ -228,7 +249,7 @@ const handleDeleteOrder = async (req, res) => {
 };
 
 /**
- * @api {get} /users/orders/:user_id Get orders by user ID
+ * @api {get} /users/orders/:id Get orders by user ID
  * @apiName GetOrdersByUserId
  * @apiGroup Orders
  * @apiHeader {String} Authorization Bearer token users JWT.
