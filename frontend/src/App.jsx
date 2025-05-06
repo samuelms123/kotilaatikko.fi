@@ -21,7 +21,7 @@ import Confirmation from './Views/Confirmation';
 function App() {
   console.log('asd', import.meta.env.VITE_AUTH_API);
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <BrowserRouter>
       <UserProvider>
         <CartProvider>
           <CartDropdown />
