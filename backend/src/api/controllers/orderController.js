@@ -206,6 +206,16 @@ const handlePostOrder = async (req, res) => {
  *
  * @apiSuccess {String} message Success message.
  * @apiSuccess {Object} result Result of the deletion.
+ * @apiSuccess {Boolean} result.success Indicates whether the deletion was successful.
+ *
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ * {
+ *   "message": "Order deleted successfully",
+ *   "result": {
+ *     "success": true
+ *   }
+ * }
  */
 const handleDeleteOrder = async (req, res) => {
   const orderId = req.params.id;
@@ -218,17 +228,65 @@ const handleDeleteOrder = async (req, res) => {
 };
 
 /**
- * @api {get} /users/:id/orders Get orders by user ID
+ * @api {get} /users/orders/:user_id Get orders by user ID
  * @apiName GetOrdersByUserId
  * @apiGroup Orders
- * @apiHeader {String} Admin Authorization Bearer token.
+ * @apiHeader {String} Authorization Bearer token users JWT.
  *
  * @apiParam {Number} id User ID.
  *
  * @apiSuccess {Object[]} orders List of orders.
- * @apiSuccess {Number} orders.id Order ID.
- * @apiSuccess {String} orders.date Order date.
+ * @apiSuccess {Number} orders.order_id Order ID.
+ * @apiSuccess {String} orders.order_date Order date.
+ * @apiSuccess {Number} orders.total_price Total price of the order.
  * @apiSuccess {Object[]} orders.meals List of meals in the order.
+ * @apiSuccess {Number} orders.meals.meal_id Meal ID.
+ * @apiSuccess {String} orders.meals.meal_name Meal name.
+ * @apiSuccess {Number} orders.meals.meal_price Meal price.
+ * @apiSuccess {Number} orders.meals.quantity Quantity of the meal ordered.
+ * @apiSuccess {Number} orders.meals.total_price Total price for the meal.
+ *
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ * {
+ *   "orders": [
+ *     {
+ *       "order_id": 39,
+ *       "order_date": "2025-05-06",
+ *       "total_price": 12,
+ *       "meals": [
+ *         {
+ *           "meal_id": 40,
+ *           "meal_name": "Makaroonilaatikko",
+ *           "meal_price": 6,
+ *           "quantity": 1,
+ *           "total_price": 6
+ *         },
+ *         {
+ *           "meal_id": 44,
+ *           "meal_name": "Munakoisolasagne",
+ *           "meal_price": 6,
+ *           "quantity": 1,
+ *           "total_price": 6
+ *         }
+ *       ]
+ *     },
+ *     {
+ *       "order_id": 40,
+ *       "order_date": "2025-05-06",
+ *       "total_price": 6,
+ *       "meals": [
+ *         {
+ *           "meal_id": 40,
+ *           "meal_name": "Makaroonilaatikko",
+ *           "meal_price": 6,
+ *           "quantity": 1,
+ *           "total_price": 6
+ *         }
+ *       ]
+ *     }
+ *   ]
+ * }
  */
 const handleGetOrderByUserId = async (req, res) => {
   const userId = req.params.id;
