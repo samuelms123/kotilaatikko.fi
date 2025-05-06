@@ -1,3 +1,207 @@
+/**
+ * @api {post} /meals Add a new meal
+ * @apiName AddMeal
+ * @apiGroup Meals
+ * @apiPermission admin
+ *
+ * @apiDescription Adds a new meal along with its category and ingredients. If the category or ingredients don't exist, they will be created.
+ *
+ * @apiHeader {String} Authorization User's access token (Bearer Token).
+ * @apiHeader {String} Content-Type multipart/form-data (for file upload)
+ *
+ * @apiBody {String} mealName Name of the meal.
+ * @apiBody {Number} mealPrice Price of the meal.
+ * @apiBody {String} mealDescription Description of the meal.
+ * @apiBody {String} categoryName Name of the category (either existing or new).
+ * @apiBody {String} categoryDescription Description of the category.
+ * @apiBody {File} [image] Meal image file (optional).
+ * @apiBody {Object[]} ingredients Array of ingredient objects.
+ * @apiBody {String} name Ingredient name.
+ * @apiBody {Number} Ingredient price (optional).
+ * @apiBody {String} Ingredient description (optional).
+ *
+ * @apiSuccess {String} message Success message.
+ * @apiSuccess {Number} mealId ID of the newly created meal.
+ * @apiSuccess {Number} mealCategory ID of the meal's category.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 201 Created
+ *     {
+ *       "message": "Meal, category and ingredients added successfully",
+ *       "mealId": 5,
+ *       "mealCategory": 3
+ *     }
+ *
+ * @apiError (Error 500) {String} message Error message.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *       "message": "Failed to add meal"
+ *     }
+ */
+
+/**
+ * @api {get} /meals Get all meals
+ * @apiName GetAllMeals
+ * @apiGroup Meals
+ *
+ * @apiDescription Retrieves a list of all meals with basic information.
+ *
+ * @apiSuccess {Object[]} meals Array of meal objects.
+ * @apiSuccess {Number} meals.id Meal ID.
+ * @apiSuccess {String} meals.name Meal name.
+ * @apiSuccess {Number} meals.price Meal price.
+ * @apiSuccess {String} meals.description Meal description.
+ * @apiSuccess {String} meals.image Meal image path.
+ * @apiSuccess {String} meals.category Meal category name.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     [
+ *       {
+ *         "id": 1,
+ *         "name": "Pasta Carbonara",
+ *         "price": 12.99,
+ *         "description": "Classic Italian pasta dish",
+ *         "image": "/uploads/pasta.jpg",
+ *         "category": "Italian"
+ *       }
+ *     ]
+ *
+ * @apiError (Error 500) {String} message Error message.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *       "message": "Failed to fetch meals"
+ *     }
+ */
+
+/**
+ * @api {get} /meals/:id Get meal details
+ * @apiName GetMealDetails
+ * @apiGroup Meals
+ *
+ * @apiDescription Retrieves detailed information about a specific meal including its ingredients.
+ *
+ * @apiBody {Number} id Meal's unique ID.
+ *
+ * @apiSuccess {Number} id Meal ID.
+ * @apiSuccess {String} name Meal name.
+ * @apiSuccess {Number} price Meal price.
+ * @apiSuccess {String} description Meal description.
+ * @apiSuccess {String} image Meal image path.
+ * @apiSuccess {Object} category Meal category details.
+ * @apiSuccess {Number} category.id Category ID.
+ * @apiSuccess {String} category.name Category name.
+ * @apiSuccess {String} category.description Category description.
+ * @apiSuccess {Object[]} ingredients Array of ingredient objects.
+ * @apiSuccess {Number} ingredients.id Ingredient ID.
+ * @apiSuccess {String} ingredients.name Ingredient name.
+ * @apiSuccess {Number} ingredients.price Ingredient price.
+ * @apiSuccess {String} ingredients.description Ingredient description.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "id": 1,
+ *       "name": "Pasta Carbonara",
+ *       "price": 12.99,
+ *       "description": "Classic Italian pasta dish",
+ *       "image": "/uploads/pasta.jpg",
+ *       "category": {
+ *         "id": 3,
+ *         "name": "Italian",
+ *         "description": "Traditional Italian dishes"
+ *       },
+ *       "ingredients": [
+ *         {
+ *           "id": 1,
+ *           "name": "Pasta",
+ *           "price": 2.99,
+ *           "description": "Spaghetti pasta",
+ *           "unit": null,
+ *         }
+ *       ]
+ *     }
+ *
+ * @apiError (Error 404) {String} message Meal not found.
+ * @apiError (Error 500) {String} message Error message.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "message": "Meal not found"
+ *     }
+ */
+
+/**
+ * @api {get} /meals/category/:id Get meals by category
+ * @apiName GetMealsByCategory
+ * @apiGroup Meals
+ *
+ * @apiDescription Retrieves all meals belonging to a specific category.
+ *
+ * @apiBody {Number} id Category's unique ID.
+ *
+ * @apiSuccess {Object[]} meals Array of meal objects.
+ * @apiSuccess {Number} meals.id Meal ID.
+ * @apiSuccess {String} meals.name Meal name.
+ * @apiSuccess {Number} meals.price Meal price.
+ * @apiSuccess {String} meals.description Meal description.
+ * @apiSuccess {String} meals.image Meal image path.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     [
+ *       {
+ *         "id": 1,
+ *         "name": "Pasta Carbonara",
+ *         "price": 12.99,
+ *         "description": "Classic Italian pasta dish"
+ *       }
+ *     ]
+ *
+ * @apiError (Error 500) {String} message Error message.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Server Error
+ *     {
+ *       "message": "Failed to fetch meals"
+ *     }
+ */
+
+/**
+ * @api {delete} /meals/:id Delete a meal
+ * @apiName DeleteMeal
+ * @apiGroup Meals
+ * @apiPermission admin
+ *
+ * @apiDescription Deletes a meal and unlinks all its relationships with categories and ingredients.
+ *
+ * @apiHeader {String} Authorization Bearer token for authentication.
+ *
+ * @apiBody {Number} id Meal's unique ID.
+ *
+ * @apiSuccess {String} message Success message.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "message": "Meal deleted successfully"
+ *     }
+ *
+ * @apiError (Error 404) {String} message Meal not found.
+ * @apiError (Error 500) {String} message Error message.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "message": "Meal not found"
+ *     }
+ */
+
 import {
   addCategory,
   addIngredient,
