@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import {CarouselInfoBuyOptions} from '../Components/CarouselInfoBuyOptions.jsx'
+import React, { useEffect, useState } from 'react';
+import { CarouselInfoBuyOptions } from '../Components/CarouselInfoBuyOptions.jsx';
 import Hero from '../Components/Hero.jsx';
 import { fetchData } from '../Utils/fetchData';
 
@@ -12,7 +12,7 @@ const Home = () => {
     const fetchItems = async () => {
       try {
         // Fetch all items
-        const data = await fetchData(import.meta.env.VITE_AUTH_API+'/meals'); // Replace with your API endpoint
+        const data = await fetchData(import.meta.env.VITE_AUTH_API + '/meals'); // Replace with your API endpoint
         setAllItems(data);
       } catch (err) {
         setError(err.message);
@@ -24,38 +24,73 @@ const Home = () => {
   }, []);
 
   return (
-
     <>
+      {/* Hero Section */}
       <Hero />
+      <div className="py-12 rounded-2xl mt-8">
+        <h1 className="font-[header] text-5xl text-center text-gray-800 mb-6">
+          Tervetuloa kotilaatikkoon!
+        </h1>
 
-      <h1 className="mt-5 font-bold text-[5.5vh] m-auto text-center text-shadow-2xs">Tervetuloa kotilaatikkoon!</h1>
+        <div className="p-6 max-w-4xl mx-auto text-center">
+          <h2 className="text-2xl font-semibold text-gray-700 mb-6">
+            Tuoreena pakatut ainesosat suoraan kotiisi, kokkaamista vaille valmista.
+          </h2>
 
-      <div className="p-5">
-        <div className="p-5 items-center justify-center">
-          <h1 className="text-[3vh] font-bold max-w-4xl mx-auto mb-8">Tuoreena pakatut ainesosat suoraan kotiisi, kokkaamista vaille valmista.</h1>
-
-          <p className=" max-w-4xl mx-auto mb-8">
-            Kotilaatikon ruokapakettimme ovat valmiiksi mietittyjä ateriakokonaisuuksia.
-            Jokaiseen pakettiin kuuluu kaikki ruuan laittoon tarvittavat ainesosat ja reseptit.
-            Voit siis vaikka tilata koko viikon ruuat valmiiksi ainesosina ja kokata joka päivä jotain uutta!
+          <p className="text-lg text-gray-600 leading-relaxed mb-6">
+            Kotilaatikko.fi on suunniteltu sinulle, joka haluat syödä hyvin, mutta ilman ylimääräistä stressiä. Me
+            toimitamme herkulliset ja ravitsevat ateriat kotiovellesi – valmiiksi suunniteltuna ja korkealaatuisista
+            raaka-aineista. Voit tilata yksittäisen aterian tai ruoat koko viikoksi. Jokainen toimitus sisältää
+            selkeät reseptit, joten ruoanlaitto on rentoa ja vaivatonta.
+          </p>
+          <p className="text-lg font-semibold text-gray-700">
+            Unohda ruokaostosten suunnittelu ja tuntikausien reseptien selaaminen – nauti kotiruoasta, jonka
+            valmistaminen on yhtä helppoa kuin sen tilaaminen!
           </p>
         </div>
-        {loading ? (
-          <div className="flex justify-center items-center h-96">
-            <p className="text-xl">Ladataan ruokalistoja...</p>
-          </div>
-        ) : error ? (
-          <div className="flex justify-center items-center h-96">
-            <p className="text-xl text-red-500">Ruokalistan lataus epäonnistui</p>
-          </div>
-        ) : (
-          <CarouselInfoBuyOptions items={allItems} />
-        )}
       </div>
+
+      {/* Three-Phase Introduction Section */}
+      <div className="bg-white py-16">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+          <div className="p-10  rounded-xl shadow-s flex flex-col items-center justify-center bg-gray-50 hover:shadow-2xl transition-shadow duration-300">
+            <h3 className="text-7xl font-[header] text-[var(--primary-color)] mb-6">1</h3>
+            <h4 className="text-2xl font-bold text-gray-800 mb-4">Valitse annokset</h4>
+            <p className="text-lg text-gray-600">
+              Tutustu viikoittain vaihtuvaan valikoimaamme ja valitse suosikkisi – yksi ateria tai koko viikon ruoat.
+            </p>
+          </div>
+          <div className="p-10  rounded-xl shadow-sm flex flex-col items-center justify-center bg-gray-50 hover:shadow-2xl transition-shadow duration-300">
+            <h3 className="text-7xl font-[header] text-[var(--primary-color)] mb-6">2</h3>
+            <h4 className="text-2xl font-bold text-gray-800 mb-4">Vastaanota toimitus</h4>
+            <p className="text-lg text-gray-600">
+              Toimitamme ainekset ja selkeät reseptit kotiovellesi valitsemanasi ajankohtana.
+            </p>
+          </div>
+          <div className="p-10  rounded-xl shadow-sm flex flex-col items-center justify-center bg-gray-50 hover:shadow-2xl transition-shadow duration-300">
+            <h3 className="text-7xl font-[header] text-[var(--primary-color)] mb-6">3</h3>
+            <h4 className="text-2xl font-bold text-gray-800 mb-4">Valmista ja nauti</h4>
+            <p className="text-lg text-gray-600">
+              Valmista ateriat helposti ohjeidemme avulla ja nauti hyvästä ruuasta ilman kiirettä tai vaivaa.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Carousel Section */}
+      {loading ? (
+        <div className="flex justify-center items-center h-96">
+          <p className="text-xl text-gray-600">Ladataan ruokalistoja...</p>
+        </div>
+      ) : error ? (
+        <div className="flex justify-center items-center h-96">
+          <p className="text-xl text-red-500">Ruokalistan lataus epäonnistui</p>
+        </div>
+      ) : (
+        <CarouselInfoBuyOptions items={allItems} />
+      )}
     </>
+  );
+};
 
-
-  )
-}
-
-export default Home
+export default Home;
