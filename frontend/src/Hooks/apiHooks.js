@@ -162,7 +162,34 @@ function useUser() {
       throw error;
     }
   }
-  return {getUserByToken, postUser, checkEmailAvailability, toggleSubscription};
+
+  async function getMyOrders(userId) {
+    try {
+      const fetchOptions = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      };
+      const response = await fetch(
+        `http://localhost:3000/api/v1/orders/user/${userId}`,
+        fetchOptions,
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch orders');
+      }
+
+      const data = await response.json();
+      return data.orders;
+    } catch (error) {
+      console.error('Error fetching user orders:', error);
+      throw error;
+    }
+  }
+
+  return {getUserByToken, postUser, checkEmailAvailability, toggleSubscription, getMyOrders};
 }
 
 export {useAuthentication, useUser, useNewsletter};
