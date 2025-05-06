@@ -1,5 +1,5 @@
 # Kotilaatikko Project Starter
-[Link to Kotilaatikko-website](http://10.120.32.65/)
+[Link to Kotilaatikko-website](http://10.120.32.65/) (Works currently only with VPN)
 
 [Link to Kotilaatikko-APIDocs](https://users.metropolia.fi/~samuelms/kotilaatikko/apidocs/)
 
