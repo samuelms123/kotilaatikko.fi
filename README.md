@@ -3,11 +3,11 @@
 
 [Link to Kotilaatikko-APIDocs](https://users.metropolia.fi/~samuelms/kotilaatikko/apidocs/)
 
+[Link to questionnaire](https://docs.google.com/forms/d/14uSWWsobukuv93JEH9IMoyOi6ki6zYq_qvagdybfYO4/edit?pli=1) (requires Metropolia user)
+
 Online food package delivery platform built with React. Enables users to browse and purchase site admin authored mail order meal packages.
 
 This project serves as a useful template for food package delivery sites.
-
-Link to questionnaire: https://docs.google.com/forms/d/14uSWWsobukuv93JEH9IMoyOi6ki6zYq_qvagdybfYO4/edit?pli=1 (requires Metropolia user)
 
 ## Features
 
