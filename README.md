@@ -1,4 +1,5 @@
 # Kotilaatikko Project Starter
+[Link to Kotilaatikko-website](http://10.120.32.65/)
 
 Online food package delivery platform built with React. Enables users to browse and purchase site admin authored mail order meal packages.
 
