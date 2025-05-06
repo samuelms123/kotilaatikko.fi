@@ -14,7 +14,7 @@ const setFavicon = (url) => {
   document.head.appendChild(link);
 };
 
-setFavicon(`${import.meta.env.BASE_URL}fav-icon.png`);
+setFavicon(`${import.meta.env.VITE_BASE_URL}fav-icon.png`);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
