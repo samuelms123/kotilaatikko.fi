@@ -8,6 +8,27 @@ import {
 } from '../models/newsletterModel.js';
 import {updateUserSubscription} from '../models/userModel.js';
 
+/**
+ * @api {put} /newsletter Toggle User Subscription
+ * @apiName UserSubscription
+ * @apiGroup Newsletter
+ * @apiHeader {String} Authorization User's access token (Bearer Token).
+ *
+ * @apiSuccess {String} message Confirmation message.
+ * @apiSuccess {Object} updatedUser Updated user object.
+ *
+ * @apiSuccessExample {message: 'update ok',
+ *                    updatedUser: {id: 1,
+                      firstName: ukko,
+                      lastName: pekka,
+                      email: ukko.pekka@gmail.com,
+                      phone: 12345677,
+                      address: ukkotie,
+                      city: Tampere,
+                      postalCode: 1234,
+                      type: user,
+                      subscribed: 1}}
+ */
 const handleUserSubscription = async (req, res) => {
   const user = res.locals.user;
   try {
@@ -31,6 +52,25 @@ const handleUserSubscription = async (req, res) => {
   }
 };
 
+/**
+ * @api {post} /newsletter Add Guest Subscriber
+ * @apiName AddGuestSubscription
+ * @apiGroup Newsletter
+ *
+ * @apiBody {String} email Guest's email address.
+ *
+ * @apiSuccess {String} message Confirmation message.
+ * @apiSuccess {Object} result Result of the operation.
+ *
+ * @apiSuccessExample Success-Response:
+ * {
+ *   "message": "Guest subscriber added",
+ *   "result": {
+ *     "insertId": 5,
+ *     "affectedRows": 1
+ *   }
+ * }
+ */
 const handleAddGuestSubscription = async (req, res) => {
   const email = req.body.email;
   console.log('email', email);
@@ -43,6 +83,27 @@ const handleAddGuestSubscription = async (req, res) => {
   }
 };
 
+/**
+ * @api {post} /newsletter/modify Add Newsletter
+ * @apiName AddNewsletter
+ * @apiGroup Newsletter
+ * @apiHeader {String} Authorization Admin access token (Bearer Token).
+ * @apiParam {String} subject Subject of the newsletter.
+ * @apiParam {String} content Content of the newsletter.
+ * @apiParam {File} [image] Optional image file for the newsletter.
+ *
+ * @apiSuccess {String} message Confirmation message.
+ * @apiSuccess {Object} result Created newsletter data.
+ *
+ * @apiSuccessExample Success-Response:
+ * {
+ *   "message": "Newsletter created",
+ *   "result": {
+ *     "insertId": 12,
+ *     "affectedRows": 1
+ *   }
+ * }
+ */
 const handleAddNewsletter = async (req, res) => {
   const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
   const newsLetter = {
@@ -60,6 +121,26 @@ const handleAddNewsletter = async (req, res) => {
   }
 };
 
+/**
+ * @api {get} /newsletter Get All Newsletters
+ * @apiName GetNewsletters
+ * @apiGroup Newsletter
+ * @apiHeader {String} Authorization Admin access token (Bearer Token).
+ *
+ * @apiSuccess {Object[]} newsletters List of newsletters.
+ *
+ * @apiSuccessExample Success-Response:
+ * [
+ *   {
+ *     "id": 1,
+ *     "subject": "Monthly Update",
+ *     "content": "This month’s update includes...",
+ *     "image": "/uploads/news1.png",
+ *     "created_at": "2024-11-05T12:34:56.000Z"
+ *   },
+ *   ...
+ * ]
+ */
 const handleGetNewsletters = async (req, res) => {
   try {
     const result = await getNewsletters();
@@ -70,6 +151,24 @@ const handleGetNewsletters = async (req, res) => {
   }
 };
 
+/**
+ * @api {delete} /newsletter/modify/:id Delete Newsletter
+ * @apiName DeleteNewsletter
+ * @apiGroup Newsletter
+ * @apiHeader {String} Authorization Admin access token (Bearer Token).
+ * @apiParam {Number} id ID of the newsletter to delete.
+ *
+ * @apiSuccess {String} message Confirmation message.
+ * @apiSuccess {Object} deleted Result of the delete operation.
+ *
+ * @apiSuccessExample Success-Response:
+ * {
+ *   "message": "Newsletter deleted",
+ *   "deleted": {
+ *     "affectedRows": 1
+ *   }
+ * }
+ */
 const handleDeleteNewsletter = async (req, res) => {
   try {
     const {id} = req.params;
@@ -80,6 +179,27 @@ const handleDeleteNewsletter = async (req, res) => {
   }
 };
 
+/**
+ * @api {get} /newsletter/subscribers Get Subscribers
+ * @apiName GetSubscribers
+ * @apiGroup Newsletter
+ * @apiHeader {String} Authorization Admin access token (Bearer Token).
+ *
+ * @apiSuccess {Object[]} subscribers List of all subscribers (users and guests).
+ *
+ * @apiSuccessExample Success-Response:
+ * [
+ *   {
+ *     "email": "guest1@example.com"
+ *   },
+ *   {
+ *     "email": "user@example.com",
+ *     "firstName": "Matti",
+ *     "lastName": "Meikäläinen",
+ *     "is_subscribed": true
+ *   }
+ * ]
+ */
 const handleGetSubscribers = async (req, res) => {
   try {
     const result = await getSubscribers();
@@ -89,6 +209,20 @@ const handleGetSubscribers = async (req, res) => {
   }
 };
 
+/**
+ * @api {get} /newsletter/:email Check Guest Subscription
+ * @apiName IsSubscribed
+ * @apiGroup Newsletter
+ *
+ * @apiParam {String} email Guest's email address.
+ *
+ * @apiSuccess {Boolean} isSubscribed Subscription status of the guest.
+ *
+ * @apiSuccessExample Success-Response:
+ * {
+ *   "isSubscribed": true
+ * }
+ */
 const handleIsSubscribed = async (req, res) => {
   const {email} = req.params;
 
