@@ -57,7 +57,7 @@ const Home = () => {
             <h3 className="text-7xl font-[header] text-[var(--primary-color)] mb-6">1</h3>
             <h4 className="text-2xl font-bold text-gray-800 mb-4">Valitse annokset</h4>
             <p className="text-lg text-gray-600">
-              Tutustu viikoittain vaihtuvaan valikoimaamme ja valitse suosikkisi – yksi ateria tai koko viikon ruoat.
+              Tutustu laadukkaaseen valikoimaamme ja valitse suosikkisi – yksi ateria tai koko viikon ruoat.
             </p>
           </div>
           <div className="p-10  rounded-xl shadow-sm flex flex-col items-center justify-center bg-gray-50 hover:shadow-2xl transition-shadow duration-300">
