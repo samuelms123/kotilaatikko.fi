@@ -1,7 +1,7 @@
 // src/Views/Confirmation.jsx
 import {useEffect} from 'react';
 import {useCart} from '../Contexts/CartContext';
-import {useSearchParams} from 'react-router-dom';
+import {useSearchParams} from 'react-router';
 
 const Confirmation = () => {
   const [searchParams] = useSearchParams();
@@ -15,6 +15,7 @@ const Confirmation = () => {
     }
   }, [orderId, clearCart]);
 
+  clearCart();
   return (
     <div className="max-w-2xl mx-auto p-6 text-center">
       <h1 className="text-3xl font-bold mb-4">Kiitos tilauksestasi!</h1>

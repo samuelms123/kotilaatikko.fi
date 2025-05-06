@@ -40,8 +40,8 @@ function App() {
               <Route path="/login" element={<LoginForm />} />
               <Route path="/register" element={<RegisterForm />} />
               <Route path="/logout" element={<Logout />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/confirmation" element={<Confirmation />} />
+              <Route path="/checkout" element={<ProtectedRoute> <Checkout /> </ProtectedRoute>} />
+              <Route path="/confirmation" element={<ProtectedRoute> <Confirmation /> </ProtectedRoute>} />
               <Route path="/*" element={<NotFound />} />
             </Route>
           </Routes>

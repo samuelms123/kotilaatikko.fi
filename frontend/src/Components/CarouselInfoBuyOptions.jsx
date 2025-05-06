@@ -75,7 +75,7 @@ const CarouselInfoBuyOptions = ({ items }) => {
         <div className="absolute inset-0 flex flex-col justify-center items-center gap-4 p-4 md:hidden">
         {limitedItems[currentIndex] && (
           <>
-            <h3 className="text-3xl font-[header] text-white bg-black/60 p-3 rounded-4xl px-5">{limitedItems[currentIndex].name}</h3>
+            <h3 className="text-[4vh] font-[header] text-white bg-black/60 p-3 rounded-4xl px-6">{limitedItems[currentIndex].name}</h3>
             <div className="flex flex-col gap-2">
               <button
                 className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] py-2 px-4 mx-2 hover:scale-105 transition-transform duration-300"

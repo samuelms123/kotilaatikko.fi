@@ -8,9 +8,9 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('userInfo');
+  const [currentPage, setCurrentPage] = useState(1);
+  const ordersPerPage = 10;
 
-
-  // Fetch user information
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -26,13 +26,12 @@ const UserProfile = () => {
     fetchUserData();
   }, []);
 
-  // Fetch user orders
   useEffect(() => {
     const fetchUserOrders = async () => {
-      if (!user) return; // Wait until user data is loaded
+      if (!user) return;
       try {
-        const ordersData = await getMyOrders(user.id); // Pass user ID to getMyOrders
-        setOrders(ordersData || []); // Ensure orders is always an array
+        const ordersData = await getMyOrders(user.id);
+        setOrders(ordersData || []);
       } catch (err) {
         setError(err.message || 'Failed to fetch orders');
       }
@@ -54,6 +53,12 @@ const UserProfile = () => {
   if (!user) {
     return <div className="text-center mt-6">Käyttäjätietoja ei saatavilla</div>;
   }
+
+  const totalPages = Math.ceil(orders.length / ordersPerPage);
+  const paginatedOrders = [...orders].reverse().slice(
+    (currentPage - 1) * ordersPerPage,
+    currentPage * ordersPerPage
+  );
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -100,21 +105,39 @@ const UserProfile = () => {
           <div className="p-6 bg-white rounded-lg shadow">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Tehdyt tilaukset</h2>
             {orders && orders.length > 0 ? (
-              orders.map((order) => (
-                <div key={order.order_id} className="order-item mb-4 p-4 bg-gray-100 rounded-lg shadow">
-                  <p><strong>Tilausnumero:</strong> {order.order_id}</p>
-                  <p><strong>Päivämäärä:</strong> {new Date(order.order_date).toLocaleDateString('fi-FI')}</p>
-                  <p className=' mb-5'><strong>Hinta:</strong> {order.total_price} €</p>
-                  <p><strong>Tuotteet:</strong></p>
-                  <ul className="list-disc list-inside">
-                    {order.meals.map((meal) => (
-                      <li key={meal.meal_id}>
-                        {meal.meal_name} - {meal.quantity} kpl - {meal.total_price} €
-                      </li>
-                    ))}
-                  </ul>
+              <>
+                {paginatedOrders.map((order) => (
+                  <div key={order.order_id} className="order-item mb-4 p-4 bg-gray-100 rounded-lg shadow">
+                    <p><strong>Tilausnumero:</strong> {order.order_id}</p>
+                    <p><strong>Päivämäärä:</strong> {new Date(order.order_date).toLocaleDateString('fi-FI')}</p>
+                    <p className='mb-5'><strong>Hinta:</strong> {order.total_price} €</p>
+                    <p><strong>Tuotteet:</strong></p>
+                    <ul className="list-disc list-inside">
+                      {order.meals.map((meal) => (
+                        <li key={meal.meal_id}>
+                          {meal.meal_name} - {meal.quantity} kpl - {meal.total_price} €
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+                {/* Page Controls */}
+                <div className="flex justify-center mt-4">
+                  {Array.from({ length: totalPages }, (_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentPage(index + 1)}
+                      className={`mx-1 px-3 py-1 rounded ${
+                        currentPage === index + 1
+                          ? 'bg-[var(--primary-color)] text-white'
+                          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                      }`}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
                 </div>
-              ))
+              </>
             ) : (
               <div className="text-center">Ei tilauksia saatavilla</div>
             )}
