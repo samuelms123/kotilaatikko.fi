@@ -1,0 +1,7 @@
+{
+  "name": "kotilaatikko.fi API ",
+  "version": "1.0.0",
+  "description": "All API endpoints for kotilaatikko.fi | Connection needs Metropolia UAS VPN",
+  "title": "kotilaatikko.fi API",
+  "url": "http://10.120.32.65/api/v1"
+}
