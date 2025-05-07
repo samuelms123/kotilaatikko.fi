@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router'; // Import useNavigate
-import { useCart } from '../Contexts/CartContext'; // Import useCart
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router'; // Import useNavigate
+import {useCart} from '../Contexts/CartContext'; // Import useCart
 import ItemRow from '../Components/ItemRow';
-import { fetchData } from '../Utils/fetchData';
+import {fetchData} from '../Utils/fetchData';
 
 const Shop = () => {
   const [allItems, setAllItems] = useState([]); // State to store all items
@@ -15,7 +15,7 @@ const Shop = () => {
   const [error, setError] = useState(null);
 
   const navigate = useNavigate(); // Initialize useNavigate
-  const { addToCart } = useCart(); // Initialize addToCart from CartContext
+  const {addToCart} = useCart(); // Initialize addToCart from CartContext
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -94,7 +94,6 @@ const Shop = () => {
       </div>
 
       <div className="max-w-[1600px] mx-auto px-4">
-
         {/* Most Ordered Section */}
         <div className="recommended-section my-8">
           <h2 className="text-2xl font-[header] mb-4">
@@ -105,11 +104,16 @@ const Shop = () => {
               <div className="absolute top-0 left-0 bg-[var(--primary-color)] text-white text-sm font-bold px-3 py-1 rounded-br-lg">
                 TILATUIN
               </div>
-              <img
-                src={import.meta.env.VITE_IMG_SERVE_URL + mostOrderedMeal?.meal_image}
-                alt={mostOrderedMeal.meal_name}
-                className="w-full sm:w-1/3 h-[300px] object-cover w-max-[400px] max-h-[300px] sm:max-h-[300px] sm:max-w-[400px]"
-              />
+              <div className="w-full sm:w-[400px] h-[300px] sm:h-[300px] shrink-0">
+                <img
+                  src={
+                    import.meta.env.VITE_IMG_SERVE_URL +
+                    mostOrderedMeal?.meal_image
+                  }
+                  alt={mostOrderedMeal.meal_name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div className="p-6 flex flex-col justify-between flex-grow relative">
                 <div className="mb-4">
                   <h3 className="text-2xl font-[header] mb-2">
@@ -122,21 +126,21 @@ const Shop = () => {
                     {mostOrderedMeal.meal_price} &#8364;
                   </p>
                 </div>
-                <div className="flex flex-col sm:flex-row sm:gap-4 sm:justify-end md:absolute md:bottom-4 md:right-4">
-                <button
-                  onClick={() =>
-                    addToCart({
-                      id: mostOrderedMeal.meal_id,
-                      name: mostOrderedMeal.meal_name,
-                      price: mostOrderedMeal.meal_price,
-                      quantity: 1,
-                      image: mostOrderedMeal.meal_image,
-                    })
-                  }
-                  className="bg-[var(--primary-color)] mb-3 text-white px-4 py-2 rounded hover:bg-opacity-90 hover:scale-105 transition-transform duration-200 font-bold"
-                >
-                  Lisää ostoskoriin
-                </button>
+                <div className="sm:px-6 md:px-6 lg:px-6 flex flex-col sm:flex-row sm:gap-4 sm:justify-end md:absolute md:bottom-4 md:right-4">
+                  <button
+                    onClick={() =>
+                      addToCart({
+                        id: mostOrderedMeal.meal_id,
+                        name: mostOrderedMeal.meal_name,
+                        price: mostOrderedMeal.meal_price,
+                        quantity: 1,
+                        image: mostOrderedMeal.meal_image,
+                      })
+                    }
+                    className="bg-[var(--primary-color)] mb-3 text-white px-4 py-2 rounded hover:bg-opacity-90 hover:scale-105 transition-transform duration-200 font-bold"
+                  >
+                    Lisää ostoskoriin
+                  </button>
                   <button
                     onClick={() =>
                       navigate(`/product/${mostOrderedMeal.meal_id}`)

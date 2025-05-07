@@ -7,22 +7,145 @@ import {
   getMostOrderedMeal
 } from '../models/orderModel.js';
 
+
+
+/**
+ * @api {get} /orders Get all orders
+ * @apiName GetOrders
+ * @apiGroup Orders
+ * @apiHeader {String} Authorization Bearer token for admin access JWT Token.
+ *
+ * @apiSuccess {Object[]} orders List of orders.
+ * @apiSuccess {Number} orders.order_id Order ID.
+ * @apiSuccess {String} orders.date Order date (ISO format).
+ * @apiSuccess {Number} orders.user_id User ID of the customer.
+ * @apiSuccess {String} orders.first_name Customer's first name.
+ * @apiSuccess {String} orders.last_name Customer's last name.
+ * @apiSuccess {String} orders.email Customer's email address.
+ * @apiSuccess {Object[]} orders.meals List of meals in the order.
+ * @apiSuccess {Number} orders.meals.meal_id Meal ID.
+ * @apiSuccess {String} orders.meals.name Meal name.
+ * @apiSuccess {Number} orders.meals.price Meal price.
+ * @apiSuccess {String} orders.meals.description Meal description.
+ * @apiSuccess {Number} orders.meals.quantity Quantity of the meal ordered.
+ * @apiSuccess {String} orders.total_price Total price of the order.
+ *
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ * [
+ *   {
+ *     "order_id": 34,
+ *     "date": "2025-05-05T21:00:00.000Z",
+ *     "user_id": 36,
+ *     "first_name": "adminin nimi",
+ *     "last_name": "adminin sukunimi",
+ *     "email": "admin@admin.com",
+ *     "meals": [
+ *       {
+ *         "meal_id": 40,
+ *         "name": "Makaroonilaatikko",
+ *         "price": 6,
+ *         "description": "Kuvaus: Tässä yksi suomalaisten suosituimmista ruuista: makaronilaatikko jauhelihasta munamaidolla.",
+ *         "quantity": 5
+ *       }
+ *     ],
+ *     "total_price": "30.00"
+ *   }
+ * ]
+ */
+
 const handleGetOrders = async (req, res) => {
   try {
     const orders = await getOrders();
-
     const parsed = orders.map((order) => ({
       ...order,
       meals: JSON.parse(order.meals),
     }));
-
     res.status(200).json(parsed);
   } catch (error) {
     console.error(error);
-    res.status(500).json({message: 'Failed to fetch orders (controller)'});
+    res.status(500).json({ message: 'Failed to fetch orders (controller)' });
   }
 };
 
+
+/**
+ * @api {get} /orders/:id Get order details by ID
+ * @apiName GetOrderDetailsById
+ * @apiGroup Orders
+ * @apiHeader {String} Authorization Bearer token for admin access.
+ *
+ * @apiParam {Number} id Order ID.
+ *
+ * @apiSuccess {Object} order Order details.
+ * @apiSuccess {Number} order.order_id Order ID.
+ * @apiSuccess {String} order.order_date Order date.
+ * @apiSuccess {Object} order.user User details.
+ * @apiSuccess {String} order.user.first_name Customer's first name.
+ * @apiSuccess {String} order.user.last_name Customer's last name.
+ * @apiSuccess {String} order.user.email Customer's email address.
+ * @apiSuccess {Number} order.total_price Total price of the order.
+ * @apiSuccess {Object[]} order.meals List of meals in the order.
+ * @apiSuccess {Number} order.meals.meal_id Meal ID.
+ * @apiSuccess {String} order.meals.meal_name Meal name.
+ * @apiSuccess {Number} order.meals.meal_price Meal price.
+ * @apiSuccess {Number} order.meals.quantity Quantity of the meal ordered.
+ * @apiSuccess {Number} order.meals.total_price Total price for the meal.
+ * @apiSuccess {String} order.meals.meal_description Meal description.
+ * @apiSuccess {String} order.meals.meal_image URL of the meal image.
+ * @apiSuccess {Object[]} order.meals.ingredients List of ingredients in the meal.
+ * @apiSuccess {Number} order.meals.ingredients.ingredient_id Ingredient ID.
+ * @apiSuccess {String} order.meals.ingredients.ingredient_name Ingredient name.
+ * @apiSuccess {String} [order.meals.ingredients.allergens] Allergens (if any).
+ *
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ * {
+ *   "order": {
+ *     "order_id": 40,
+ *     "order_date": "2025-05-06",
+ *     "user": {
+ *       "first_name": "Niko",
+ *       "last_name": "Mehis",
+ *       "email": "niko@mehis.com"
+ *     },
+ *     "total_price": 6,
+ *     "meals": [
+ *       {
+ *         "meal_id": 40,
+ *         "meal_name": "Makaroonilaatikko",
+ *         "meal_price": 6,
+ *         "quantity": 1,
+ *         "total_price": 6,
+ *         "meal_description": "Kuvaus: Tässä yksi suomalaisten suosituimmista ruuista: makaronilaatikko jauhelihasta munamaidolla.",
+ *         "meal_image": "/uploads/image-1746521816534-333672403.jpg",
+ *         "ingredients": [
+ *           {
+ *             "ingredient_id": 19,
+ *             "ingredient_name": "Makaroni",
+ *             "allergens": null
+ *           },
+ *           {
+ *             "ingredient_id": 23,
+ *             "ingredient_name": "Kotimaista sikanauta jauheliha 400g",
+ *             "allergens": null
+ *           },
+ *           {
+ *             "ingredient_id": 24,
+ *             "ingredient_name": "Maito 1L",
+ *             "allergens": null
+ *           },
+ *           {
+ *             "ingredient_id": 25,
+ *             "ingredient_name": "Kananmuna 4kpl",
+ *             "allergens": null
+ *           }
+ *         ]
+ *       }
+ *     ]
+ *   }
+ * }
+ */
 const handleGetOrderDetailsById = async (req, res) => {
   const orderId = req.params.id;
 
@@ -41,6 +164,41 @@ const handleGetOrderDetailsById = async (req, res) => {
   }
 };
 
+
+/**
+ * @api {post} /orders Create a new order
+ * @apiName PostOrder
+ * @apiGroup Orders
+ * @apiHeader {String} Authorization User's access token (Bearer Token).
+ *
+ * @apiBody {Object[]} meals List of meals in the order.
+ * @apiBody {Number} meals.id Meal ID.
+ * @apiBody {Number} meals.quantity Quantity of the meal.
+ *
+ * @apiSuccess {String} message Success message.
+ * @apiSuccess {Number} orderId ID of the created order.
+ *
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 201 Created
+ * {
+ *   "message": "Order created",
+ *   "orderId": 123
+ * }
+ *
+ * @apiExample {json} Request Body Example:
+ * {
+ *   "meals": [
+ *     {
+ *       "id": 46,
+ *       "quantity": 2
+ *     },
+ *     {
+ *       "id": 47,
+ *       "quantity": 1
+ *     }
+ *   ]
+ * }
+ */
 const handlePostOrder = async (req, res) => {
   const userId = res.locals.user.id;
   const meals = req.body.meals; // [{ meal_id: 1, quantity: 2 }, ...]
@@ -58,6 +216,28 @@ const handlePostOrder = async (req, res) => {
   }
 };
 
+
+/**
+ * @api {delete} /orders/:id Delete an order
+ * @apiName DeleteOrder
+ * @apiGroup Orders
+ * @apiHeader {String} Admin Authorization Bearer token.
+ *
+ * @apiParam {Number} id Order ID.
+ *
+ * @apiSuccess {String} message Success message.
+ * @apiSuccess {Object} result Result of the deletion.
+ * @apiSuccess {Boolean} result.success Indicates whether the deletion was successful.
+ *
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ * {
+ *   "message": "Order deleted successfully",
+ *   "result": {
+ *     "success": true
+ *   }
+ * }
+ */
 const handleDeleteOrder = async (req, res) => {
   const orderId = req.params.id;
   try {
@@ -68,6 +248,67 @@ const handleDeleteOrder = async (req, res) => {
   }
 };
 
+/**
+ * @api {get} /users/orders/:id Get orders by user ID
+ * @apiName GetOrdersByUserId
+ * @apiGroup Orders
+ * @apiHeader {String} Authorization Bearer token users JWT.
+ *
+ * @apiParam {Number} id User ID.
+ *
+ * @apiSuccess {Object[]} orders List of orders.
+ * @apiSuccess {Number} orders.order_id Order ID.
+ * @apiSuccess {String} orders.order_date Order date.
+ * @apiSuccess {Number} orders.total_price Total price of the order.
+ * @apiSuccess {Object[]} orders.meals List of meals in the order.
+ * @apiSuccess {Number} orders.meals.meal_id Meal ID.
+ * @apiSuccess {String} orders.meals.meal_name Meal name.
+ * @apiSuccess {Number} orders.meals.meal_price Meal price.
+ * @apiSuccess {Number} orders.meals.quantity Quantity of the meal ordered.
+ * @apiSuccess {Number} orders.meals.total_price Total price for the meal.
+ *
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ * {
+ *   "orders": [
+ *     {
+ *       "order_id": 39,
+ *       "order_date": "2025-05-06",
+ *       "total_price": 12,
+ *       "meals": [
+ *         {
+ *           "meal_id": 40,
+ *           "meal_name": "Makaroonilaatikko",
+ *           "meal_price": 6,
+ *           "quantity": 1,
+ *           "total_price": 6
+ *         },
+ *         {
+ *           "meal_id": 44,
+ *           "meal_name": "Munakoisolasagne",
+ *           "meal_price": 6,
+ *           "quantity": 1,
+ *           "total_price": 6
+ *         }
+ *       ]
+ *     },
+ *     {
+ *       "order_id": 40,
+ *       "order_date": "2025-05-06",
+ *       "total_price": 6,
+ *       "meals": [
+ *         {
+ *           "meal_id": 40,
+ *           "meal_name": "Makaroonilaatikko",
+ *           "meal_price": 6,
+ *           "quantity": 1,
+ *           "total_price": 6
+ *         }
+ *       ]
+ *     }
+ *   ]
+ * }
+ */
 const handleGetOrderByUserId = async (req, res) => {
   const userId = req.params.id;
 
@@ -84,6 +325,32 @@ const handleGetOrderByUserId = async (req, res) => {
   }
 };
 
+/**
+ * @api {get} /orders/most-ordered Get the most ordered meal
+ * @apiName GetMostOrderedMeal
+ * @apiGroup Orders
+ *
+ * @apiSuccess {Object} mostOrderedMeal The most ordered meal.
+ * @apiSuccess {Number} mostOrderedMeal.meal_id Meal ID.
+ * @apiSuccess {String} mostOrderedMeal.meal_name Meal name.
+ * @apiSuccess {String} mostOrderedMeal.meal_price Meal price.
+ * @apiSuccess {String} mostOrderedMeal.meal_description Meal description.
+ * @apiSuccess {String} mostOrderedMeal.meal_image URL of the meal image.
+ * @apiSuccess {Number} mostOrderedMeal.total_ordered Total number of times the meal was ordered.
+ *
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ * {
+ *   "mostOrderedMeal": {
+ *     "meal_id": 40,
+ *     "meal_name": "Makaroonilaatikko",
+ *     "meal_price": "6.00",
+ *     "meal_description": "Kuvaus: Tässä yksi suomalaisten suosituimmista ruuista: makaronilaatikko jauhelihasta munamaidolla.",
+ *     "meal_image": "/uploads/image-1746521816534-333672403.jpg",
+ *     "total_ordered": "21"
+ *   }
+ * }
+ */
 const handleGetMostOrderedMeal = async (req, res) => {
   try {
     const meal = await getMostOrderedMeal();

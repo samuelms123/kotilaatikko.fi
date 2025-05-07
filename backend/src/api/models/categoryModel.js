@@ -1,5 +1,7 @@
 import promisePool from '../../utils/database.js';
 
+
+
 const deleteCategory = async (id) => {
   const sql = `DELETE FROM categories WHERE id = ?`;
   try {
