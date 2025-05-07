@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
-import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
+import React, {useState, useEffect} from 'react';
+import {useNavigate} from 'react-router';
+import {SlArrowRight, SlArrowLeft} from 'react-icons/sl';
 
-const CarouselInfoBuyOptions = ({ items }) => {
+const CarouselInfoBuyOptions = ({items}) => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -10,7 +10,9 @@ const CarouselInfoBuyOptions = ({ items }) => {
   const limitedItems = items.slice(0, 5);
 
   const goToPrevious = () => {
-    const newIndex = ((currentIndex - 1) % limitedItems.length + limitedItems.length) % limitedItems.length;
+    const newIndex =
+      (((currentIndex - 1) % limitedItems.length) + limitedItems.length) %
+      limitedItems.length;
     setCurrentIndex(newIndex);
   };
 
@@ -58,71 +60,83 @@ const CarouselInfoBuyOptions = ({ items }) => {
               <div
                 key={index}
                 className="relative min-w-full h-full transition-transform duration-500 ease-in-out"
-                style={{ transform: `translateX(${-100 * currentIndex}%)` }}
+                style={{transform: `translateX(${-100 * currentIndex}%)`}}
               >
-              <div className="relative w-full h-72">
-                <img
-                  src={import.meta.env.VITE_IMG_SERVE_URL + item.image}
-                  alt={item.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
+                <div className="relative w-full h-72">
+                  <img
+                    src={import.meta.env.VITE_IMG_SERVE_URL + item.image}
+                    alt={item.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
               </div>
             ))}
           </div>
         </div>
 
         <div className="absolute inset-0 flex flex-col justify-center items-center gap-4 p-4 md:hidden">
-        {limitedItems[currentIndex] && (
-          <>
-            <h3 className="text-[4vh] font-[header] text-white bg-black/60 p-3 rounded-4xl px-6">{limitedItems[currentIndex].name}</h3>
-            <div className="flex flex-col gap-2">
-              <button
-                className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] py-2 px-4 mx-2 hover:scale-105 transition-transform duration-300"
-                onClick={() => navigate('/shop')}
-              >
-                Tilaa
-              </button>
-              <button
-                className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] py-2 px-4 mx-2 hover:scale-105 transition-transform duration-300"
-                onClick={() => navigate(`/product/${limitedItems[currentIndex].id || currentIndex}`)}
-              >
-                Lue lisää...
-              </button>
-            </div>
-          </>
-        )}
-      </div>
-
-      <div className="relative w-full md:w-4/6 flex items-center justify-start text-left p-6 hidden md:flex">
-  {limitedItems.map((item, index) => (
-    <div
-      key={index}
-      className={`absolute transition-opacity duration-500 ${
-        index === currentIndex ? "opacity-100" : "opacity-0"
-      }`}
-    >
-      <div className="bg-black/50 p-4 rounded-lg min-w-[45vh] max-w-[73vh] min-h-[15vh] max-h-[30vh] md:block hidden">
-        <h3 className="text-3xl font-[header] mb-4 text-white">{item.name}</h3>
-        <p className="text-gray-200 mb-4">{item.description}</p>
-        <div className="flex justify-start mt-4">
-          <button
-            className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] py-2 px-4 mx-2 hover:scale-105 transition-transform duration-300"
-            onClick={() => navigate('/shop')}
-          >
-            Tilaa
-          </button>
-          <button
-            className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] py-2 px-4 mx-2 hover:scale-105 transition-transform duration-300"
-            onClick={() => navigate(`/product/${limitedItems[currentIndex].id || currentIndex}`)}
-          >
-            Lue lisää...
-          </button>
+          {limitedItems[currentIndex] && (
+            <>
+              <h3 className="text-[4vh] font-[header] text-white bg-black/60 p-3 rounded-4xl px-6">
+                {limitedItems[currentIndex].name}
+              </h3>
+              <div className="flex flex-col gap-2">
+                <button
+                  className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] py-2 px-4 mx-2 hover:scale-105 transition-transform duration-300"
+                  onClick={() => navigate('/shop')}
+                >
+                  Tilaa
+                </button>
+                <button
+                  className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] py-2 px-4 mx-2 hover:scale-105 transition-transform duration-300"
+                  onClick={() =>
+                    navigate(
+                      `/product/${limitedItems[currentIndex].id || currentIndex}`,
+                    )
+                  }
+                >
+                  Lue lisää...
+                </button>
+              </div>
+            </>
+          )}
         </div>
-      </div>
-    </div>
-  ))}
-</div>
+
+        <div className="relative w-full md:w-4/6 flex items-center justify-start text-left p-6 md:flex">
+          {limitedItems.map((item, index) => (
+            <div
+              key={index}
+              className={`absolute transition-opacity duration-500 ${
+                index === currentIndex ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              <div className="bg-black/50 p-5 rounded-2xl md:block hidden">
+                <h3 className="text-3xl font-[header] mb-4 text-white">
+                  {item.name}
+                </h3>
+                <p className="text-gray-200 mb-4">{item.description}</p>
+                <div className="flex justify-start mt-4">
+                  <button
+                    className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] py-2 px-4 mx-2 hover:scale-105 transition-transform duration-300"
+                    onClick={() => navigate('/shop')}
+                  >
+                    Tilaa
+                  </button>
+                  <button
+                    className="rounded-2xl bg-[var(--primary-color)] text-[var(--white-color)] py-2 px-4 mx-2 hover:scale-105 transition-transform duration-300"
+                    onClick={() =>
+                      navigate(
+                        `/product/${limitedItems[currentIndex].id || currentIndex}`,
+                      )
+                    }
+                  >
+                    Lue lisää...
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="flex justify-center mt-2 mb-5">
@@ -131,7 +145,9 @@ const CarouselInfoBuyOptions = ({ items }) => {
             key={index}
             onClick={() => goToSlide(index)}
             className={`w-3 h-3 mx-1 rounded-full ${
-              index === currentIndex ? "bg-[var(--primary-color)]" : "bg-gray-300 opacity-25"
+              index === currentIndex
+                ? 'bg-[var(--primary-color)]'
+                : 'bg-gray-300 opacity-25'
             }`}
           />
         ))}
@@ -140,4 +156,4 @@ const CarouselInfoBuyOptions = ({ items }) => {
   );
 };
 
-export { CarouselInfoBuyOptions };
+export {CarouselInfoBuyOptions};
