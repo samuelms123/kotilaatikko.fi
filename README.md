@@ -1,5 +1,8 @@
 # Kotilaatikko Project Starter
-ICT school project made by: Samuel Sarimo (samuelms123), Auri Laitinen (arurauri) and Niko Mehiläinen (mehiis)
+ICT school project made by: 
+* Samuel Sarimo (samuelms123)
+* Auri Laitinen (arurauri)
+* Niko Mehiläinen (mehiis)
 
 [Link to Kotilaatikko-website](http://10.120.32.65/) (Works currently only with VPN)
 
@@ -10,6 +13,13 @@ ICT school project made by: Samuel Sarimo (samuelms123), Auri Laitinen (arurauri
 Online food package delivery platform built with React. Enables users to browse and purchase site admin authored mail order meal packages.
 
 This project serves as a useful template for food package delivery sites.
+
+## Tech Stack
+* **Frontend** React + Vite
+* **Backend** Nodejs + Express.js
+* **Database** MariaDB
+* **Process Manager** PM2
+* **Server/Proxy** NGINX
 
 ## Features
 
