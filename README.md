@@ -18,6 +18,9 @@ This project serves as a useful template for food package delivery sites.
 * **Frontend** React + Vite
 * **Backend** Nodejs + Express.js
 * **Database** MariaDB
+* **Version Control** Git
+* **Testing** Jest + Playwright (e2e)
+* **Documentation** APIDoc
 * **Process Manager** PM2
 * **Server/Proxy** NGINX
 
